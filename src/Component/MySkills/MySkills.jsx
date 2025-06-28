@@ -60,13 +60,13 @@ const MySkills = () => {
   const [activeTab, setActiveTab] = useState("frontend");
 
   useEffect(() => {
-    AOS.init({ duration: 800, once: true });
+    AOS.init({ duration: 800, once: false ,  anchorPlacement: 'top-bottom', });
   }, []);
 
   const tabs = ["frontend", "backend", "tools"];
 
   return (
-    <Container>
+    <div>
       <div className="relative z-10 max-w-7xl mx-auto text-center">
         <motion.h2
           animate={{
@@ -119,6 +119,7 @@ const MySkills = () => {
             <div
               key={index}
               data-aos="fade-up"
+              
               className="bg-[#ffffff0a] backdrop-blur-md border border-white/10 rounded-2xl p-6 flex flex-col items-start space-y-4 hover:scale-105 transition-all duration-300 shadow-md"
             >
               <div className="flex items-center space-x-3" data-aos="flip-left">
@@ -146,7 +147,7 @@ const MySkills = () => {
           ))}
         </div>
       </div>
-    </Container>
+    </div>
   );
 };
 

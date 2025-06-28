@@ -35,11 +35,7 @@ const About = () => {
   ];
 
   return (
-    <div className="relative bg-[#1E1E1E] text-white px-6 py-20 overflow-hidden shadow-lg">
-      {/* Glow Blobs */}
-      <div className="absolute top-[-100px] left-[-100px] w-72 h-72 bg-primary opacity-20 blur-3xl rounded-full z-0"></div>
-      <div className="absolute bottom-[-100px] right-[-100px] w-72 h-72 bg-secondary opacity-20 blur-3xl rounded-full z-0"></div>
-
+    <div className="my-12">
       {/* 3 Columns Layout */}
       <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 items-start">
         {/* Left: Animated Cards */}
@@ -58,7 +54,10 @@ const About = () => {
           ))}
         </div>
         <div className="h-full flex justify-center items-stretch">
-          <div className="w-1 bg-gradient-to-b from-primary to-secondary rounded-full shadow-lg" data-aos="zoom-in"></div>
+          <div
+            className="w-1 bg-gradient-to-b from-primary to-secondary rounded-full shadow-lg"
+            data-aos="zoom-in"
+          ></div>
         </div>
 
         {/* Right: Image or Placeholder */}
