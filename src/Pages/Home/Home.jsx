@@ -3,7 +3,7 @@ import useTitle from "../../Hooks/useTitle";
 import Banner from "../../Component/Banner/Banner";
 import Contact from "../Contact/Contact";
 import Navbar from "../../Component/Navbar/Navbar";
-import About from "../About";
+import About from "../About"
 
 const Home = () => {
   useTitle("Home");
@@ -15,7 +15,7 @@ const Home = () => {
         <Banner />
       </div>
       <div id="about">
-        <About />
+     <About></About>
       </div>
       <div id="skills">
         {/* <Skills /> */}
