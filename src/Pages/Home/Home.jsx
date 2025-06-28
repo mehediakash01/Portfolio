@@ -4,6 +4,7 @@ import Banner from "../../Component/Banner/Banner";
 import Contact from "../Contact/Contact";
 import Navbar from "../../Component/Navbar/Navbar";
 import About from "../About"
+import MySkills from "../../Component/MySkills/MySkills";
 
 const Home = () => {
   useTitle("Home");
@@ -18,7 +19,7 @@ const Home = () => {
      <About></About>
       </div>
       <div id="skills">
-        {/* <Skills /> */}
+      <MySkills></MySkills>
       </div>
       <div id="projects">
         {/* <Projects /> */}
