@@ -9,5 +9,5 @@
   --color-accent: #1E1E1E;
 }
 .active {
-    @apply text-primary
+     @apply text-primary font-semibold border-b-2 border-primary;
 }

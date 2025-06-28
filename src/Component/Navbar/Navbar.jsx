@@ -1,10 +1,11 @@
 import React from "react";
 import Logo from "../Logo/Logo";
-import { NavLink } from "react-router";
+import ScrollNavLink from "../ScrollNavlink/ScrollNavLink";
+
 
 const Navbar = () => {
   return (
-    <nav className="fixed top-0 w-full z-50 bg-[#121212]/60 backdrop-blur-lg border-b border-cyan-500/10 shadow-md">
+    <nav className="sticky top-0 w-full z-50 bg-[#121212]/60 backdrop-blur-lg border-b border-cyan-500/10 shadow-md">
       <div className="navbar max-w-7xl mx-auto px-6">
         {/* Logo */}
         <div className="navbar-start">
@@ -13,38 +14,28 @@ const Navbar = () => {
 
         {/* Desktop Nav */}
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 text-gray-300 font-medium">
+          <ul className="menu menu-horizontal px-1 text-gray-300 font-medium gap-2">
             <li>
-              <NavLink to="/" className="hover:text-primary">
-                Home
-              </NavLink>
+              <ScrollNavLink to="home">Home</ScrollNavLink>
             </li>
             <li>
-              <NavLink to="/about" className="hover:text-primary">
-                About
-              </NavLink>
+              <ScrollNavLink to="about">About</ScrollNavLink>
             </li>
             <li>
-              <NavLink to="/skills" className="hover:text-primary">
-                Skills
-              </NavLink>
+              <ScrollNavLink to="skills">Skills</ScrollNavLink>
             </li>
             <li>
-              <NavLink to="/projects" className="hover:text-primary">
-                Projects
-              </NavLink>
+              <ScrollNavLink to="projects">Projects</ScrollNavLink>
             </li>
             <li>
-              <NavLink to="/contact" className="hover:text-primary">
-                Contact
-              </NavLink>
+              <ScrollNavLink to="contact">Contact</ScrollNavLink>
             </li>
           </ul>
         </div>
 
         {/* Resume + Mobile Dropdown */}
         <div className="navbar-end space-x-2">
-          {/* Desktop resume button */}
+          {/* Resume Button */}
           <a
             href="/resume.pdf"
             download
@@ -53,7 +44,7 @@ const Navbar = () => {
             Resume
           </a>
 
-          {/* Mobile menu */}
+          {/* Mobile Dropdown */}
           <div className="dropdown lg:hidden">
             <label tabIndex={0} className="btn btn-ghost text-primary">
               <svg
@@ -73,32 +64,22 @@ const Navbar = () => {
             </label>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[99] p-2 shadow bg-[#1E1E1E] rounded-box w-52 text-gray-300"
+              className="menu menu-sm dropdown-content mt-3 z-[99] p-2 shadow bg-[#1E1E1E] rounded-box w-52 text-gray-300 gap-1"
             >
               <li>
-                <NavLink to="/" className="hover:text-primary">
-                  Home
-                </NavLink>
+                <ScrollNavLink to="home">Home</ScrollNavLink>
               </li>
               <li>
-                <NavLink to="/about" className="hover:text-primary">
-                  About
-                </NavLink>
+                <ScrollNavLink to="about">About</ScrollNavLink>
               </li>
               <li>
-                <NavLink to="/skills" className="hover:text-primary">
-                  Skills
-                </NavLink>
+                <ScrollNavLink to="skills">Skills</ScrollNavLink>
               </li>
               <li>
-                <NavLink to="/projects" className="hover:text-primary">
-                  Projects
-                </NavLink>
+                <ScrollNavLink to="projects">Projects</ScrollNavLink>
               </li>
               <li>
-                <NavLink to="/contact" className="hover:text-primary">
-                  Contact
-                </NavLink>
+                <ScrollNavLink to="contact">Contact</ScrollNavLink>
               </li>
               <li>
                 <a
