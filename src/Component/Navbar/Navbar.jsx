@@ -1,6 +1,7 @@
 import React from "react";
 import Logo from "../Logo/Logo";
 import ScrollNavLink from "../ScrollNavlink/ScrollNavLink";
+import { IoMdDownload } from "react-icons/io";
 
 
 const Navbar = () => {
@@ -39,9 +40,9 @@ const Navbar = () => {
           <a
             href="/resume.pdf"
             download
-            className="hidden lg:flex btn btn-outline btn-primary"
+            className="hidden lg:flex btn btn-outline btn-primary items-center"
           >
-            Resume
+          <IoMdDownload />  Resume
           </a>
 
           {/* Mobile Dropdown */}
@@ -85,9 +86,9 @@ const Navbar = () => {
                 <a
                   href="/resume.pdf"
                   download
-                  className="btn btn-outline btn-primary w-fit"
+                  className="btn btn-outline btn-primary w-fit flex items-center"
                 >
-                  Resume
+                  <IoMdDownload /> Resume
                 </a>
               </li>
             </ul>

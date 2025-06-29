@@ -1,5 +1,5 @@
 import React from "react";
-import useTitle from "../../Hooks/useTitle";
+
 import Navbar from "../../Component/Navbar/Navbar";
 import Banner from "../../Component/Banner/Banner";
 import About from "../About";
@@ -11,7 +11,7 @@ import Education from "../../Component/Education/Education";
 
 
 const Home = () => {
-  useTitle("Home");
+  
 
   return (
     <div>

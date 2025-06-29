@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import {
   FaReact,
   FaNodeJs,
@@ -19,8 +19,6 @@ import {
   SiVercel,
   SiReactrouter,
 } from "react-icons/si";
-import AOS from "aos";
-import "aos/dist/aos.css";
 import { VscCode } from "react-icons/vsc";
 import Container from "../Container/Container";
 
@@ -59,10 +57,6 @@ const skillCategories = {
 const MySkills = () => {
   const [activeTab, setActiveTab] = useState("frontend");
 
-  useEffect(() => {
-    AOS.init({ duration: 800, once: false ,  anchorPlacement: 'top-bottom', });
-  }, []);
-
   const tabs = ["frontend", "backend", "tools"];
 
   return (
@@ -86,14 +80,21 @@ const MySkills = () => {
             ],
             transition: { duration: 10, repeat: Infinity },
           }}
+          initial={{ opacity: 0, y: -30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
           className="text-4xl font-bold mb-10"
-          data-aos="fade-in"
         >
           My Skills
         </motion.h2>
 
         {/* Tabs */}
-        <div className="flex justify-center gap-6 mb-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="flex justify-center gap-6 mb-10"
+        >
           {tabs.map((tab) => (
             <button
               key={tab}
@@ -103,26 +104,29 @@ const MySkills = () => {
                   ? "bg-gradient-to-r from-primary to-secondary text-white shadow-md"
                   : "bg-[#252525] text-gray-300 hover:text-white"
               }`}
-              data-aos="fade-right"
             >
               {tab.charAt(0).toUpperCase() + tab.slice(1)}
             </button>
           ))}
-        </div>
+        </motion.div>
 
         {/* Skill Cards */}
-        <div
+        <motion.div
           key={activeTab}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 fade-in"
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
         >
           {skillCategories[activeTab].map((skill, index) => (
-            <div
+            <motion.div
               key={index}
-              data-aos="fade-up"
-              
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
               className="bg-[#ffffff0a] backdrop-blur-md border border-white/10 rounded-2xl p-6 flex flex-col items-start space-y-4 hover:scale-105 transition-all duration-300 shadow-md"
             >
-              <div className="flex items-center space-x-3" data-aos="flip-left">
+              <div className="flex items-center space-x-3">
                 <span style={{ color: skill.color }}>{skill.icon}</span>
                 <h3 className="text-xl font-bold">{skill.name}</h3>
               </div>
@@ -143,9 +147,9 @@ const MySkills = () => {
                   {skill.level}
                 </p>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </div>
   );
