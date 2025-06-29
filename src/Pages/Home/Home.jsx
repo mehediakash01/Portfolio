@@ -7,6 +7,7 @@ import MySkills from "../../Component/MySkills/MySkills";
 import Contact from "../Contact/Contact";
 import Container from "../../Component/Container/Container";
 import Projects from "../../Component/Projects/Projects";
+import Education from "../../Component/Education/Education";
 
 
 const Home = () => {
@@ -30,6 +31,10 @@ const Home = () => {
         <section id="skills">
           <MySkills />
         </section>
+        <section id="education">
+         <Education></Education>
+        </section>
+
 
         <section id="projects">
          <Projects></Projects>
