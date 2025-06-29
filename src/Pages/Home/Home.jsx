@@ -1,38 +1,45 @@
 import React from "react";
 import useTitle from "../../Hooks/useTitle";
-import Banner from "../../Component/Banner/Banner";
-import Contact from "../Contact/Contact";
 import Navbar from "../../Component/Navbar/Navbar";
-import About from "../About"
+import Banner from "../../Component/Banner/Banner";
+import About from "../About";
 import MySkills from "../../Component/MySkills/MySkills";
+import Contact from "../Contact/Contact";
 import Container from "../../Component/Container/Container";
+import Projects from "../../Component/Projects/Projects";
+
 
 const Home = () => {
   useTitle("Home");
+
   return (
-    
-     <div>
-        <Navbar></Navbar>
+    <div>
+      {/* Navbar should stay outside scroll container to remain fixed */}
+      <Navbar />
+
+      {/* Scrollable Sections */}
       <Container>
-          <div id="home">
-            <Banner />
-          </div>
-          <div id="about">
-               <About></About>
-          </div>
-          <div id="skills">
-          <MySkills></MySkills>
-          </div>
-          <div id="projects">
-            {/* <Projects /> */}
-          </div>
-          <div id="contact">
-            <Contact />
-          </div>
+        <section id="home" >
+          <Banner />
+        </section>
+
+        <section id="about">
+          <About />
+        </section>
+
+        <section id="skills">
+          <MySkills />
+        </section>
+
+        <section id="projects">
+         <Projects></Projects>
+        </section>
+
+        <section id="contact">
+          <Contact />
+        </section>
       </Container>
     </div>
-      
-   
   );
 };
 

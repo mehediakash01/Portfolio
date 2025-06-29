@@ -1,0 +1,60 @@
+export const projectsData = [
+  {
+    id: "trip-ease",
+    title: "Trip Ease",
+    image: "https://i.ibb.co/SDbd1RkN/Screenshot-2025-06-29-011819.png",
+    description:
+      "A modern Tour Package Management system that allows users to explore destinations, view package details, and make secure bookings seamlessly — built using the MERN stack for speed and scalability.",
+    features: [
+      "A user can book package",
+      "Manage Booking",
+      "A Guide can add Package",
+      "Manage Package",
+      "User can find their desired package through search",
+    ],
+    tech: ["react", "reactrouter", "tailwind", "mongodb", "express", "node", "framer"],
+    glowColor: "from-purple-600 to-pink-500",
+    liveLink: "https://tripease.surge.sh/",
+    githubLink: "https://github.com/mehediakash01/Tour-Management-Client",
+    detailsLink: "/project/trip-ease",
+    buttons: ["Live Link", "GitHub Repo", "Details"],
+  },
+  {
+    id: "redlink",
+    title: "RedLink",
+    image: "https://i.ibb.co/ywpLJJx/Screenshot-2025-06-29-012525.png",
+    description:
+      "RedLink is a real-time freelance marketplace where users can post tasks and workers can submit offers. Everything is managed seamlessly through dashboards with full sorting and searching support.",
+    features: [
+      "User can add freelance tasks",
+      "Workers can accept and complete tasks",
+      "Users can manage their posted tasks via dashboard",
+      "Sort and search functionality for finding specific work",
+    ],
+    tech: ["react", "reactrouter", "tailwind", "daisyui", "mongodb", "express"],
+    glowColor: "from-blue-500 to-cyan-500",
+    liveLink: "https://redfreelencelink.surge.sh/",
+    githubLink: "https://github.com/mehediakash01/Freelance-client",
+    detailsLink: "/project/redlink",
+    buttons: ["Live Link", "GitHub Repo", "Details"],
+  },
+  {
+    id: "bdlaw",
+    title: "BDLaw",
+    image: "https://i.ibb.co/vCSsqgsM/Screenshot-2025-06-29-013705.png",
+    description:
+      "BDLaw helps users easily find and book lawyers without the hassle. Users can view lawyer profiles, check availability, and book consultations — all through a sleek, React-based interface.",
+    features: [
+      "View all lawyers with full profile details",
+      "Check availability of each lawyer",
+      "Book consultation with available lawyers",
+      "Fully interactive UI using local storage",
+    ],
+    tech: ["react", "tailwind", "reactrouter", "javascript"],
+    glowColor: "from-pink-500 to-purple-500",
+    liveLink: "https://lawyer-hut.surge.sh/",
+    githubLink: "https://github.com/mehediakash01/Lawayer-Bd",
+    detailsLink: "/project/bdlaw",
+    buttons: ["Live Link", "GitHub Repo", "Details"],
+  },
+];

@@ -7,7 +7,7 @@ import { Link as ScrollLink } from "react-scroll";
 
 const Banner = () => {
   return (
-    <div className="relative text-white overflow-hidden min-h-[60vh] flex items-center justify-center  py-12    ">
+    <div className="relative text-white overflow-hidden min-h-[60vh] flex items-center justify-center  pb-16   ">
      
       {/* Content */}
       <div className="relative z-10 flex flex-col-reverse lg:flex-row items-center justify-between gap-10 max-w-6xl w-full">
