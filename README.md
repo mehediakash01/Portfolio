@@ -1,12 +1,36 @@
-# React + Vite
+# 🌐 Personal Portfolio – Mehedi Hasan Akash
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to my personal developer portfolio! This project is built with the **React ecosystem** and showcases my skills, projects, education, and ways to connect.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Live Site
 
-## Expanding the ESLint configuration
+🔗 [View Portfolio Live](https://mehedi-akash01.surge.sh/)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🛠️ Tech Stack
+
+- ⚛️ **React**
+- 🧭 **React Router**
+- 🎨 **Tailwind CSS**
+- 🎞️ **Framer Motion**
+
+---
+
+## 📂 Features
+
+- 🎯 Clean and modern UI
+- 📱 Fully responsive design
+- 🧭 Smooth navigation with scroll-based active links
+- 🖼️ Animations with Framer Motion
+- 💼 Projects section with links
+- 🎓 Education & Skills showcase
+- 📩 Contact form
+- 📄 Resume download
+
+---
+
+
+
