@@ -15,7 +15,7 @@ const Home = () => {
 
   return (
     <div>
-      {/* Navbar should stay outside scroll container to remain fixed */}
+    
       <Navbar />
 
       {/* Scrollable Sections */}
