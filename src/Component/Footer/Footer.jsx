@@ -12,7 +12,7 @@ import Logo from "../Logo/Logo";
 const Footer = () => {
   const socialLinksTop = [
     { name: "GitHub", url: "https://github.com/mehediakash01", icon: <FaGithub /> },
-    { name: "LinkedIn", url: "https://www.linkedin.com/in/mehediakash01/", icon: <FaLinkedinIn /> },
+    { name: "LinkedIn", url: "https://www.linkedin.com/in/mehediakash1/", icon: <FaLinkedinIn /> },
     { name: "Email", url: "mehedi.akash.dev@gmail.com", icon: <FaEnvelope /> },
   ];
 

@@ -38,7 +38,7 @@ const Navbar = () => {
         <div className="navbar-end space-x-2">
           {/* Resume Button */}
           <a
-            href="/resume.pdf"
+            href="/Resume.pdf"
             download
             className="hidden lg:flex btn btn-outline btn-primary items-center"
           >
@@ -84,7 +84,7 @@ const Navbar = () => {
               </li>
               <li>
                 <a
-                  href="/resume.pdf"
+                  href="/Resume.pdf"
                   download
                   className="btn btn-outline btn-primary w-fit flex items-center"
                 >

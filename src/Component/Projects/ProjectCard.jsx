@@ -44,7 +44,7 @@ export const ProjectCard = ({ project }) => {
           <img
             src={project.image}
             alt={project.title}
-            className="w-full h-full object-contain rounded-xl border border-gray-700 bg-black/20 p-2"
+            className="w-full h-full object-contain rounded-xl border hover:scale-110 transition-transform ease-in-out duration-300 border-gray-700 bg-black/20 p-2"
           />
         </div>
 
