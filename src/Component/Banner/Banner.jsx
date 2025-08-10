@@ -7,8 +7,8 @@ import { TypeAnimation } from "react-type-animation";
 
 const Banner = () => {
   return (
-    <div className="relative text-white overflow-hidden min-h-screen flex items-center justify-center py-20 px-4 bg-[#121212]">
-      <div className="relative z-10 flex flex-col-reverse lg:flex-row items-center justify-between gap-10 max-w-6xl w-full">
+    <div className=" text-white overflow-hidden min-h-[70vh] flex items-center justify-center">
+      <div className=" flex flex-col-reverse lg:flex-row items-center justify-between  w-11/12 mx-auto">
         {/* Text Section */}
         <motion.div
           initial={{ opacity: 0, x: -40 }}

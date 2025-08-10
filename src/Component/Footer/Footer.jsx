@@ -42,10 +42,10 @@ const Footer = () => {
         `}
       </style>
 
-      <div className="container mx-auto max-w-4xl grid grid-cols-1 gap-8 relative z-10">
+      <div className="w-11/12 mx-auto  grid grid-cols-1 gap-8 relative z-10">
 
         {/* Top Social Icons */}
-        <div className="flex justify-center items-center space-x-6 mb-8">
+        <div className="flex justify-center items-center space-x-6 ">
           {socialLinksTop.map((link, index) => (
             <a
               key={index}
@@ -66,8 +66,8 @@ const Footer = () => {
         {/* <div className="absolute top-24 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-teal-400 shadow-[0_0_10px_rgba(0,255,255,0.8)]"></div> */}
 
         {/* Developer Title and Lines */}
-        <div className="flex flex-col items-center justify-center mb-8">
-          <div className="flex items-center text-3xl font-bold text-white mb-2">
+        <div className="flex flex-col items-center justify-center ">
+          <div className="flex items-center text-3xl font-bold text-white ">
             <span className="mr-3 text-teal-400 text-3xl">Mehedi Hasan Akash</span>
         
           </div>
@@ -78,14 +78,14 @@ const Footer = () => {
       
     
         {/* Bottom Social Icons */}
-        <div className="flex justify-center items-center space-x-6 mb-8">
+        <div className="flex justify-center items-center space-x-6 ">
           {socialLinksBottom.map((link, index) => (
             <a
               key={index}
               href={link.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-400 hover:text-pink-400 transition duration-300 transform hover:scale-110 p-2 rounded-full border border-gray-700 hover:border-pink-400 flex items-center justify-center w-10 h-10"
+              className="text-gray-400 hover:text-secondary transition duration-300 transform hover:scale-110 p-2 rounded-full border border-gray-700 hover:border-secondary flex items-center justify-center w-10 h-10"
               style={{ animation: "pulseGlow 2s infinite" }}
               aria-label={link.name}
               title={link.name}
@@ -96,7 +96,7 @@ const Footer = () => {
         </div>
 
         {/* Footer Copyright */}
-        <div className="flex justify-center items-center text-sm text-gray-500 mt-4 ">
+        <div className="flex justify-center items-center text-sm text-gray-500  ">
           &copy; {new Date().getFullYear()} <span className="mx-4"> <Logo></Logo></span>. All rights reserved.
         </div>
       </div>

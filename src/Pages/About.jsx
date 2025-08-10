@@ -36,8 +36,8 @@ const About = () => {
   ];
 
   return (
-    <section id="about" className="py-32 px-4 min-h-screen bg-[#121212] text-white">
-      <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
+    <section id="about" className=" min-h-[70vh] text-white my-16">
+      <div className=" w-11/12  mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
         {/* Left: Cards */}
         <div className="space-y-8">
           {cards.map((card, index) => (
@@ -80,7 +80,7 @@ const About = () => {
           <img
             src="https://i.ibb.co/YTWzbDmz/Website-designer-amico.png"
             alt="Banner"
-            className="w-full max-w-xs md:max-w-sm lg:max-w-md rounded-xl shadow-xl"
+            
           />
         </motion.div>
       </div>
