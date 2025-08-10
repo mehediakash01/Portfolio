@@ -14,7 +14,7 @@ import {
 } from "react-icons/si";
 import { Link } from "react-router";
 
-// 👇 Map string keys to icon components
+
 const techIcons = {
   react: <SiReact title="React" />,
   reactrouter: <SiReactrouter title="React Router" />,

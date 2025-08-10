@@ -8,7 +8,7 @@ import { projectsData } from "./ProjectData";
 
 const Projects = () => {
   return (
-    <section id="projects" className="px-6 py-20 bg-[#121212] text-white">
+    <section id="projects" className="py-12 bg-[#121212] text-white">
       <motion.h2
         initial={{ opacity: 0, y: -30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -18,7 +18,7 @@ const Projects = () => {
         ✨ Featured Projects
       </motion.h2>
 
-      <div className="max-w-5xl mx-auto">
+      <div className="w-11/12 mx-auto">
         {projectsData.map((proj) => (
           <ProjectCard project={proj} key={proj.id} />
         ))}
