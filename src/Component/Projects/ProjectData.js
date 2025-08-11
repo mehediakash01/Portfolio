@@ -2,7 +2,7 @@ export const projectsData = [
   {
     id: "trip-ease",
     title: "Trip Ease",
-    image: "https://i.ibb.co/SDbd1RkN/Screenshot-2025-06-29-011819.png",
+    image: "https://i.ibb.co.com/KcBy1t5B/Screenshot-2025-08-11-155613.png",
     description:
       "A modern Tour Package Management system that allows users to explore destinations, view package details, and make secure bookings seamlessly — built using the MERN stack for speed and scalability.",
     features: [
