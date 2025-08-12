@@ -187,6 +187,31 @@ const ProjectDetails = () => {
               confident developer.
             </p>
           </motion.div>
+
+          <section className="bg-[#1E1E1E] p-8 rounded-2xl border border-gray-800 shadow-xl mt-10">
+  <h2 className="text-2xl font-bold text-[#00ADB5] mb-6">Challenges Faced</h2>
+  
+  <ul className="space-y-4 text-gray-300">
+    <li className="flex items-start gap-3">
+      <span className="text-[#00ADB5] mt-1">•</span>
+      <p>
+        <span className="font-semibold text-white">JWT Authentication Complexity:</span> 
+        Implementing secure JWT authentication required careful handling of token expiration, 
+        refresh mechanisms, and role-based access, ensuring both security and a smooth user experience.
+      </p>
+    </li>
+    <li className="flex items-start gap-3">
+      <span className="text-[#00ADB5] mt-1">•</span>
+      <p>
+        <span className="font-semibold text-white">Payment Gateway Integration:</span> 
+        Integrating the payment gateway posed challenges with API inconsistencies, 
+        asynchronous responses, and ensuring transaction reliability, which required 
+        thorough testing and robust error handling.
+      </p>
+    </li>
+  </ul>
+</section>
+
         </div>
       </section>
     </>
