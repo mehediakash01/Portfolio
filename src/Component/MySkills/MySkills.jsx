@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
   FaReact,
@@ -18,31 +18,30 @@ import {
   SiFirebase,
   SiVercel,
   SiReactrouter,
+  SiNextdotjs,
+  SiTypescript,
+  SiRedux,
+  SiMysql,
+  SiPrisma,
 } from "react-icons/si";
 import { VscCode } from "react-icons/vsc";
-import Container from "../Container/Container";
 
 const skillCategories = {
   frontend: [
     { name: "React", icon: <FaReact />, color: "#61DAFB", level: 400 },
-    {
-      name: "Tailwind CSS",
-      icon: <SiTailwindcss />,
-      color: "#38BDF8",
-      level: 400,
-    },
-    {
-      name: "React Router",
-      icon: <SiReactrouter />,
-      color: "#F44250",
-      level: 350,
-    },
+    { name: "Next.js", icon: <SiNextdotjs />, color: "#000000", level: 350 },
+    { name: "TypeScript", icon: <SiTypescript />, color: "#3178C6", level: 320 },
+    { name: "Redux", icon: <SiRedux />, color: "#764ABC", level: 300 },
+    { name: "Tailwind CSS", icon: <SiTailwindcss />, color: "#38BDF8", level: 400 },
+    { name: "React Router", icon: <SiReactrouter />, color: "#F44250", level: 350 },
     { name: "Bootstrap", icon: <FaBootstrap />, color: "#7952B3", level: 350 },
   ],
   backend: [
     { name: "Node.js", icon: <FaNodeJs />, color: "#3C873A", level: 250 },
     { name: "Express.js", icon: <SiExpress />, color: "#F7DF1E", level: 450 },
     { name: "MongoDB", icon: <SiMongodb />, color: "#47A248", level: 350 },
+    { name: "MySQL", icon: <SiMysql />, color: "#00618A", level: 300 },
+    { name: "Prisma", icon: <SiPrisma />, color: "#2D3748", level: 280 },
     { name: "Firebase", icon: <SiFirebase />, color: "#FFA611", level: 350 },
   ],
   tools: [
@@ -56,7 +55,6 @@ const skillCategories = {
 
 const MySkills = () => {
   const [activeTab, setActiveTab] = useState("frontend");
-
   const tabs = ["frontend", "backend", "tools"];
 
   return (
@@ -77,6 +75,10 @@ const MySkills = () => {
               "#FFFFFF",
               "#A259FF",
               "#007ACC",
+              "#3178C6",
+              "#764ABC",
+              "#00618A",
+              "#2D3748",
             ],
             transition: { duration: 10, repeat: Infinity },
           }}
