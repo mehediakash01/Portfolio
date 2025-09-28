@@ -1,4 +1,24 @@
 export const projectsData = [
+   {
+    id: "lifeSure",
+    title: "LifeSure",
+    image: "https://i.ibb.co.com/1tC78Bw2/Screenshot-2025-09-29-003549.png",
+    description:
+      "LifeSure is a full-featured Life Insurance Management Platform designed to streamline the entire process — from policy browsing to application, payment, and management. Built with modern technologies and designed for scalability and excellent user experience,",
+    features: [
+      "Role-Based Authentication",
+      " Policy Management System",
+      " Multi-Step Application Form with Personal, Nominee, and Health sections",
+      " Stripe Payment Integration with secure checkout and payment tracking",
+      " PDF Policy Download for approved policies"
+    ],
+    tech: ["react", "tailwind", "ReactHookForm,", "tanStackReactQuery" ,"Stripe","jsPDF","Jwt","Axios","MongoDB","ExpressJs","NodeJs"],
+    glowColor: "from-blue-500 to-cyan-500",
+    liveLink: "http://life-sure.surge.sh/",
+    githubLink: "https://github.com/mehediakash01/Life-Sure-Client",
+    detailsLink: "/project/lifeSure",
+    buttons: ["Live Link", "GitHub Repo", "Details"],
+  },
   {
     id: "trip-ease",
     title: "Trip Ease",
@@ -38,23 +58,6 @@ export const projectsData = [
     detailsLink: "/project/redlink",
     buttons: ["Live Link", "GitHub Repo", "Details"],
   },
-  {
-    id: "bdlaw",
-    title: "BDLaw",
-    image: "https://i.ibb.co/vCSsqgsM/Screenshot-2025-06-29-013705.png",
-    description:
-      "BDLaw helps users easily find and book lawyers without the hassle. Users can view lawyer profiles, check availability, and book consultations — all through a sleek, React-based interface.",
-    features: [
-      "View all lawyers with full profile details",
-      "Check availability of each lawyer",
-      "Book consultation with available lawyers",
-      "Fully interactive UI using local storage",
-    ],
-    tech: ["react", "tailwind", "reactrouter", "javascript"],
-    glowColor: "from-blue-500 to-cyan-500",
-    liveLink: "https://lawyer-hut.surge.sh/",
-    githubLink: "https://github.com/mehediakash01/Lawayer-Bd",
-    detailsLink: "/project/bdlaw",
-    buttons: ["Live Link", "GitHub Repo", "Details"],
-  },
+ 
+ 
 ];
