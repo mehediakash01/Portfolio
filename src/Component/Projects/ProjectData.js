@@ -61,6 +61,27 @@ export const projectsData = [
     buttons: ["Live Link", "GitHub Repo", "Details"],
   },
   {
+  id: "expresso-coffee",
+  title: "Expresso",
+  image: "https://i.ibb.co.com/3yZ5mFsN/Screenshot-2025-09-22-160323.png", 
+  description:
+    "Full Stack Coffee Store Website where users can explore the menu, view coffee details, place orders, and enjoy a seamless online experience. The owner can manage the menu by uploading, updating, and deleting coffee items, as well as handling orders efficiently.",
+  features: [
+    "Users can browse the coffee menu",
+    "View detailed information about each coffee",
+    "Place orders directly from the website",
+    "Owner can upload, update, and delete coffee items",
+    "Owner can manage orders and update menu in real-time"
+  ],
+  tech: ["react", "reactrouter", "tailwind", "mongodb", "express", "node", "framer-motion"],
+  glowColor: "from-yellow-500 to-orange-500",
+  liveLink: "http://coffee-rizz.surge.sh/", 
+  githubLink: "https://github.com/mehediakash01/coffee-store-client", 
+  detailsLink: "/project/expresso-coffee",
+  buttons: ["Live Link", "GitHub Repo", "Details"],
+},
+
+  {
     id: "redlink",
     title: "RedLink",
     image: "https://i.ibb.co/ywpLJJx/Screenshot-2025-06-29-012525.png",
