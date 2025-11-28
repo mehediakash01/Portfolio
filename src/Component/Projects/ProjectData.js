@@ -20,6 +20,27 @@ export const projectsData = [
     buttons: ["Live Link", "GitHub Repo", "Details"],
   },
   {
+  id: "sleep-sync",
+  title: "SleepSync",
+  image: "https://i.ibb.co.com/RTKkx7JZ/Screenshot-2025-11-28-234132.png", 
+  description:
+    "Full Stack Sleep Tracking & AI Coaching App that helps users log sleep, visualize patterns, and receive personalized AI-driven suggestions for better wellness — built for real-time insights and interactive user engagement.",
+  features: [
+    "Users can log daily sleep data",
+    "AI-powered instant sleep summaries",
+    "Real-time dashboard with dynamic charts showing sleep quality and patterns",
+    "Blog reading with comments and likes",
+    "AI chat for personalized sleep improvement advice"
+  ],
+  tech: ["nextjs", "typescript", "prisma", "sql", "tailwind", "gemini-ai", "framer-motion", "recharts", "next-auth"],
+  glowColor: "from-purple-500 to-pink-500",
+  liveLink: "https://sleep-sync-git-main-akashs-projects-b1d54e9d.vercel.app/", 
+  githubLink: "https://github.com/mehediakash01/Sleep_Sync", 
+  detailsLink: "/project/sleep-sync",
+  buttons: ["Live Link", "GitHub Repo", "Details"],
+},
+
+  {
     id: "trip-ease",
     title: "Trip Ease",
     image: "https://i.ibb.co.com/KcBy1t5B/Screenshot-2025-08-11-155613.png",
