@@ -18,7 +18,7 @@ const Projects = () => {
         ✨ Featured Projects
       </motion.h2>
 
-      <div className="w-11/12 mx-auto">
+      <div className="w-11/12 mx-auto max-w-7xl">
         {projectsData.map((proj) => (
           <ProjectCard project={proj} key={proj.id} />
         ))}

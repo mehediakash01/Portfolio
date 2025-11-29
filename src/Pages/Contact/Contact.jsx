@@ -46,7 +46,7 @@ const Contact = () => {
       {/* React Hot Toast container */}
       <Toaster position="top-right" reverseOrder={false} />
 
-      <div className="w-11/12 mx-auto">
+      <div className="w-11/12 mx-auto max-w-7xl">
         <motion.h2
           initial={{ opacity: 0, y: -30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -56,14 +56,14 @@ const Contact = () => {
           📬 Get In Touch
         </motion.h2>
 
-        <div className="grid md:grid-cols-2 gap-8 ">
+        <div className="grid md:grid-cols-2 gap-8 rounded-2xl border border-gray-800 shadow-xl ">
           {/* Contact Info */}
       
 <motion.div
   initial={{ opacity: 0, x: -30 }}
   whileInView={{ opacity: 1, x: 0 }}
   transition={{ duration: 0.5 }}
-  className="bg-[#1E1E1E]  rounded-2xl border border-gray-800 shadow-xl py-12"
+  className="    py-12"
 >
   <h3 className="text-xl text-center font-semibold mb-4">Contact Information</h3>
 
@@ -74,7 +74,7 @@ const Contact = () => {
       { icon: <FaWhatsapp className="text-[#00ADB5] text-lg" />, text: "+8801820192591" },
       { icon: <FaMapMarkerAlt className="text-[#00ADB5] text-lg" />, text: "Sylhet, Bangladesh" },
     ].map((item, index) => (
-      <div key={index} className="flex items-center justify-center ">
+      <div key={index} className="flex items-center justify-center  ">
         {item.icon}
         <span>{item.text}</span>
       </div>
@@ -107,7 +107,7 @@ const Contact = () => {
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="bg-[#1E1E1E] p-6 rounded-2xl border border-gray-800 shadow-xl space-y-4"
+            className="p-6  space-y-4"
           >
             <div>
               <label className="block text-sm mb-1" htmlFor="name">

@@ -37,7 +37,7 @@ const About = () => {
 
   return (
     <section id="about" className=" min-h-[70vh] text-white my-16">
-      <div className=" w-11/12  mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
+      <div className=" max-w-7xl w-11/12  mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
         {/* Left: Cards */}
         <div className="space-y-8">
           {cards.map((card, index) => (

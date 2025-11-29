@@ -5,7 +5,7 @@ import { FaGraduationCap } from "react-icons/fa";
 const Education = () => {
   return (
     <section id="education" className="bg-[#121212] text-white px-6 py-12">
-      <div className="w-11/12  mx-auto">
+      <div className="w-11/12 max-w-7xl  mx-auto">
         <motion.h2
           initial={{ opacity: 0, y: -30 }}
           whileInView={{ opacity: 1, y: 0 }}

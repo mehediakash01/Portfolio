@@ -59,7 +59,7 @@ const MySkills = () => {
 
   return (
     <div>
-      <div className="relative z-10 w-11/12 mx-auto text-center my-16">
+      <div className="relative z-10 w-11/12 mx-auto max-w-7xl text-center my-16">
         <motion.h2
           animate={{
             color: [
