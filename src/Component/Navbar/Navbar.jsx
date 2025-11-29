@@ -38,7 +38,7 @@ const Navbar = () => {
         <div className="navbar-end space-x-2">
           {/* Resume Button */}
           <a
-            href="/Resume.pdf"
+            href="/MERN_dev.pdf"
             download
             className="hidden lg:flex btn btn-outline btn-primary items-center"
           >
