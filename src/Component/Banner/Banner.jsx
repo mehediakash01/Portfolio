@@ -8,12 +8,12 @@ import { TypeAnimation } from "react-type-animation";
 const Banner = () => {
   return (
     <div className=" text-white overflow-hidden min-h-[70vh] flex items-center justify-center">
-      <div className=" flex flex-col-reverse lg:flex-row items-center justify-between  w-11/12 mx-auto">
+      <div className=" flex flex-col-reverse lg:flex-row items-center justify-between gap-20 max-w-7xl  w-11/12 mx-auto">
         {/* Text Section */}
         <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 0, x: -200 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 ,ease:"easeIn"}}
           className="flex-1 space-y-4 text-center lg:text-left"
         >
           <h1 className="text-5xl font-bold text-transparent bg-gradient-to-r from-primary to-secondary bg-clip-text">
@@ -60,9 +60,9 @@ const Banner = () => {
 
         {/* Image Section */}
         <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 0, x: 200 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 ,ease:"easeIn" }}
           className="flex-1 flex justify-center"
         >
           <div className="relative w-72 h-72 rounded-full bg-gradient-to-tr from-[#00ADB5] to-[#007CFF] p-1 shadow-xl">
