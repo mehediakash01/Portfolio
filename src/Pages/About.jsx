@@ -44,7 +44,7 @@ const About = () => {
             <motion.div
               key={index}
               data-aos={card.animation}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 100 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="bg-[#1E1E1E] p-6 rounded-lg shadow-lg border-l-8"
@@ -72,7 +72,7 @@ const About = () => {
 
         {/* Right: Image */}
         <motion.div
-          initial={{ opacity: 0, x: 50 }}
+          initial={{ opacity: 0, x: 200 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
           className="flex justify-center items-center"
