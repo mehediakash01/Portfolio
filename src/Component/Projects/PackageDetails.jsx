@@ -55,7 +55,7 @@ const ProjectDetails = () => {
   
       <button
         onClick={() => navigate(-1)}
-        className="fixed top-5 left-5 z-50 px-4 py-2 bg-cyan-500 text-white font-semibold rounded-lg shadow-lg
+        className="fixed top-5 left-5 z-50 px-4 py-2 cursor-pointer bg-cyan-500 text-white font-semibold rounded-lg shadow-lg
                    animate-pulse
                    hover:shadow-[0_0_20px_rgba(0,255,255,0.9)]
                    hover:scale-110
@@ -158,7 +158,7 @@ const ProjectDetails = () => {
           </div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="max-w-3xl mx-auto text-center text-gray-400 text-sm"
@@ -191,7 +191,7 @@ const ProjectDetails = () => {
           <section className="bg-[#1E1E1E] p-8 rounded-2xl border border-gray-800 shadow-xl mt-10">
   <h2 className="text-2xl font-bold text-[#00ADB5] mb-6">Challenges Faced</h2>
   
-  <ul className="space-y-4 text-gray-300">
+  <motion.ul initial={{opacity:0,y:80}} whileInView={{opacity:1,y:0}} transition={{duration:0.6,ease:"easeIn"}} className="space-y-4 text-gray-300">
     <li className="flex items-start gap-3">
       <span className="text-[#00ADB5] mt-1">•</span>
       <p>
@@ -209,7 +209,7 @@ const ProjectDetails = () => {
         thorough testing and robust error handling.
       </p>
     </li>
-  </ul>
+  </motion.ul>
 </section>
 
         </div>
