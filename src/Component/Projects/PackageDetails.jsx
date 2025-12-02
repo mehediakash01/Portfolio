@@ -68,9 +68,9 @@ const ProjectDetails = () => {
       <section className="bg-[#121212] text-white px-6 py-20">
         <div className="max-w-6xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: -30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            initial={{ opacity: 0, y: -80 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5,ease:"easeIn" }}
             className="text-center mb-12"
           >
             <h1 className="text-5xl font-bold text-transparent bg-gradient-to-r from-primary to-secondary bg-clip-text">
