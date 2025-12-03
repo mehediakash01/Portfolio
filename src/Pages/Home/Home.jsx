@@ -1,51 +1,43 @@
-import React from "react";
-
-import Navbar from "../../Component/Navbar/Navbar";
 import Banner from "../../Component/Banner/Banner";
+import Navbar from "../../Component/Navbar/Navbar";
 import About from "../About";
-import MySkills from "../../Component/MySkills/MySkills";
-import Contact from "../Contact/Contact";
+import MySkills from "../../Component/MySkills/MySkills"
+import Education from "../../Component/Education/Education"
+import Projects from "../../Component/Projects/Projects"
+import Contact from "../Contact/Contact"
 import Container from "../../Component/Container/Container";
-import Projects from "../../Component/Projects/Projects";
-import Education from "../../Component/Education/Education";
-
-
 const Home = () => {
-  
-
   return (
-    <div>
-    
+    <div className="bg-[#0a0a0a]">
       <Navbar />
-
-      {/* Scrollable Sections */}
-      <Container>
-        <section id="home" >
-          <Banner />
-        </section>
-
-        <section id="about">
-          <About />
-        </section>
-
-        <section id="skills">
-          <MySkills />
-        </section>
-        <section id="education">
-         <Education></Education>
-        </section>
-
-
-        <section id="projects">
-         <Projects></Projects>
-        </section>
-
-        <section id="contact">
-          <Contact />
-        </section>
+      
+      {/* Each section gets its own Container with ID */}
+      <Container id="home" >
+        <Banner />
       </Container>
+
+      <Container id="about" className="py-20">
+        <About />
+      </Container>
+
+      <Container id="skills" className="py-20">
+        <MySkills />
+      </Container>
+
+      <Container id="education" className="py-20">
+        <Education />
+      </Container>
+
+      <Container id="projects" className="py-20">
+        <Projects />
+      </Container>
+
+      <Container id="contact" className="py-20">
+        <Contact />
+      </Container>
+
+    
     </div>
   );
 };
-
 export default Home;
