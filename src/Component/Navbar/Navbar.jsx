@@ -1,102 +1,161 @@
-import React from "react";
-import Logo from "../Logo/Logo";
-import ScrollNavLink from "../ScrollNavlink/ScrollNavLink";
+import { useEffect, useState } from "react";
 import { IoMdDownload } from "react-icons/io";
 
+ const Navbar = () => {
+  const [activeSection, setActiveSection] = useState("home");
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-const Navbar = () => {
+  const navItems = [
+    { id: "home", label: "Home" },
+    { id: "about", label: "About" },
+    { id: "skills", label: "Skills" },
+    { id: "education", label: "Education" },
+    { id: "projects", label: "Projects" },
+    { id: "contact", label: "Contact" },
+  ];
+
+  // Handle scroll effects and active section
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+
+      const sections = navItems.map(item => document.getElementById(item.id));
+      const scrollPosition = window.scrollY + 120;
+
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i];
+        if (section && section.offsetTop <= scrollPosition) {
+          setActiveSection(navItems[i].id);
+          break;
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 80;
+      const elementPosition = element.offsetTop - offset;
+      window.scrollTo({ top: elementPosition, behavior: "smooth" });
+      setIsMobileMenuOpen(false);
+    }
+  };
+
   return (
-    <nav className="sticky top-0 w-full z-50 bg-[#121212]/60 backdrop-blur-lg border-b border-cyan-500/10 shadow-md">
-      <div className="navbar max-w-7xl mx-auto px-6">
-        {/* Logo */}
-        <div className="navbar-start">
-          <Logo />
-        </div>
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled
+          ? "bg-[#121212]/95 backdrop-blur-lg border-b border-[#00ADB5]/10 shadow-lg"
+          : "bg-transparent"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex items-center justify-between h-20">
+          {/* Logo */}
+          <button
+            onClick={() => scrollToSection("home")}
+            className="text-2xl font-bold text-transparent bg-gradient-to-r from-[#00ADB5] to-[#007CFF] bg-clip-text hover:scale-105 transition-transform"
+          >
+            Portfolio
+          </button>
 
-        {/* Desktop Nav */}
-        <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 text-gray-300 font-medium gap-2">
-            <li>
-              <ScrollNavLink to="home">Home</ScrollNavLink>
-            </li>
-            <li>
-              <ScrollNavLink to="about">About</ScrollNavLink>
-            </li>
-            <li>
-              <ScrollNavLink to="skills">Skills</ScrollNavLink>
-            </li>
-            <li>
-              <ScrollNavLink to="projects">Projects</ScrollNavLink>
-            </li>
-            <li>
-              <ScrollNavLink to="contact">Contact</ScrollNavLink>
-            </li>
+          {/* Desktop Nav Links */}
+          <ul className="hidden lg:flex items-center gap-8">
+            {navItems.map((item) => (
+              <li key={item.id}>
+                <button
+                  onClick={() => scrollToSection(item.id)}
+                  className={`relative text-sm font-medium transition-all duration-300 ${
+                    activeSection === item.id
+                      ? "text-[#00ADB5] scale-110"
+                      : "text-gray-300 hover:text-white"
+                  }`}
+                >
+                  {item.label}
+                  {activeSection === item.id && (
+                    <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-[#00ADB5] to-[#007CFF] animate-pulse"></span>
+                  )}
+                </button>
+              </li>
+            ))}
           </ul>
-        </div>
 
-        {/* Resume + Mobile Dropdown */}
-        <div className="navbar-end space-x-2">
-          {/* Resume Button */}
+          {/* Desktop Resume Button */}
           <a
             href="/MERN_dev.pdf"
             download
-            className="hidden lg:flex btn btn-outline btn-primary items-center"
+            className="hidden lg:flex items-center gap-2 px-5 py-2 rounded-md border border-[#00ADB5] text-[#00ADB5] hover:bg-[#00ADB5]/10 transition-all duration-300 hover:scale-105"
           >
-          <IoMdDownload />  Resume
+            <IoMdDownload /> Resume
           </a>
 
-          {/* Mobile Dropdown */}
-          <div className="dropdown lg:hidden">
-            <label tabIndex={0} className="btn btn-ghost text-primary">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="lg:hidden text-white hover:text-[#00ADB5] transition-colors"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              {isMobileMenuOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
                   d="M4 6h16M4 12h16M4 18h16"
                 />
-              </svg>
-            </label>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[99] p-2 shadow bg-[#1E1E1E] rounded-box w-52 text-gray-300 gap-1"
-            >
-              <li>
-                <ScrollNavLink to="home">Home</ScrollNavLink>
-              </li>
-              <li>
-                <ScrollNavLink to="about">About</ScrollNavLink>
-              </li>
-              <li>
-                <ScrollNavLink to="skills">Skills</ScrollNavLink>
-              </li>
-              <li>
-                <ScrollNavLink to="projects">Projects</ScrollNavLink>
-              </li>
-              <li>
-                <ScrollNavLink to="contact">Contact</ScrollNavLink>
-              </li>
-              <li>
+              )}
+            </svg>
+          </button>
+        </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="lg:hidden absolute top-20 left-0 right-0 bg-[#1E1E1E]/98 backdrop-blur-lg border-b border-[#00ADB5]/10 shadow-xl">
+            <ul className="py-4 px-6 space-y-2">
+              {navItems.map((item) => (
+                <li key={item.id}>
+                  <button
+                    onClick={() => scrollToSection(item.id)}
+                    className={`w-full text-left px-4 py-3 rounded-lg transition-all ${
+                      activeSection === item.id
+                        ? "bg-[#00ADB5]/20 text-[#00ADB5] font-semibold"
+                        : "text-gray-300 hover:bg-[#00ADB5]/10 hover:text-white"
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                </li>
+              ))}
+              <li className="pt-2">
                 <a
-                  href="/Resume.pdf"
+                  href="/MERN_dev.pdf"
                   download
-                  className="btn btn-outline btn-primary w-fit flex items-center"
+                  className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-lg border border-[#00ADB5] text-[#00ADB5] hover:bg-[#00ADB5]/10 transition-all"
                 >
-                  <IoMdDownload /> Resume
+                  <IoMdDownload /> Download Resume
                 </a>
               </li>
             </ul>
           </div>
-        </div>
+        )}
       </div>
     </nav>
   );
 };
-
-export default Navbar;
+export default Navbar
