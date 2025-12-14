@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 import {
   FaGithub,
   FaLinkedinIn,
@@ -6,100 +7,233 @@ import {
   FaTwitter,
   FaFacebookF,
   FaInstagram,
+  FaArrowUp,
+  FaHeart,
+  FaCode,
 } from "react-icons/fa";
-import Logo from "../Logo/Logo";
 
 const Footer = () => {
-  const socialLinksTop = [
-    { name: "GitHub", url: "https://github.com/mehediakash01", icon: <FaGithub /> },
-    { name: "LinkedIn", url: "https://www.linkedin.com/in/mehediakash1/", icon: <FaLinkedinIn /> },
-    { name: "Email", url: "mehedi.akash.dev@gmail.com", icon: <FaEnvelope /> },
+  const socialLinks = [
+    {
+      name: "GitHub",
+      url: "https://github.com/mehediakash01",
+      icon: <FaGithub />,
+      color: "#FFFFFF",
+    },
+    {
+      name: "LinkedIn",
+      url: "https://www.linkedin.com/in/mehediakash1/",
+      icon: <FaLinkedinIn />,
+      color: "#0077B5",
+    },
+    {
+      name: "Email",
+      url: "mailto:mehedi.akash.dev@gmail.com",
+      icon: <FaEnvelope />,
+      color: "#00ADB5",
+    },
+    {
+      name: "Twitter",
+      url: "https://x.com/mh_sky_69",
+      icon: <FaTwitter />,
+      color: "#1DA1F2",
+    },
+    {
+      name: "Facebook",
+      url: "https://www.facebook.com/concentration369",
+      icon: <FaFacebookF />,
+      color: "#1877F2",
+    },
+    {
+      name: "Instagram",
+      url: "https://www.instagram.com/mh_sky_69/",
+      icon: <FaInstagram />,
+      color: "#E4405F",
+    },
   ];
 
-  const socialLinksBottom = [
-    { name: "Twitter", url: "https://x.com/mh_sky_69", icon: <FaTwitter /> },
-    { name: "Facebook", url: "https://www.facebook.com/concentration369", icon: <FaFacebookF /> },
-    { name: "Instagram", url: "https://www.instagram.com/mh_sky_69/", icon: <FaInstagram /> },
+  const quickLinks = [
+    { name: "Home", href: "#home" },
+    { name: "About", href: "#about" },
+    { name: "Skills", href: "#skills" },
+    { name: "Projects", href: "#projects" },
+    { name: "Contact", href: "#contact" },
   ];
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 80;
+      const elementPosition = element.offsetTop - offset;
+      window.scrollTo({ top: elementPosition, behavior: "smooth" });
+    }
+  };
 
   return (
-    <footer className="relative bg-gray-950 text-gray-400 py-16 px-4 md:px-8 overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-black opacity-30"></div>
+    <footer className="relative bg-gradient-to-br from-[#0a0a0a] via-[#1a1a2e] to-[#16213e] text-white overflow-hidden">
+      {/* Animated Background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-0 w-96 h-96 bg-[#00ADB5]/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#007CFF]/5 rounded-full blur-3xl"></div>
+      </div>
 
-      {/* Keyframe styles */}
-      <style>
-        {`
-          @keyframes pulseGlow {
-            0% { box-shadow: 0 0 6px rgba(0,255,255,0.4); }
-            50% { box-shadow: 0 0 16px rgba(0,255,255,0.9); }
-            100% { box-shadow: 0 0 6px rgba(0,255,255,0.4); }
-          }
-          @keyframes glowLine {
-            0%, 100% { box-shadow: 0 0 8px rgba(0,255,255,0.3); }
-            50% { box-shadow: 0 0 18px rgba(0,255,255,0.8); }
-          }
-        `}
-      </style>
+      {/* Grid Pattern Overlay */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjAyIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-30"></div>
 
-      <div className="w-11/12 mx-auto  grid grid-cols-1 gap-8 relative z-10">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 py-16">
+        {/* Main Footer Content */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+          {/* Brand Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="space-y-4"
+          >
+            <h3 className="text-3xl font-bold text-transparent bg-gradient-to-r from-[#00ADB5] to-[#007CFF] bg-clip-text">
+              Mehedi Hasan Akash
+            </h3>
+            <p className="text-gray-400 leading-relaxed">
+              MERN Stack Developer passionate about building modern, scalable web applications. Let's create something amazing together!
+            </p>
+            <div className="flex items-center gap-2 text-sm text-gray-400">
+              <span>Made with</span>
+              <FaHeart className="text-red-500 animate-pulse" />
+              <span>and</span>
+              <FaCode className="text-[#00ADB5]" />
+            </div>
+          </motion.div>
 
-        {/* Top Social Icons */}
-        <div className="flex justify-center items-center space-x-6 ">
-          {socialLinksTop.map((link, index) => (
-            <a
-              key={index}
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-400 hover:text-teal-400 transition duration-300 transform hover:scale-110 p-2 rounded-full border border-gray-700 hover:border-teal-400 flex items-center justify-center w-10 h-10"
-              style={{ animation: "pulseGlow 2s infinite" }}
-              aria-label={link.name}
-              title={link.name}
+          {/* Quick Links */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="space-y-4"
+          >
+            <h4 className="text-xl font-bold mb-4">Quick Links</h4>
+            <ul className="space-y-2">
+              {quickLinks.map((link, index) => (
+                <motion.li
+                  key={index}
+                  whileHover={{ x: 5 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <button
+                    onClick={() => scrollToSection(link.href.slice(1))}
+                    className="text-gray-400 hover:text-[#00ADB5] transition-colors duration-300 flex items-center gap-2"
+                  >
+                    <span className="text-[#00ADB5]">▸</span>
+                    {link.name}
+                  </button>
+                </motion.li>
+              ))}
+            </ul>
+          </motion.div>
+
+          {/* Contact & Social */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="space-y-4"
+          >
+            <h4 className="text-xl font-bold mb-4">Connect With Me</h4>
+            <div className="space-y-3 text-gray-400 text-sm">
+              <p>📧 mehedi.akash.dev@gmail.com</p>
+              <p>📍 Sylhet, Bangladesh</p>
+              <p>🌐 Available for freelance work</p>
+            </div>
+
+            {/* Social Links */}
+            <div className="pt-4">
+              <div className="flex flex-wrap gap-3">
+                {socialLinks.map((link, index) => (
+                  <motion.a
+                    key={index}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    initial={{ opacity: 0, scale: 0 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: index * 0.05, type: "spring" }}
+                    whileHover={{ scale: 1.2, y: -5 }}
+                    whileTap={{ scale: 0.9 }}
+                    className="w-10 h-10 rounded-full bg-[#1E1E1E] border border-[#333] hover:border-[#00ADB5] flex items-center justify-center transition-all duration-300"
+                    style={{ color: link.color }}
+                    title={link.name}
+                  >
+                    {link.icon}
+                  </motion.a>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Divider */}
+        <div className="h-px bg-gradient-to-r from-transparent via-[#333] to-transparent mb-8"></div>
+
+        {/* Bottom Bar */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="text-gray-400 text-sm text-center md:text-left"
+          >
+            © {new Date().getFullYear()} Mehedi Hasan Akash. All rights reserved.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="flex items-center gap-6 text-sm text-gray-400"
+          >
+            <button
+              onClick={() => scrollToSection("home")}
+              className="hover:text-[#00ADB5] transition-colors"
             >
-              {link.icon}
-            </a>
-          ))}
-        </div>
-
-      
-        {/* <div className="absolute top-24 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-teal-400 shadow-[0_0_10px_rgba(0,255,255,0.8)]"></div> */}
-
-        {/* Developer Title and Lines */}
-        <div className="flex flex-col items-center justify-center ">
-          <div className="flex items-center text-3xl font-bold text-white ">
-            <span className="mr-3 text-teal-400 text-3xl">Mehedi Hasan Akash</span>
-        
-          </div>
-         
-        </div>
-
-      
-      
-    
-        {/* Bottom Social Icons */}
-        <div className="flex justify-center items-center space-x-6 ">
-          {socialLinksBottom.map((link, index) => (
-            <a
-              key={index}
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-400 hover:text-secondary transition duration-300 transform hover:scale-110 p-2 rounded-full border border-gray-700 hover:border-secondary flex items-center justify-center w-10 h-10"
-              style={{ animation: "pulseGlow 2s infinite" }}
-              aria-label={link.name}
-              title={link.name}
+              Privacy Policy
+            </button>
+            <button
+              onClick={() => scrollToSection("home")}
+              className="hover:text-[#00ADB5] transition-colors"
             >
-              {link.icon}
-            </a>
-          ))}
-        </div>
-
-        {/* Footer Copyright */}
-        <div className="flex justify-center items-center text-sm text-gray-500  ">
-          &copy; {new Date().getFullYear()} <span className="mx-4"> <Logo></Logo></span>. All rights reserved.
+              Terms of Service
+            </button>
+          </motion.div>
         </div>
       </div>
+
+      {/* Scroll to Top Button */}
+      <motion.button
+        initial={{ opacity: 0, scale: 0 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        whileHover={{ scale: 1.1, y: -5 }}
+        whileTap={{ scale: 0.9 }}
+        onClick={scrollToTop}
+        className="fixed bottom-8 right-8 z-50 w-12 h-12 bg-gradient-to-r from-[#00ADB5] to-[#007CFF] rounded-full flex items-center justify-center shadow-lg hover:shadow-[#00ADB5]/50 transition-all duration-300"
+        title="Scroll to top"
+      >
+        <FaArrowUp className="text-white" />
+      </motion.button>
+
+      <style jsx>{`
+        @keyframes pulse {
+          0%, 100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.5;
+          }
+        }
+      `}</style>
     </footer>
   );
 };
