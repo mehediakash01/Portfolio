@@ -61,7 +61,7 @@ import { IoMdDownload } from "react-icons/io";
             onClick={() => scrollToSection("home")}
             className="text-2xl font-bold text-transparent bg-gradient-to-r from-[#00ADB5] to-[#007CFF] bg-clip-text hover:scale-105 transition-transform"
           >
-            Portfolio
+           <img src="/protfolio.png" width={68} height={68} alt="portfolio-logo"/>
           </button>
 
           {/* Desktop Nav Links */}

@@ -79,7 +79,7 @@ const Banner = () => {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col-reverse lg:flex-row items-center justify-between gap-20 max-w-7xl w-11/12 mx-auto">
+      <div className="relative z-10 flex py-40 flex-col-reverse lg:flex-row items-center justify-between gap-20 max-w-7xl w-11/12 mx-auto">
         {/* Text Section */}
         <motion.div
           initial={{ opacity: 0, x: -200 }}
