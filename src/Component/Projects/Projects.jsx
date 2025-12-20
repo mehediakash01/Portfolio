@@ -135,7 +135,7 @@ const Projects = () => {
         >
           {[
             {
-              value: `${projectsData.length}+`,
+              value: `20+`,
               label: "Projects Completed",
               icon: "🚀",
             },

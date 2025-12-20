@@ -76,6 +76,7 @@ export const ProjectCard = ({ project, index }) => {
           transition={{ duration: 0.3 }}
           className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex items-center justify-center gap-3"
         >
+          {/* GitHub */}
           <a
             href={project.githubLink}
             target="_blank"
@@ -85,6 +86,7 @@ export const ProjectCard = ({ project, index }) => {
             <FaGithub />
           </a>
 
+          {/* Live */}
           <a
             href={project.liveLink}
             target="_blank"
@@ -94,6 +96,7 @@ export const ProjectCard = ({ project, index }) => {
             <FaExternalLinkAlt />
           </a>
 
+          {/* Details */}
           <Link
             to={project.detailsLink}
             className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-gradient-to-r hover:from-[#00ADB5] hover:to-[#007CFF]"
@@ -115,7 +118,7 @@ export const ProjectCard = ({ project, index }) => {
 
         {/* Features */}
         <ul className="mb-4 space-y-1">
-          {project.features.slice(0, 3).map((f, i) => (
+          {project.features?.slice(0, 3).map((f, i) => (
             <li key={i} className="text-xs text-gray-400">
               • {f}
             </li>
@@ -124,7 +127,7 @@ export const ProjectCard = ({ project, index }) => {
 
         {/* Tech */}
         <div className="flex flex-wrap gap-2 mb-4">
-          {project.tech.slice(0, 6).map((tech, i) => {
+          {project.tech?.slice(0, 6).map((tech, i) => {
             const t = techIcons[tech.toLowerCase()];
             return (
               <div
@@ -140,7 +143,8 @@ export const ProjectCard = ({ project, index }) => {
         </div>
 
         {/* Buttons */}
-        <div className="flex gap-2">
+        {/* <div className="flex gap-2">
+          
           <a
             href={project.liveLink}
             target="_blank"
@@ -152,12 +156,13 @@ export const ProjectCard = ({ project, index }) => {
             </button>
           </a>
 
+        
           <Link to={project.detailsLink} className="flex-1">
             <button className="w-full bg-white/10 border border-white/20 py-2 rounded-lg text-white">
               Details
             </button>
           </Link>
-        </div>
+        </div> */}
       </div>
     </motion.div>
   );
