@@ -177,7 +177,7 @@ const Banner = () => {
               className="relative w-72 h-72 rounded-full bg-gradient-to-tr from-[#00ADB5] to-[#007CFF] p-1 shadow-2xl"
             >
               <img
-                src="https://i.ibb.co/6JB7dC6x/banner-Dppng.png"
+                src="/Seven.jpeg"
                 alt="Banner"
                 className="w-full h-full object-cover rounded-full border-4 border-[#121212]"
               />
