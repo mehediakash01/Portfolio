@@ -87,7 +87,7 @@ import { IoMdDownload } from "react-icons/io";
 
           {/* Desktop Resume Button */}
           <a
-            href="/MERN_dev.pdf"
+            href="/MERN.pdf"
             download
             className="hidden lg:flex items-center gap-2 px-5 py-2 rounded-md border border-[#00ADB5] text-[#00ADB5] hover:bg-[#00ADB5]/10 transition-all duration-300 hover:scale-105"
           >
