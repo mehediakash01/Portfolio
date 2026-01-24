@@ -326,7 +326,7 @@ const Banner = () => {
             {/* Main image container */}
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="relative w-80 h-80 rounded-full overflow-hidden border-4 border-[#00ADB5] shadow-2xl shadow-[#00ADB5]/50"
+              className="relative lg:w-80 lg:h-80 w-60 h-60 rounded-full overflow-hidden border-4 border-[#00ADB5] shadow-2xl shadow-[#00ADB5]/50"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-[#00ADB5]/20 to-[#007CFF]/20 "></div>
               <img
@@ -345,7 +345,7 @@ const Banner = () => {
             ].map((item, i) => (
               <motion.div
                 key={i}
-                className={`absolute ${item.position} w-16 h-16 rounded-full bg-gradient-to-br from-[#00ADB5] to-[#007CFF] flex items-center justify-center text-2xl shadow-lg`}
+                className={`absolute ${item.position} w-16 hidden h-16 rounded-full bg-gradient-to-br from-[#00ADB5] to-[#007CFF] lg:flex items-center justify-center text-2xl shadow-lg`}
                 animate={{
                   y: [0, -15, 0],
                   rotate: [0, 10, 0],

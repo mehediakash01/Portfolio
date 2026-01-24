@@ -32,13 +32,13 @@ const Contact = () => {
       .sendForm(
         "service_vbs7h9m",
         "template_7h7srkh",
-        form.current, // This now correctly references the form element
+        form.current, 
         "Af503tNgEeYxAHu8j"
       )
       .then(
         () => {
           setLoading(false);
-          toast.success("✅ Message sent successfully!", {
+          toast.success(" Message sent successfully!", {
             style: {
               background: "#1E1E1E",
               color: "#fff",
@@ -54,7 +54,7 @@ const Contact = () => {
         (error) => {
           setLoading(false);
           console.error("EmailJS error:", error);
-          toast.error("❌ Failed to send message. Please try again.", {
+          toast.error(" Failed to send message. Please try again.", {
             style: {
               background: "#1E1E1E",
               color: "#fff",
