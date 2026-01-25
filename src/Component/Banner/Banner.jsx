@@ -181,7 +181,7 @@ const Banner = () => {
             className="inline-block"
           >
             <div className="px-4 py-2 rounded-full bg-gradient-to-r from-[#00ADB5]/20 to-[#007CFF]/20 border border-[#00ADB5]/30 backdrop-blur-sm">
-              <span className="text-sm font-medium text-[#00ADB5]">👋 Welcome to my portfolio</span>
+              <span className="text-sm font-medium text-[#00ADB5]"> Welcome to my portfolio</span>
             </div>
           </motion.div>
 
@@ -323,7 +323,7 @@ const Banner = () => {
               />
             ))}
 
-            {/* Main image container */}
+         
             <motion.div
               whileHover={{ scale: 1.05 }}
               className="relative lg:w-80 lg:h-80 w-60 h-60 rounded-full overflow-hidden border-4 border-[#00ADB5] shadow-2xl shadow-[#00ADB5]/50"
@@ -336,7 +336,7 @@ const Banner = () => {
               />
             </motion.div>
 
-            {/* Floating tech icons */}
+          
             {[
               { icon: "⚛️", position: "-top-4 -right-4", delay: 0 },
               { icon: "💻", position: "-bottom-4 -left-4", delay: 0.5 },
