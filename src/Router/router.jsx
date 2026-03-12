@@ -4,7 +4,6 @@ import {
 } from "react-router";
 import RootLayout from "../Layout/RootLayout";
 import Home from "../Pages/Home/Home";
-import ProjectDetails from "../Component/Projects/PackageDetails";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -15,7 +14,10 @@ export const router = createBrowserRouter([
         },
         {
           path:"project/:id",
-          Component: ProjectDetails
+          lazy: async () => {
+            const { default: ProjectDetails } = await import("../Component/Projects/PackageDetails");
+            return { Component: ProjectDetails };
+          },
         }
     ]
   },
