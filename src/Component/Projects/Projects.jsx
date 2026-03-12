@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ProjectCard } from "./ProjectCard";
 import { projectsData } from "./ProjectData";
 
 const Projects = () => {
   const [filter, setFilter] = useState("all");
+  const [showAll, setShowAll] = useState(false);
 
   // Determine project category based on tech stack
   const getCategoryFromTech = (techArray) => {
@@ -44,6 +45,16 @@ const Projects = () => {
     filter === "all"
       ? categorizedProjects
       : categorizedProjects.filter((p) => p.category === filter);
+
+  const previewCount = 3;
+  const visibleProjects = showAll
+    ? filteredProjects
+    : filteredProjects.slice(0, previewCount);
+
+  useEffect(() => {
+    // Reset to preview mode when user changes project category.
+    setShowAll(false);
+  }, [filter]);
 
   return (
     <section className="py-20 text-white relative overflow-hidden">
@@ -106,7 +117,7 @@ const Projects = () => {
               transition={{ duration: 0.3 }}
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
             >
-              {filteredProjects.map((project, index) => (
+              {visibleProjects.map((project, index) => (
                 <ProjectCard key={project.id} project={project} index={index} />
               ))}
             </motion.div>
@@ -122,6 +133,24 @@ const Projects = () => {
               <p className="text-gray-400 text-lg">
                 No projects found in this category
               </p>
+            </motion.div>
+          )}
+
+          {filteredProjects.length > previewCount && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="mt-10 flex justify-center"
+            >
+              <motion.button
+                onClick={() => setShowAll((prev) => !prev)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-7 py-3 rounded-full font-semibold bg-gradient-to-r from-[#00ADB5] to-[#007CFF] text-white shadow-lg hover:shadow-[#00ADB5]/30 transition-all"
+              >
+                {showAll ? "Show Less" : "See More"}
+              </motion.button>
             </motion.div>
           )}
         </div>
