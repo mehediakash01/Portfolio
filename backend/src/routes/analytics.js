@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { prisma } from "../lib/db.js";
 import { getActiveUsersNow, touchSession } from "../lib/liveSessions.js";
+import { requireAdmin } from "../middleware/requireAdmin.js";
 
 const router = Router();
 
@@ -32,7 +33,7 @@ router.post("/event", async (req, res) => {
   return res.status(201).json({ ok: true });
 });
 
-router.get("/overview", async (_req, res) => {
+router.get("/overview", requireAdmin, async (_req, res) => {
   const todayStart = getTodayStart();
 
   const [
@@ -76,7 +77,7 @@ router.get("/overview", async (_req, res) => {
   });
 });
 
-router.get("/live", async (req, res) => {
+router.get("/live", requireAdmin, async (req, res) => {
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");

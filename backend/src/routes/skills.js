@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { prisma } from "../lib/db.js";
+import { requireAdmin } from "../middleware/requireAdmin.js";
 
 const router = Router();
 
@@ -23,7 +24,7 @@ router.get("/", async (req, res) => {
   return res.json(skills);
 });
 
-router.post("/", async (req, res) => {
+router.post("/", requireAdmin, async (req, res) => {
   const input = normalizeSkillInput(req.body);
 
   if (!input.name) {
@@ -42,7 +43,7 @@ router.post("/", async (req, res) => {
   return res.status(201).json(created);
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", requireAdmin, async (req, res) => {
   const input = normalizeSkillInput(req.body);
 
   const existing = await prisma.skill.findUnique({ where: { id: req.params.id } });
@@ -66,7 +67,7 @@ router.put("/:id", async (req, res) => {
   return res.json(updated);
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", requireAdmin, async (req, res) => {
   const existing = await prisma.skill.findUnique({ where: { id: req.params.id } });
   if (!existing) {
     return res.status(404).json({ message: "Skill not found" });

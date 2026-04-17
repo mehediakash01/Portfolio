@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { IoMdDownload } from "react-icons/io";
-import { Link } from "react-router";
 
  const Navbar = () => {
   const [activeSection, setActiveSection] = useState("home");
@@ -88,13 +87,6 @@ import { Link } from "react-router";
 
           {/* Desktop Resume Button */}
           <div className="hidden lg:flex items-center gap-3">
-            <Link
-              to="/dashboard"
-              className="px-5 py-2 rounded-md border border-[#007CFF] text-[#007CFF] hover:bg-[#007CFF]/10 transition-all duration-300 hover:scale-105"
-            >
-              Dashboard
-            </Link>
-
             <a
               href="/MERN.pdf"
               download
@@ -152,15 +144,6 @@ import { Link } from "react-router";
                   </button>
                 </li>
               ))}
-              <li className="pt-2">
-                <Link
-                  to="/dashboard"
-                  className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-lg border border-[#007CFF] text-[#007CFF] hover:bg-[#007CFF]/10 transition-all"
-                >
-                  Dashboard
-                </Link>
-              </li>
-
               <li className="pt-2">
                 <a
                   href="/MERN_dev.pdf"

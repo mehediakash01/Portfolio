@@ -35,6 +35,9 @@ const Dashboard = () => {
   const [skills, setSkills] = useState([]);
   const [overview, setOverview] = useState(null);
   const [live, setLive] = useState({ activeUsersNow: 0, todayVisits: 0 });
+  const [password, setPassword] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [checkingSession, setCheckingSession] = useState(true);
 
   const [projectForm, setProjectForm] = useState(initialProjectForm);
   const [skillForm, setSkillForm] = useState(initialSkillForm);
@@ -42,6 +45,7 @@ const Dashboard = () => {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [authError, setAuthError] = useState("");
 
   const sortedSkills = useMemo(
     () => [...skills].sort((a, b) => b.level - a.level),
@@ -62,13 +66,42 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    loadAll().catch((loadError) => {
-      setError(loadError.message || "Failed to load dashboard data");
-    });
+    const checkSession = async () => {
+      try {
+        await api.getAdminSession();
+        setIsAuthenticated(true);
+      } catch {
+        setIsAuthenticated(false);
+      } finally {
+        setCheckingSession(false);
+      }
+    };
+
+    checkSession();
   }, []);
 
   useEffect(() => {
-    const source = new EventSource(api.analyticsLiveUrl());
+    if (!isAuthenticated) {
+      return;
+    }
+
+    loadAll().catch((loadError) => {
+      if (loadError.message === "Unauthorized") {
+        setIsAuthenticated(false);
+        setAuthError("Session expired. Please login again.");
+        return;
+      }
+
+      setError(loadError.message || "Failed to load dashboard data");
+    });
+  }, [isAuthenticated]);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      return;
+    }
+
+    const source = new EventSource(api.analyticsLiveUrl(), { withCredentials: true });
 
     source.onmessage = (event) => {
       try {
@@ -85,7 +118,42 @@ const Dashboard = () => {
     return () => {
       source.close();
     };
-  }, []);
+  }, [isAuthenticated]);
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    setBusy(true);
+    setAuthError("");
+
+    try {
+      await api.loginAdmin(password);
+      setPassword("");
+      setIsAuthenticated(true);
+      setError("");
+      setSuccess("");
+    } catch (loginError) {
+      setAuthError(loginError.message || "Login failed");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    setBusy(true);
+    setError("");
+    setSuccess("");
+
+    try {
+      await api.logoutAdmin();
+    } finally {
+      setBusy(false);
+      setIsAuthenticated(false);
+      setProjects([]);
+      setSkills([]);
+      setOverview(null);
+      setLive({ activeUsersNow: 0, todayVisits: 0 });
+    }
+  };
 
   const refreshAfterMutation = async () => {
     const [projectData, skillData, analyticsData] = await Promise.all([
@@ -173,6 +241,59 @@ const Dashboard = () => {
     }
   };
 
+  if (checkingSession) {
+    return (
+      <div className="min-h-screen bg-[#0a0a0a] text-white flex items-center justify-center px-4">
+        <p className="text-gray-300">Checking admin session...</p>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-[#0a0a0a] text-white px-4 py-10 md:px-8">
+        <div className="max-w-lg mx-auto rounded-2xl border border-[#333] bg-[#151515] p-8">
+          <h1 className="text-3xl font-bold text-transparent bg-gradient-to-r from-[#00ADB5] to-[#007CFF] bg-clip-text mb-2">
+            Admin Login
+          </h1>
+          <p className="text-gray-400 mb-6">Enter your admin password to access dashboard.</p>
+
+          {authError && (
+            <div className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-red-200 mb-4">
+              {authError}
+            </div>
+          )}
+
+          <form onSubmit={handleLogin} className="space-y-4">
+            <input
+              type="password"
+              className="w-full rounded-lg bg-[#0f0f0f] border border-[#333] px-3 py-2"
+              placeholder="Admin password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              required
+            />
+
+            <button
+              type="submit"
+              disabled={busy}
+              className="w-full rounded-lg bg-gradient-to-r from-[#00ADB5] to-[#007CFF] py-2 font-semibold disabled:opacity-50"
+            >
+              {busy ? "Signing in..." : "Login"}
+            </button>
+          </form>
+
+          <Link
+            to="/"
+            className="inline-block mt-5 text-sm text-[#00ADB5] hover:underline"
+          >
+            Back To Portfolio
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white px-4 py-10 md:px-8">
       <div className="max-w-7xl mx-auto space-y-8">
@@ -185,12 +306,21 @@ const Dashboard = () => {
               Manage projects, skills, and live traffic analytics.
             </p>
           </div>
-          <Link
-            to="/"
-            className="px-4 py-2 rounded-lg border border-[#00ADB5] text-[#00ADB5] hover:bg-[#00ADB5]/10"
-          >
-            Back To Portfolio
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              to="/"
+              className="px-4 py-2 rounded-lg border border-[#00ADB5] text-[#00ADB5] hover:bg-[#00ADB5]/10"
+            >
+              Back To Portfolio
+            </Link>
+            <button
+              onClick={handleLogout}
+              disabled={busy}
+              className="px-4 py-2 rounded-lg border border-red-400/40 text-red-300 hover:bg-red-500/10 disabled:opacity-50"
+            >
+              Logout
+            </button>
+          </div>
         </header>
 
         {error && (

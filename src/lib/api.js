@@ -2,6 +2,12 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || "";
 
 const toApiUrl = (path) => `${API_BASE_URL}${path}`;
 
+const request = (path, options = {}) =>
+  fetch(toApiUrl(path), {
+    credentials: "include",
+    ...options,
+  }).then(ensureOk);
+
 const ensureOk = async (response) => {
   if (response.ok) {
     if (response.status === 204) {
@@ -25,48 +31,62 @@ const ensureOk = async (response) => {
 
 export const api = {
   getProjects: (scope = "public") =>
-    fetch(toApiUrl(`/api/projects${scope === "admin" ? "?scope=admin" : ""}`)).then(ensureOk),
+    request(`/api/projects${scope === "admin" ? "?scope=admin" : ""}`),
 
-  getProjectBySlug: (slug) => fetch(toApiUrl(`/api/projects/${slug}`)).then(ensureOk),
+  getProjectBySlug: (slug) => request(`/api/projects/${slug}`),
+
+  loginAdmin: (password) =>
+    request("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password }),
+    }),
+
+  logoutAdmin: () =>
+    request("/api/auth/logout", {
+      method: "POST",
+    }),
+
+  getAdminSession: () => request("/api/auth/session"),
 
   addProject: (payload) =>
-    fetch(toApiUrl("/api/projects"), {
+    request("/api/projects", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
-    }).then(ensureOk),
+    }),
 
   deleteProject: (id) =>
-    fetch(toApiUrl(`/api/projects/${id}`), {
+    request(`/api/projects/${id}`, {
       method: "DELETE",
-    }).then(ensureOk),
+    }),
 
   getSkills: (category) => {
     const query = category ? `?category=${encodeURIComponent(category)}` : "";
-    return fetch(toApiUrl(`/api/skills${query}`)).then(ensureOk);
+    return request(`/api/skills${query}`);
   },
 
   addSkill: (payload) =>
-    fetch(toApiUrl("/api/skills"), {
+    request("/api/skills", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
-    }).then(ensureOk),
+    }),
 
   deleteSkill: (id) =>
-    fetch(toApiUrl(`/api/skills/${id}`), {
+    request(`/api/skills/${id}`, {
       method: "DELETE",
-    }).then(ensureOk),
+    }),
 
-  getAnalyticsOverview: () => fetch(toApiUrl("/api/analytics/overview")).then(ensureOk),
+  getAnalyticsOverview: () => request("/api/analytics/overview"),
 
   trackPageView: (payload) =>
-    fetch(toApiUrl("/api/analytics/event"), {
+    request("/api/analytics/event", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       keepalive: true,
       body: JSON.stringify(payload),
-    }).then(ensureOk),
+    }),
 
   analyticsLiveUrl: () => toApiUrl("/api/analytics/live"),
 };

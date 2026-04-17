@@ -2,6 +2,8 @@ import process from "node:process";
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
+import authRoutes from "./routes/auth.js";
 import projectRoutes from "./routes/projects.js";
 import skillRoutes from "./routes/skills.js";
 import analyticsRoutes from "./routes/analytics.js";
@@ -11,14 +13,17 @@ const app = express();
 app.use(
   cors({
     origin: process.env.FRONTEND_URL || "http://localhost:5173",
+    credentials: true,
   })
 );
+app.use(cookieParser());
 app.use(express.json({ limit: "1mb" }));
 
 app.get("/api/health", (_req, res) => {
   res.json({ ok: true, service: "portfolio-api" });
 });
 
+app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/skills", skillRoutes);
 app.use("/api/analytics", analyticsRoutes);

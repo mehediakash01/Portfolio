@@ -60,6 +60,20 @@ cp .env.example .env
 
 Set `DATABASE_URL` in `backend/.env` to your PostgreSQL connection string.
 
+Configure dashboard auth variables in `backend/.env`:
+
+- `ADMIN_JWT_SECRET` (long random secret)
+- `ADMIN_PASSWORD_HASH` (bcrypt hash)
+
+Generate a bcrypt password hash:
+
+```bash
+cd backend
+npm run admin:hash -- "your-strong-password"
+```
+
+Then copy the output into `ADMIN_PASSWORD_HASH`.
+
 ### 3) Run Prisma migrations + seed
 
 ```bash
@@ -92,6 +106,13 @@ Open:
 
 - `/dashboard`
 
+Security behavior:
+
+- Dashboard requires password login.
+- Auth uses an `httpOnly` cookie session.
+- Admin API routes are protected server-side.
+- Public visitors cannot read admin analytics or modify projects/skills.
+
 Capabilities:
 
 - Add project
@@ -114,6 +135,13 @@ Dashboard analytics includes:
 - Last 7 days visits
 
 Live data is streamed to dashboard via Server-Sent Events (SSE).
+
+## Deployment Security Notes
+
+- Serve frontend and backend over HTTPS.
+- Set `NODE_ENV=production` so cookie is marked `Secure`.
+- Keep `ADMIN_JWT_SECRET` and `ADMIN_PASSWORD_HASH` only in server environment variables.
+- Use a strong unique password for dashboard access.
 
 
 

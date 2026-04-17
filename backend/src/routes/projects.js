@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { prisma } from "../lib/db.js";
+import { requireAdmin } from "../middleware/requireAdmin.js";
 
 const router = Router();
 
@@ -53,7 +54,15 @@ const toProjectResponse = (project) => ({
   detailsLink: `/project/${project.slug}`,
 });
 
-router.get("/", async (req, res) => {
+const requireAdminForAdminScope = (request, response, next) => {
+  if (`${request.query.scope ?? ""}` !== "admin") {
+    return next();
+  }
+
+  return requireAdmin(request, response, next);
+};
+
+router.get("/", requireAdminForAdminScope, async (req, res) => {
   const scope = req.query.scope;
   const projects = await prisma.project.findMany({
     where: scope === "admin" ? {} : { status: "published" },
@@ -63,7 +72,7 @@ router.get("/", async (req, res) => {
   res.json(projects.map(toProjectResponse));
 });
 
-router.get("/:slug", async (req, res) => {
+router.get("/:slug", requireAdminForAdminScope, async (req, res) => {
   const scope = req.query.scope;
 
   const project = await prisma.project.findUnique({
@@ -77,7 +86,7 @@ router.get("/:slug", async (req, res) => {
   return res.json(toProjectResponse(project));
 });
 
-router.post("/", async (req, res) => {
+router.post("/", requireAdmin, async (req, res) => {
   const input = normalizeProjectInput(req.body);
 
   if (!input.title || !input.slug) {
@@ -93,7 +102,7 @@ router.post("/", async (req, res) => {
   return res.status(201).json(toProjectResponse(created));
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", requireAdmin, async (req, res) => {
   const input = normalizeProjectInput(req.body);
 
   const existing = await prisma.project.findUnique({ where: { id: req.params.id } });
@@ -120,7 +129,7 @@ router.put("/:id", async (req, res) => {
   return res.json(toProjectResponse(updated));
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", requireAdmin, async (req, res) => {
   const existing = await prisma.project.findUnique({ where: { id: req.params.id } });
   if (!existing) {
     return res.status(404).json({ message: "Project not found" });
