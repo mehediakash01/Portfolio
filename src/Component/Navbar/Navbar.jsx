@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { IoMdDownload } from "react-icons/io";
+import { Link } from "react-router";
 
  const Navbar = () => {
   const [activeSection, setActiveSection] = useState("home");
@@ -86,13 +87,22 @@ import { IoMdDownload } from "react-icons/io";
           </ul>
 
           {/* Desktop Resume Button */}
-          <a
-            href="/MERN.pdf"
-            download
-            className="hidden lg:flex items-center gap-2 px-5 py-2 rounded-md border border-[#00ADB5] text-[#00ADB5] hover:bg-[#00ADB5]/10 transition-all duration-300 hover:scale-105"
-          >
-            <IoMdDownload /> Resume
-          </a>
+          <div className="hidden lg:flex items-center gap-3">
+            <Link
+              to="/dashboard"
+              className="px-5 py-2 rounded-md border border-[#007CFF] text-[#007CFF] hover:bg-[#007CFF]/10 transition-all duration-300 hover:scale-105"
+            >
+              Dashboard
+            </Link>
+
+            <a
+              href="/MERN.pdf"
+              download
+              className="flex items-center gap-2 px-5 py-2 rounded-md border border-[#00ADB5] text-[#00ADB5] hover:bg-[#00ADB5]/10 transition-all duration-300 hover:scale-105"
+            >
+              <IoMdDownload /> Resume
+            </a>
+          </div>
 
           {/* Mobile Menu Button */}
           <button
@@ -142,6 +152,15 @@ import { IoMdDownload } from "react-icons/io";
                   </button>
                 </li>
               ))}
+              <li className="pt-2">
+                <Link
+                  to="/dashboard"
+                  className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-lg border border-[#007CFF] text-[#007CFF] hover:bg-[#007CFF]/10 transition-all"
+                >
+                  Dashboard
+                </Link>
+              </li>
+
               <li className="pt-2">
                 <a
                   href="/MERN_dev.pdf"

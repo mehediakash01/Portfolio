@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FaReact,
@@ -22,41 +22,86 @@ import {
   SiPrisma,
 } from "react-icons/si";
 import { VscCode } from "react-icons/vsc";
+import { api } from "../../lib/api";
 
-const skillCategories = {
-  frontend: [
-    { name: "React", icon: <FaReact />, color: "#61DAFB", level: 90 },
-    { name: "Next.js", icon: <SiNextdotjs />, color: "#FFFFFF", level: 80 },
-    { name: "TypeScript", icon: <SiTypescript />, color: "#3178C6", level: 75 },
-    { name: "Redux", icon: <SiRedux />, color: "#764ABC", level: 70 },
-    { name: "Tailwind CSS", icon: <SiTailwindcss />, color: "#38BDF8", level: 95 },
-    { name: "React Router", icon: <SiReactrouter />, color: "#F44250", level: 85 },
-    { name: "Bootstrap", icon: <FaBootstrap />, color: "#7952B3", level: 80 },
-  ],
-  backend: [
-    { name: "Node.js", icon: <FaNodeJs />, color: "#3C873A", level: 75 },
-    { name: "Express.js", icon: <SiExpress />, color: "#FFFFFF", level: 85 },
-    { name: "MongoDB", icon: <SiMongodb />, color: "#47A248", level: 80 },
-    { name: "MySQL", icon: <SiMysql />, color: "#00618A", level: 70 },
-    { name: "Prisma", icon: <SiPrisma />, color: "#2D3748", level: 65 },
-    { name: "Firebase", icon: <SiFirebase />, color: "#FFA611", level: 75 },
-  ],
-  tools: [
-    { name: "Git", icon: <FaGitAlt />, color: "#F05032", level: 90 },
-    { name: "GitHub", icon: <FaGithub />, color: "#FFFFFF", level: 85 },
-    { name: "Figma", icon: <FaFigma />, color: "#A259FF", level: 70 },
-    { name: "Vercel", icon: <SiVercel />, color: "#FFFFFF", level: 80 },
-    { name: "VS Code", icon: <VscCode />, color: "#007ACC", level: 95 },
-  ],
+const iconMap = {
+  react: <FaReact />,
+  "next.js": <SiNextdotjs />,
+  nextjs: <SiNextdotjs />,
+  typescript: <SiTypescript />,
+  redux: <SiRedux />,
+  "tailwind css": <SiTailwindcss />,
+  tailwind: <SiTailwindcss />,
+  "react router": <SiReactrouter />,
+  bootstrap: <FaBootstrap />,
+  "node.js": <FaNodeJs />,
+  node: <FaNodeJs />,
+  "express.js": <SiExpress />,
+  express: <SiExpress />,
+  mongodb: <SiMongodb />,
+  mysql: <SiMysql />,
+  prisma: <SiPrisma />,
+  firebase: <SiFirebase />,
+  git: <FaGitAlt />,
+  github: <FaGithub />,
+  figma: <FaFigma />,
+  vercel: <SiVercel />,
+  "vs code": <VscCode />,
 };
 
 const MySkills = () => {
+  const [skills, setSkills] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState("frontend");
+
   const tabs = [
     { id: "frontend", label: "Frontend", icon: "🎨" },
     { id: "backend", label: "Backend", icon: "⚙️" },
     { id: "tools", label: "Tools", icon: "🛠️" },
   ];
+
+  const groupedSkills = useMemo(
+    () =>
+      skills.reduce(
+        (acc, skill) => {
+          const category = ["frontend", "backend", "tools"].includes(skill.category)
+            ? skill.category
+            : "tools";
+          acc[category].push(skill);
+          return acc;
+        },
+        { frontend: [], backend: [], tools: [] }
+      ),
+    [skills]
+  );
+
+  useEffect(() => {
+    let mounted = true;
+
+    const loadSkills = async () => {
+      try {
+        const result = await api.getSkills();
+        if (mounted) {
+          setSkills(result);
+        }
+      } catch (loadError) {
+        if (mounted) {
+          setError(loadError.message || "Could not load skills");
+        }
+      } finally {
+        if (mounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadSkills();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   return (
     <section className="py-20 text-white relative overflow-hidden">
@@ -148,6 +193,9 @@ const MySkills = () => {
         </motion.div>
 
         {/* Skills Grid */}
+        {loading && <div className="text-center text-gray-400 py-12">Loading skills...</div>}
+        {!loading && error && <div className="text-center text-red-300 py-12">{error}</div>}
+
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
@@ -157,7 +205,8 @@ const MySkills = () => {
             transition={{ duration: 0.5 }}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
           >
-            {skillCategories[activeTab].map((skill, index) => (
+            {!loading &&
+              groupedSkills[activeTab].map((skill, index) => (
               <motion.div
                 key={skill.name}
                 initial={{ opacity: 0, scale: 0.8, y: 50 }}
@@ -187,7 +236,7 @@ const MySkills = () => {
                       className="text-4xl"
                       style={{ color: skill.color }}
                     >
-                      {skill.icon}
+                      {iconMap[skill.name.toLowerCase()] || <VscCode />}
                     </motion.div>
                     <h3 className="text-xl font-bold text-white">
                       {skill.name}
@@ -256,6 +305,12 @@ const MySkills = () => {
                 />
               </motion.div>
             ))}
+
+            {!loading && groupedSkills[activeTab].length === 0 && (
+              <div className="col-span-full text-center text-gray-400 py-10">
+                No skills added in this category yet.
+              </div>
+            )}
           </motion.div>
         </AnimatePresence>
 
@@ -268,12 +323,18 @@ const MySkills = () => {
         >
           {[
             {
-              value: `${skillCategories[activeTab].length}+`,
+              value: `${groupedSkills[activeTab].length}+`,
               label: "Technologies",
               color: "#00ADB5",
             },
             {
-              value: "85%",
+              value:
+                groupedSkills[activeTab].length > 0
+                  ? `${Math.round(
+                      groupedSkills[activeTab].reduce((sum, item) => sum + item.level, 0) /
+                        groupedSkills[activeTab].length
+                    )}%`
+                  : "0%",
               label: "Avg Proficiency",
               color: "#007CFF",
             },

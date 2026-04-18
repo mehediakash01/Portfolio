@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaGithub, FaExternalLinkAlt, FaArrowLeft, FaCheckCircle, FaLightbulb, FaExclamationTriangle } from "react-icons/fa";
 import {
@@ -15,8 +15,8 @@ import {
   SiPrisma,
   SiStripe,
 } from "react-icons/si";
-import { projectsData } from "./ProjectData";
-import { useLocation, useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
+import { api } from "../../lib/api";
 
 const techIcons = {
   react: { icon: <SiReact />, color: "#61DAFB" },
@@ -48,11 +48,45 @@ const techIcons = {
 };
 
 const ProjectDetails = () => {
-  const location = useLocation();
+  const { id } = useParams();
   const navigate = useNavigate();
+  const [project, setProject] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const id = location.pathname.split("/")[2];
-  const project = projectsData.find((pro) => pro.id === id);
+  useEffect(() => {
+    let mounted = true;
+
+    const loadProject = async () => {
+      try {
+        const data = await api.getProjectBySlug(id);
+        if (mounted) {
+          setProject(data);
+        }
+      } catch {
+        if (mounted) {
+          setProject(null);
+        }
+      } finally {
+        if (mounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadProject();
+
+    return () => {
+      mounted = false;
+    };
+  }, [id]);
+
+  if (loading) {
+    return (
+      <section className="min-h-screen bg-gradient-to-br from-[#0a0a0a] via-[#1a1a2e] to-[#16213e] text-white flex items-center justify-center px-6">
+        <p className="text-gray-300 text-lg">Loading project...</p>
+      </section>
+    );
+  }
 
   if (!project) {
     return (

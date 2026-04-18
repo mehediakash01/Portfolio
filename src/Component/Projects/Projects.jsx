@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ProjectCard } from "./ProjectCard";
-import { projectsData } from "./ProjectData";
+import { api } from "../../lib/api";
 
 const Projects = () => {
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
   const [filter, setFilter] = useState("all");
   const [showAll, setShowAll] = useState(false);
 
@@ -13,7 +16,7 @@ const Projects = () => {
       ["react", "nextjs", "tailwind", "typescript"].includes(t.toLowerCase())
     );
     const hasBackend = techArray.some((t) =>
-      ["node", "nodejs", "express", "expressjs", "mongodb", "prisma", "sql"].includes(
+      ["node", "nodejs", "express", "expressjs", "mongodb", "prisma", "sql", "postgres", "postgresql"].includes(
         t.toLowerCase()
       )
     );
@@ -24,10 +27,14 @@ const Projects = () => {
     return "fullstack";
   };
 
-  const categorizedProjects = projectsData.map((p) => ({
-    ...p,
-    category: getCategoryFromTech(p.tech),
-  }));
+  const categorizedProjects = useMemo(
+    () =>
+      projects.map((project) => ({
+        ...project,
+        category: getCategoryFromTech(project.tech || []),
+      })),
+    [projects]
+  );
 
   const categories = [
     "all",
@@ -45,6 +52,33 @@ const Projects = () => {
     filter === "all"
       ? categorizedProjects
       : categorizedProjects.filter((p) => p.category === filter);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadProjects = async () => {
+      try {
+        const result = await api.getProjects();
+        if (isMounted) {
+          setProjects(result);
+        }
+      } catch (error) {
+        if (isMounted) {
+          setLoadError(error.message || "Failed to load projects");
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadProjects();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const previewCount = 3;
   const visibleProjects = showAll
@@ -108,6 +142,14 @@ const Projects = () => {
 
         {/* Projects Grid */}
         <div className="w-11/12 mx-auto max-w-7xl">
+          {loading && (
+            <div className="text-center py-12 text-gray-400">Loading projects...</div>
+          )}
+
+          {!loading && loadError && (
+            <div className="text-center py-12 text-red-300">{loadError}</div>
+          )}
+
           <AnimatePresence mode="wait">
             <motion.div
               key={filter}
@@ -117,14 +159,15 @@ const Projects = () => {
               transition={{ duration: 0.3 }}
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
             >
-              {visibleProjects.map((project, index) => (
+              {!loading &&
+                visibleProjects.map((project, index) => (
                 <ProjectCard key={project.id} project={project} index={index} />
               ))}
             </motion.div>
           </AnimatePresence>
 
           {/* No results */}
-          {filteredProjects.length === 0 && (
+          {!loading && filteredProjects.length === 0 && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -136,7 +179,7 @@ const Projects = () => {
             </motion.div>
           )}
 
-          {filteredProjects.length > previewCount && (
+          {!loading && filteredProjects.length > previewCount && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -164,7 +207,7 @@ const Projects = () => {
         >
           {[
             {
-              value: `20+`,
+              value: `${projects.length}+`,
               label: "Projects Completed",
               icon: "🚀",
             },

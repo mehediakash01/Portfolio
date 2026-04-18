@@ -1,0 +1,55 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+}
+
+enum ProjectStatus {
+    draft
+    published
+}
+
+model Project {
+    id          String        @id @default(cuid())
+    slug        String        @unique
+    title       String
+    summary     String
+    description String
+    image       String
+    liveUrl     String
+    githubUrl   String
+    glowColor   String        @default("from-cyan-500 to-blue-500")
+    featured    Boolean       @default(false)
+    status      ProjectStatus @default(published)
+    tech        Json
+    features    Json
+    createdAt   DateTime      @default(now())
+    updatedAt   DateTime      @updatedAt
+}
+
+model Skill {
+    id        String   @id @default(cuid())
+    name      String
+    category  String
+    level     Int
+    color     String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([category])
+}
+
+model AnalyticsEvent {
+    id        BigInt   @id @default(autoincrement())
+    sessionId String
+    eventType String   @default("page_view")
+    path      String
+    referrer  String?
+    userAgent String?
+    createdAt DateTime @default(now())
+
+    @@index([createdAt])
+    @@index([path])
+}
