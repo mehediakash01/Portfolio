@@ -64,6 +64,10 @@ Configure dashboard auth variables in `backend/.env`:
 
 - `ADMIN_JWT_SECRET` (long random secret)
 - `ADMIN_PASSWORD_HASH` (bcrypt hash)
+- `CLOUDINARY_CLOUD_NAME`
+- `CLOUDINARY_API_KEY`
+- `CLOUDINARY_API_SECRET`
+- `CLOUDINARY_FOLDER` (optional)
 
 Generate a bcrypt password hash:
 
@@ -120,6 +124,11 @@ Capabilities:
 - Add skill
 - Delete skill
 - View analytics overview and live metrics
+
+Project image behavior:
+
+- Dashboard uploads image files directly to Cloudinary via secure backend endpoint.
+- You no longer need to paste image URLs while creating projects.
 
 ## Analytics
 

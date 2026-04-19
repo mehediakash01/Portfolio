@@ -46,6 +46,9 @@ const Dashboard = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [authError, setAuthError] = useState("");
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState("");
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   const sortedSkills = useMemo(
     () => [...skills].sort((a, b) => b.level - a.level),
@@ -166,6 +169,46 @@ const Dashboard = () => {
     setOverview(analyticsData);
   };
 
+  const handleImageChange = (event) => {
+    const file = event.target.files?.[0] || null;
+
+    if (imagePreview) {
+      URL.revokeObjectURL(imagePreview);
+    }
+
+    setImageFile(file);
+
+    if (!file) {
+      setImagePreview("");
+      return;
+    }
+
+    setImagePreview(URL.createObjectURL(file));
+    setProjectForm((prev) => ({ ...prev, image: "" }));
+  };
+
+  const uploadSelectedImage = async () => {
+    if (projectForm.image) {
+      return projectForm.image;
+    }
+
+    if (!imageFile) {
+      throw new Error("Please select a project image");
+    }
+
+    setUploadingImage(true);
+
+    try {
+      const uploaded = await api.uploadProjectImage(imageFile);
+      const imageUrl = uploaded.url;
+
+      setProjectForm((prev) => ({ ...prev, image: imageUrl }));
+      return imageUrl;
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
   const handleProjectSubmit = async (event) => {
     event.preventDefault();
     setBusy(true);
@@ -173,12 +216,18 @@ const Dashboard = () => {
     setSuccess("");
 
     try {
+      const imageUrl = await uploadSelectedImage();
+
       await api.addProject({
         ...projectForm,
+        image: imageUrl,
         tech: parseList(projectForm.tech),
         features: parseList(projectForm.features),
       });
+
       setProjectForm(initialProjectForm);
+      setImageFile(null);
+      setImagePreview("");
       await refreshAfterMutation();
       setSuccess("Project added successfully");
     } catch (submitError) {
@@ -426,14 +475,26 @@ const Dashboard = () => {
               required
             />
             <input
-              className="w-full rounded-lg bg-[#0f0f0f] border border-[#333] px-3 py-2"
-              placeholder="Image URL"
-              value={projectForm.image}
-              onChange={(event) =>
-                setProjectForm((prev) => ({ ...prev, image: event.target.value }))
-              }
-              required
+              type="file"
+              accept="image/*"
+              className="w-full rounded-lg bg-[#0f0f0f] border border-[#333] px-3 py-2 file:mr-3 file:rounded-md file:border-0 file:bg-[#00ADB5]/20 file:px-3 file:py-2 file:text-[#00ADB5]"
+              onChange={handleImageChange}
+              required={!projectForm.image}
             />
+
+            {imagePreview && (
+              <img
+                src={imagePreview}
+                alt="Selected project"
+                className="w-full h-44 object-cover rounded-lg border border-[#333]"
+              />
+            )}
+
+            {projectForm.image && (
+              <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-200">
+                Image uploaded successfully.
+              </div>
+            )}
             <input
               className="w-full rounded-lg bg-[#0f0f0f] border border-[#333] px-3 py-2"
               placeholder="Live URL"
@@ -506,10 +567,10 @@ const Dashboard = () => {
 
             <button
               type="submit"
-              disabled={busy}
+              disabled={busy || uploadingImage}
               className="w-full rounded-lg bg-gradient-to-r from-[#00ADB5] to-[#007CFF] py-2 font-semibold disabled:opacity-50"
             >
-              {busy ? "Saving..." : "Add Project"}
+              {uploadingImage ? "Uploading image..." : busy ? "Saving..." : "Add Project"}
             </button>
           </form>
 

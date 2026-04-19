@@ -7,6 +7,7 @@ import authRoutes from "./routes/auth.js";
 import projectRoutes from "./routes/projects.js";
 import skillRoutes from "./routes/skills.js";
 import analyticsRoutes from "./routes/analytics.js";
+import uploadRoutes from "./routes/uploads.js";
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/skills", skillRoutes);
 app.use("/api/analytics", analyticsRoutes);
+app.use("/api/uploads", uploadRoutes);
 
 app.use((err, _req, res, next) => {
   void next;

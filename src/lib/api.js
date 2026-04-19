@@ -49,6 +49,16 @@ export const api = {
 
   getAdminSession: () => request("/api/auth/session"),
 
+  uploadProjectImage: (file) => {
+    const formData = new FormData();
+    formData.append("image", file);
+
+    return request("/api/uploads/image", {
+      method: "POST",
+      body: formData,
+    });
+  },
+
   addProject: (payload) =>
     request("/api/projects", {
       method: "POST",
