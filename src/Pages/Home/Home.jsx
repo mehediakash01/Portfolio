@@ -8,13 +8,12 @@ import Contact from "../Contact/Contact"
 import Container from "../../Component/Container/Container";
 const Home = () => {
   return (
-    <div className="bg-[#0a0a0a]">
+    <div className="bg-[#050816]">
       <Navbar />
       
-      {/* Each section gets its own Container with ID */}
-      <Container id="home" >
+      <section id="home">
         <Banner />
-      </Container>
+      </section>
 
       <Container id="about" className="py-20">
         <About />

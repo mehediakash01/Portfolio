@@ -1,8 +1,3 @@
-import React from "react";
-import { IoMdDownload } from "react-icons/io";
-import { FaBriefcase } from "react-icons/fa";
-
-
 const  Container = ({ children, id, className = "" }) => {
   return (
     <section
