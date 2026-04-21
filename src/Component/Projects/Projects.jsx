@@ -207,12 +207,12 @@ const Projects = () => {
         >
           {[
             {
-              value: `${projects.length}+`,
+              value: `50+`,
               label: "Projects Completed",
               icon: "🚀",
             },
             { value: "100%", label: "Client Satisfaction", icon: "⭐" },
-            { value: "15K+", label: "Lines of Code", icon: "💻" },
+            { value: "50K+", label: "Lines of Code", icon: "💻" },
           ].map((stat, index) => (
             <motion.div
               key={index}

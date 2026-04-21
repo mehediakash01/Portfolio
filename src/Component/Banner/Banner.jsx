@@ -16,7 +16,7 @@ const fluidPalette = {
 const expertise = ["React 19", "Node.js", "Tailwind", "Prisma"];
 
 const stats = [
-  { value: "05+", label: "Shipped projects" },
+  { value: "50+", label: "Shipped projects" },
   { value: "03+", label: "Years refining products" },
   { value: "24h", label: "Typical response time" },
 ];
