@@ -11,7 +11,7 @@ import uploadRoutes from "./routes/uploads.js";
 
 const app = express();
 
-const defaultOrigins = ["http://localhost:5173", "http://127.0.0.1:5173"];
+const defaultOrigins = ["http://localhost:5173", "http://mehedi-akash01.surge.sh"];
 const configuredOrigins = [process.env.FRONTEND_URLS, process.env.FRONTEND_URL]
   .filter(Boolean)
   .flatMap((value) =>
@@ -61,4 +61,7 @@ const port = Number(process.env.PORT || 4000);
 
 app.listen(port, () => {
   console.log(`Portfolio API listening on http://localhost:${port}`);
+});
+app.get("/", (req, res) => {
+  res.send("API is running 🚀");
 });
