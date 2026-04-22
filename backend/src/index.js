@@ -11,9 +11,30 @@ import uploadRoutes from "./routes/uploads.js";
 
 const app = express();
 
+const defaultOrigins = ["http://localhost:5173", "http://127.0.0.1:5173"];
+const configuredOrigins = [process.env.FRONTEND_URLS, process.env.FRONTEND_URL]
+  .filter(Boolean)
+  .flatMap((value) =>
+    value
+      .split(",")
+      .map((origin) => origin.trim())
+      .filter(Boolean)
+  );
+const allowedOrigins = new Set([...defaultOrigins, ...configuredOrigins]);
+
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:5173",
+    origin: (requestOrigin, callback) => {
+      if (!requestOrigin) {
+        return callback(null, true);
+      }
+
+      if (allowedOrigins.has(requestOrigin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("CORS origin not allowed"));
+    },
     credentials: true,
   })
 );

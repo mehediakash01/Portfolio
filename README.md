@@ -152,5 +152,52 @@ Live data is streamed to dashboard via Server-Sent Events (SSE).
 - Keep `ADMIN_JWT_SECRET` and `ADMIN_PASSWORD_HASH` only in server environment variables.
 - Use a strong unique password for dashboard access.
 
+## Deploy Frontend (Surge) + Backend (Separate Host)
+
+Surge serves static files only. Your Express API and PostgreSQL must be deployed separately.
+
+### 1) Deploy backend first
+
+Use a Node host (for example Render/Railway/Fly.io) and configure these backend environment variables:
+
+- `NODE_ENV=production`
+- `PORT=4000` (or provider port)
+- `DATABASE_URL=postgresql://...`
+- `ADMIN_JWT_SECRET=<long-random-secret>`
+- `ADMIN_PASSWORD_HASH=<bcrypt-hash>`
+- `FRONTEND_URLS=https://your-portfolio.surge.sh`
+- `COOKIE_SAME_SITE=none`
+- `COOKIE_SECURE=true`
+- `CLOUDINARY_CLOUD_NAME=...`
+- `CLOUDINARY_API_KEY=...`
+- `CLOUDINARY_API_SECRET=...`
+- `CLOUDINARY_FOLDER=portfolio-projects`
+
+If you use a custom frontend domain too, include both values in `FRONTEND_URLS`:
+
+- `FRONTEND_URLS=https://your-portfolio.surge.sh,https://www.yourdomain.com`
+
+### 2) Point frontend to backend API
+
+Create/update frontend `.env.production`:
+
+```bash
+VITE_API_URL="https://your-backend-host.com"
+```
+
+Then build and deploy to Surge:
+
+```bash
+npm run build
+surge dist your-portfolio.surge.sh
+```
+
+### 3) Verify auth and API
+
+- Open `/dashboard`
+- Log in as admin
+- Confirm requests to `https://your-backend-host.com/api/...` succeed
+- Confirm cookie is set with `Secure` and `SameSite=None`
+
 
 

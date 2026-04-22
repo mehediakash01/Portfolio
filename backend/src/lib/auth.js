@@ -6,6 +6,50 @@ import jwt from "jsonwebtoken";
 const COOKIE_NAME = "portfolio_admin_session";
 const SESSION_TTL_SEC = 8 * 60 * 60;
 
+const parseBoolean = (value) => {
+  if (typeof value !== "string") {
+    return null;
+  }
+
+  const normalized = value.trim().toLowerCase();
+
+  if (normalized === "true") {
+    return true;
+  }
+
+  if (normalized === "false") {
+    return false;
+  }
+
+  return null;
+};
+
+const getCookieSameSite = () => {
+  const configuredSameSite = `${process.env.COOKIE_SAME_SITE ?? ""}`
+    .trim()
+    .toLowerCase();
+
+  if (["strict", "lax", "none"].includes(configuredSameSite)) {
+    return configuredSameSite;
+  }
+
+  return process.env.NODE_ENV === "production" ? "none" : "lax";
+};
+
+const getCookieSecure = (sameSite) => {
+  const configuredSecure = parseBoolean(process.env.COOKIE_SECURE);
+
+  if (configuredSecure !== null) {
+    if (sameSite === "none" && configuredSecure === false) {
+      return true;
+    }
+
+    return configuredSecure;
+  }
+
+  return process.env.NODE_ENV === "production" || sameSite === "none";
+};
+
 const getJwtSecret = () => {
   const secret = process.env.ADMIN_JWT_SECRET;
 
@@ -62,13 +106,19 @@ export const verifyAdminToken = (token) => {
   }
 };
 
-const getCookieOptions = () => ({
-  httpOnly: true,
-  sameSite: "strict",
-  secure: process.env.NODE_ENV === "production",
-  maxAge: SESSION_TTL_SEC * 1000,
-  path: "/",
-});
+const getCookieOptions = () => {
+  const sameSite = getCookieSameSite();
+  const cookieDomain = `${process.env.COOKIE_DOMAIN ?? ""}`.trim();
+
+  return {
+    httpOnly: true,
+    sameSite,
+    secure: getCookieSecure(sameSite),
+    maxAge: SESSION_TTL_SEC * 1000,
+    path: "/",
+    ...(cookieDomain ? { domain: cookieDomain } : {}),
+  };
+};
 
 export const setAdminCookie = (response, token) => {
   response.cookie(COOKIE_NAME, token, getCookieOptions());
