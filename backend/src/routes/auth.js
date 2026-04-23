@@ -39,7 +39,7 @@ router.post("/login", loginLimiter, async (request, response) => {
   }
 
   const token = issueAdminToken();
-  setAdminCookie(response, token);
+  setAdminCookie(request, response, token);
 
   return response.json({ ok: true });
 });
@@ -60,8 +60,8 @@ router.get("/session", (request, response) => {
   return response.json({ authenticated: true });
 });
 
-router.post("/logout", (_request, response) => {
-  clearAdminCookie(response);
+router.post("/logout", (request, response) => {
+  clearAdminCookie(request, response);
   return response.json({ ok: true });
 });
 

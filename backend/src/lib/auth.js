@@ -24,10 +24,24 @@ const parseBoolean = (value) => {
   return null;
 };
 
-const getCookieSameSite = () => {
+const isLocalOrigin = (origin) => {
+  if (!origin) {
+    return false;
+  }
+
+  return origin.includes("localhost") || origin.includes("127.0.0.1");
+};
+
+const getCookieSameSite = (request) => {
   const configuredSameSite = `${process.env.COOKIE_SAME_SITE ?? ""}`
     .trim()
     .toLowerCase();
+
+  const requestOrigin = `${request?.headers?.origin ?? ""}`.trim();
+
+  if (process.env.NODE_ENV === "production" && requestOrigin && !isLocalOrigin(requestOrigin)) {
+    return "none";
+  }
 
   if (["strict", "lax", "none"].includes(configuredSameSite)) {
     return configuredSameSite;
@@ -106,8 +120,8 @@ export const verifyAdminToken = (token) => {
   }
 };
 
-const getCookieOptions = () => {
-  const sameSite = getCookieSameSite();
+const getCookieOptions = (request) => {
+  const sameSite = getCookieSameSite(request);
   const cookieDomain = `${process.env.COOKIE_DOMAIN ?? ""}`.trim();
 
   return {
@@ -120,12 +134,12 @@ const getCookieOptions = () => {
   };
 };
 
-export const setAdminCookie = (response, token) => {
-  response.cookie(COOKIE_NAME, token, getCookieOptions());
+export const setAdminCookie = (request, response, token) => {
+  response.cookie(COOKIE_NAME, token, getCookieOptions(request));
 };
 
-export const clearAdminCookie = (response) => {
-  response.clearCookie(COOKIE_NAME, getCookieOptions());
+export const clearAdminCookie = (request, response) => {
+  response.clearCookie(COOKIE_NAME, getCookieOptions(request));
 };
 
 export const readAdminTokenFromRequest = (request) => request.cookies?.[COOKIE_NAME] || null;
