@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;700&display=swap");
 @import "tailwindcss";
 @plugin "daisyui";
 
@@ -27,8 +27,25 @@
     font-family: "Space Grotesk", "Inter", sans-serif;
   }
 
+  .font-editorial-mono {
+    font-family: "JetBrains Mono", monospace;
+  }
+
+  .marquee-track {
+    animation: marquee 22s linear infinite;
+  }
+
   .fade-in {
     animation: fadeIn 0.5s ease-in-out;
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
   }
 
   @keyframes fadeIn {

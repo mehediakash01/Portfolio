@@ -15,7 +15,7 @@ const Home = () => {
         <Banner />
       </section>
 
-      <Container id="about" className="py-20">
+      <Container id="about" className="py-0 !bg-[#050505]">
         <About />
       </Container>
 
