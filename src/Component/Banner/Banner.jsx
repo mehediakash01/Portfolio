@@ -1,24 +1,40 @@
 import { motion } from "framer-motion";
-import { FaArrowRight, FaBriefcase } from "react-icons/fa";
-import { HiSparkles } from "react-icons/hi2";
-import { IoMdDownload } from "react-icons/io";
-import { TypeAnimation } from "react-type-animation";
-import LiquidEtherBackground from "./LiquidEtherBackground";
+import { HiArrowUpRight } from "react-icons/hi2";
+import Marquee from "react-fast-marquee";
+import {
+  SiAib,
+  SiBetterstack,
+  SiDocker,
+  SiExpress,
+  SiFramer,
+  SiMongodb,
+  SiNextdotjs,
+  SiNodedotjs,
+  SiPostgresql,
+  SiPrisma,
+  SiReact,
+  SiShadcnui,
+  SiStrapi,
+  SiTailwindcss,
+  SiTypescript,
+} from "react-icons/si";
 
-const fluidPalette = {
-  base: "#050816",
-  deep: "#09101d",
-  primary: "#00ADB5",
-  secondary: "#007CFF",
-  surface: "#16213e",
-};
-
-const expertise = ["React 19", "Node.js", "Tailwind", "Prisma"];
-
-const stats = [
-  { value: "50+", label: "Shipped projects" },
-  { value: "03+", label: "Years refining products" },
-  { value: "24h", label: "Typical response time" },
+const techStack = [
+  { label: "React", icon: SiReact, color: "text-[#61DAFB]" },
+  { label: "Next.js", icon: SiNextdotjs, color: "text-white" },
+  { label: "Typescript", icon: SiTypescript, color: "text-blue-500" },
+  { label: "PostgreSQL", icon: SiPostgresql, color: "text-blue-400" },
+  { label: "Prisma", icon: SiPrisma, color: "text-white" },
+  { label: "Docker", icon: SiDocker, color: "text-blue-500" },
+  { label: "shadcn ui", icon: SiShadcnui, color: "text-white" },
+  { label: "Node", icon: SiNodedotjs, color: "text-[#83CD29]" },
+  { label: "Express", icon: SiExpress, color: "text-white" },
+  { label: "MongoDB", icon: SiMongodb, color: "text-[#47A248]" },
+  { label: "Tailwind", icon: SiTailwindcss, color: "text-[#38BDF8]" },
+  { label: "Framer", icon: SiFramer, color: "text-[#F5F5F5]" },
+  { label: "Stripe", icon: SiStrapi, color: "text-blue-500" },
+  { label: "Ai", icon: SiAib, color: "text-white" },
+  { label: "better-auth", icon: SiBetterstack, color: "text-yellow" },
 ];
 
 const Banner = () => {
@@ -35,145 +51,140 @@ const Banner = () => {
   };
 
   return (
-    <div className="relative isolate overflow-hidden text-white">
-      <LiquidEtherBackground palette={fluidPalette} />
+    <div className="relative isolate overflow-hidden bg-[#050505] text-white">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_34%,rgba(245,158,11,0.24),transparent_24%),linear-gradient(to_bottom,rgba(255,255,255,0.03),transparent_18%)]" />
 
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-[8%] top-[18%] h-48 w-48 rounded-full bg-[#00ADB5]/10 blur-3xl" />
-        <div className="absolute right-[12%] top-[12%] h-56 w-56 rounded-full bg-[#007CFF]/10 blur-3xl" />
-        <div className="absolute bottom-[10%] left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-[#16213e]/35 blur-3xl" />
+        <div className="absolute left-1/2 top-[34%] h-[20rem] w-[20rem] -translate-x-1/2 rounded-full bg-[#f59e0b]/18 blur-3xl sm:h-[28rem] sm:w-[28rem] lg:h-[34rem] lg:w-[34rem]" />
+        <div className="absolute left-1/2 top-[38%] h-[14rem] w-[14rem] -translate-x-1/2 rounded-full border border-white/8 sm:h-[18rem] sm:w-[18rem] lg:h-[22rem] lg:w-[22rem]" />
       </div>
 
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl items-center justify-center px-6 pb-24 pt-32">
-        <div className="w-full max-w-5xl text-center">
+      <div className="relative mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-4 pb-10 pt-24 sm:px-6 sm:pt-28 md:pt-32 lg:px-10">
+
+
+        <div className="relative mt-8 min-h-[34rem] sm:min-h-[38rem] md:min-h-[40rem] lg:mt-10 lg:min-h-[42rem] lg:block">
+          <div className="grid gap-8 sm:gap-10 md:gap-12 lg:grid-cols-3 lg:gap-20 ">
+            <motion.h1
+              initial={{ opacity: 0, x: -96 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.85, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+              className="font-display max-w-xl text-center text-[2.2rem] font-black uppercase leading-[0.9] tracking-[-0.05em] text-white sm:text-[3.4rem] md:text-[4.3rem] lg:text-left lg:text-[6.5rem] xl:text-[7.5rem]"
+            >
+              Mehedi 
+            </motion.h1>
+            <motion.h1
+              initial={{ opacity: 0, x: -96 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.85, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+              className="font-display max-w-xl text-center text-[2.2rem] font-black uppercase leading-[0.9] tracking-[-0.05em] text-white sm:text-[3.4rem] md:text-[4.3rem] lg:text-left lg:text-[6.5rem] xl:text-[7.5rem]"
+            >
+              Hasan 
+            </motion.h1>
+
+            <motion.h1
+              initial={{ opacity: 0, x: 96 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.85, delay: 0.14, ease: [0.22, 1, 0.36, 1] }}
+              className="font-display text-center text-[2.1rem] font-black uppercase leading-[0.9] tracking-[-0.05em] text-white sm:text-[3.2rem] md:text-[4rem] lg:justify-self-end lg:pt-2 lg:text-right lg:text-[6rem] xl:text-[7rem] "
+            >
+              Akash
+            </motion.h1>
+          </div>
+          <div className="mt-2 flex flex-col items-center justify-center gap-2 sm:mt-4 sm:gap-3 md:flex-row md:items-center md:justify-between lg:mt-0">
+            <motion.h1
+              initial={{ opacity: 0, x: -96 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.85, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+              className="font-display max-w-xl text-center text-[1rem] font-black uppercase tracking-[0.2em] text-white/70 sm:text-[1.5rem] sm:tracking-[0.3em] md:text-[2.1rem] md:tracking-[0.35em] lg:pt-14 lg:ml-12 lg:text-[4.5rem] xl:text-[3rem]"
+            >
+              FullStack  
+            </motion.h1>
+            <motion.h1
+              initial={{ opacity: 0, x: -96 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.85, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+              className="font-display max-w-xl text-center text-[1rem] font-black uppercase tracking-[0.2em] text-white/70 sm:text-[1.5rem] sm:tracking-[0.3em] md:text-[2.1rem] md:tracking-[0.35em] lg:pt-14 lg:mr-12 lg:text-[6.5rem] xl:text-[3rem]"
+            >
+              Developer 
+            </motion.h1>
+
+          
+          </div>
+          
           <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-4 py-2 text-sm text-white/80 backdrop-blur-md"
+            initial={{ opacity: 0, scale: 0.92, y: 24 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
+            className="pointer-events-none relative z-20 mx-auto mt-4 w-[12rem] sm:mt-6 sm:w-[16rem] md:w-[20rem] lg:absolute lg:left-1/2 lg:top-1/2 lg:w-[29rem] lg:-translate-x-1/2 lg:-translate-y-1/2 lg:ml-6"
           >
-            <HiSparkles className="text-[#00ADB5]" />
-            Interactive, high-performance interfaces with premium motion
+            <div className="absolute inset-x-8 bottom-5 h-10 rounded-full bg-black/65 blur-2xl" />
+            <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-b from-white/10 via-transparent to-transparent blur-xl" />
+            <img
+              src="/portfolio_Hero.png"
+              alt="Portrait of Mehedi Hasan Akash"
+              className="relative z-10 w-full object-contain drop-shadow-[0_30px_80px_rgba(0,0,0,0.75)]"
+            />
           </motion.div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 22 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, delay: 0.08, ease: "easeOut" }}
-            className="mx-auto mt-8 max-w-4xl text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl"
-          >
-            <span className="block text-white/95">Mehedi Hasan Akash</span>
-            <span className="mt-3 block bg-gradient-to-r from-[#00ADB5] via-[#8cecff] to-[#007CFF] bg-clip-text text-transparent">
-              crafting fluid digital experiences that feel alive
-            </span>
-          </motion.h1>
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
+          className="relative z-30 mt-6 max-w-3xl pt-2 sm:pt-4 md:pt-6 lg:mt-2 lg:pt-16"
+        >
+                  <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, ease: "easeOut" }}
+          className="inline-flex w-fit items-center gap-3 self-center rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-[0.7rem] font-medium uppercase tracking-[0.28em] text-white/68 backdrop-blur-md lg:self-start"
+        >
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400/55" />
+            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400" />
+          </span>
+          Open for work
+        </motion.div>
+      
+          <p className="mt-5 max-w-2xl text-sm leading-7 text-white/58 sm:text-base">
+            Building premium web products with deliberate <br /> frontend detail, clean backend
+            systems, and <br /> motion that adds depth instead of noise.
+          </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.16, ease: "easeOut" }}
-            className="mt-8 text-xl font-medium text-white/80 sm:text-2xl"
-          >
-            <span className="text-white/55">Building as a </span>
-            <span className="bg-gradient-to-r from-[#00ADB5] to-[#007CFF] bg-clip-text text-transparent">
-              <TypeAnimation
-                sequence={[
-                  "MERN Stack Developer",
-                  2000,
-                  "React UI Engineer",
-                  2000,
-                  "Full Stack Problem Solver",
-                  2000,
-                  "Interactive Product Builder",
-                  2000,
-                ]}
-                wrapper="span"
-                speed={52}
-                repeat={Infinity}
-              />
-            </span>
-          </motion.div>
-
-          <motion.p
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, delay: 0.24, ease: "easeOut" }}
-            className="mx-auto mt-8 max-w-3xl text-base leading-8 text-white/68 sm:text-lg"
-          >
-            I design and build polished web products with strong frontend craft, clean
-            backend architecture, and a sharp eye for motion, clarity, and perceived
-            quality.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, delay: 0.32, ease: "easeOut" }}
-            className="mt-10 flex flex-wrap items-center justify-center gap-4"
-          >
-            <button
-              onClick={() => scrollToSection("projects")}
-              className="group inline-flex items-center gap-3 rounded-2xl bg-gradient-to-r from-[#00ADB5] to-[#007CFF] px-7 py-4 font-semibold text-white shadow-[0_16px_50px_rgba(0,124,255,0.26)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_20px_60px_rgba(0,173,181,0.34)]"
-            >
-              View Projects
-              <FaArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
-            </button>
-
-            <a
-              href="/MERN.pdf"
-              download
-              className="inline-flex items-center gap-3 rounded-2xl border border-white/12 bg-[#08111d]/55 px-7 py-4 font-semibold text-white/88 backdrop-blur-xl transition-all duration-300 hover:border-[#00ADB5]/40 hover:bg-[#0d1725]/72"
-            >
-              <IoMdDownload className="text-lg text-[#00ADB5]" />
-              Download Resume
-            </a>
-
+          <div className="mt-8 ">
             <button
               onClick={() => scrollToSection("contact")}
-              className="inline-flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] px-7 py-4 font-semibold text-white/82 backdrop-blur-xl transition-all duration-300 hover:border-[#007CFF]/45 hover:text-white"
+              className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#050505] transition-transform duration-300 hover:scale-[1.02]"
             >
-              <FaBriefcase className="text-[#007CFF]" />
-              Let&apos;s Work Together
+              Schedule Call
+              <HiArrowUpRight className="text-base" />
             </button>
-          </motion.div>
+          </div>
+        </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, delay: 0.4, ease: "easeOut" }}
-            className="mt-10 flex flex-wrap items-center justify-center gap-3"
-          >
-            {expertise.map((item) => (
-              <span
-                key={item}
-                className="rounded-full border border-white/10 bg-white/[0.045] px-4 py-2 text-sm text-white/72 backdrop-blur-md"
-              >
-                {item}
-              </span>
-            ))}
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.48, ease: "easeOut" }}
-            className="mx-auto mt-14 grid max-w-4xl gap-4 sm:grid-cols-3"
-          >
-            {stats.map((stat) => (
-              <div
-                key={stat.label}
-                className="rounded-3xl border border-white/10 bg-[#09111d]/42 px-6 py-6 backdrop-blur-xl"
-              >
-                <div className="bg-gradient-to-r from-[#00ADB5] to-[#007CFF] bg-clip-text text-3xl font-bold text-transparent">
-                  {stat.value}
-                </div>
-                <p className="mt-2 text-sm uppercase tracking-[0.18em] text-white/45">
-                  {stat.label}
-                </p>
-              </div>
-            ))}
-          </motion.div>
         </div>
+
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.38, ease: "easeOut" }}
+          className="relative z-30 mt-8 sm:mt-10 md:mt-12 lg:absolute lg:bottom-8 lg:left-1/2 lg:mt-0 lg:w-max lg:-translate-x-1/2"
+        >
+          <div className="flex flex-wrap items-center justify-center gap-3 rounded-[1.75rem] border border-white/10 bg-white/[0.05] px-3 py-3 shadow-[0_24px_80px_rgba(0,0,0,0.45)] backdrop-blur-md sm:px-6 sm:py-4">
+           
+
+           
+           <Marquee pauseOnHover={true} speed={100} > {techStack.map(({ label, icon: Icon, color }) => (
+              <div
+                key={label}
+                className="flex items-center gap-2 rounded-full border border-white/8 bg-black/20 px-3 py-2 text-sm text-white/78"
+              >
+                <Icon className={`text-base ${color}`} />
+                <span>{label}</span>
+              </div>
+            ))}</Marquee> 
+          </div>
+        </motion.div>
       </div>
     </div>
   );

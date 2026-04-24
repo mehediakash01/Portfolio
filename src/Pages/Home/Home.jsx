@@ -8,7 +8,7 @@ import Contact from "../Contact/Contact"
 import Container from "../../Component/Container/Container";
 const Home = () => {
   return (
-    <div className="bg-[#050816]">
+    <div className="bg-[#050505]">
       <Navbar />
       
       <section id="home">

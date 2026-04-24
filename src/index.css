@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap");
 @import "tailwindcss";
 @plugin "daisyui";
 
@@ -8,11 +9,24 @@
   --color-secondary: #007CFF;
   --color-accent: #1E1E1E;
 }
+
+@layer base {
+  body {
+    background-color: #050505;
+    color: #ffffff;
+    font-family: "Inter", sans-serif;
+  }
+}
+
 .active {
      @apply text-primary font-semibold border-b-2 border-primary;
 }
 
 @layer utilities {
+  .font-display {
+    font-family: "Space Grotesk", "Inter", sans-serif;
+  }
+
   .fade-in {
     animation: fadeIn 0.5s ease-in-out;
   }
