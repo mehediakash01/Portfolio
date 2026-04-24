@@ -11,6 +11,10 @@ import uploadRoutes from "./routes/uploads.js";
 
 const app = express();
 
+if (process.env.NODE_ENV === "production") {
+  app.set("trust proxy", 1);
+}
+
 const defaultOrigins = ["http://localhost:5173", "http://mehedi-akash01.surge.sh"];
 const configuredOrigins = [process.env.FRONTEND_URLS, process.env.FRONTEND_URL]
   .filter(Boolean)

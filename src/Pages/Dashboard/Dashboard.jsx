@@ -130,6 +130,7 @@ const Dashboard = () => {
 
     try {
       await api.loginAdmin(password);
+      await api.getAdminSession();
       setPassword("");
       setIsAuthenticated(true);
       setError("");
@@ -318,6 +319,7 @@ const Dashboard = () => {
               type="password"
               className="w-full rounded-lg bg-[#0f0f0f] border border-[#333] px-3 py-2"
               placeholder="Admin password"
+              autoComplete="current-password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
               required

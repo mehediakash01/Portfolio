@@ -35,13 +35,17 @@ const CustomCursor = () => {
 
     const handleMouseEnter = (e) => {
       const target = e.target;
-      if (
-        target.tagName === 'A' ||
-        target.tagName === 'BUTTON' ||
-        target.onclick ||
-        target.classList.contains('cursor-pointer') ||
-        window.getComputedStyle(target).cursor === 'pointer'
-      ) {
+
+      if (!(target instanceof Element)) {
+        return;
+      }
+
+      const tagName = target.tagName;
+      const isInteractiveTag = tagName === 'A' || tagName === 'BUTTON';
+      const hasPointerClass = target.classList?.contains('cursor-pointer');
+      const hasPointerCursor = window.getComputedStyle(target).cursor === 'pointer';
+
+      if (isInteractiveTag || typeof target.onclick === 'function' || hasPointerClass || hasPointerCursor) {
         setIsHovering(true);
       }
     };

@@ -32,6 +32,19 @@ const isLocalOrigin = (origin) => {
   return origin.includes("localhost") || origin.includes("127.0.0.1");
 };
 
+const normalizeHost = (value) => `${value ?? ""}`.trim().toLowerCase().replace(/:\d+$/, "");
+
+const isCookieDomainCompatible = (requestHost, cookieDomain) => {
+  const host = normalizeHost(requestHost);
+  const domain = normalizeHost(cookieDomain).replace(/^\./, "");
+
+  if (!host || !domain) {
+    return false;
+  }
+
+  return host === domain || host.endsWith(`.${domain}`);
+};
+
 const getCookieSameSite = (request) => {
   const configuredSameSite = `${process.env.COOKIE_SAME_SITE ?? ""}`
     .trim()
@@ -123,6 +136,11 @@ export const verifyAdminToken = (token) => {
 const getCookieOptions = (request) => {
   const sameSite = getCookieSameSite(request);
   const cookieDomain = `${process.env.COOKIE_DOMAIN ?? ""}`.trim();
+  const requestHost = request?.headers?.host;
+  const domainOption =
+    cookieDomain && isCookieDomainCompatible(requestHost, cookieDomain)
+      ? { domain: cookieDomain }
+      : {};
 
   return {
     httpOnly: true,
@@ -130,7 +148,7 @@ const getCookieOptions = (request) => {
     secure: getCookieSecure(sameSite),
     maxAge: SESSION_TTL_SEC * 1000,
     path: "/",
-    ...(cookieDomain ? { domain: cookieDomain } : {}),
+    ...domainOption,
   };
 };
 
