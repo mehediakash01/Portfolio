@@ -1,265 +1,239 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { FaGraduationCap, FaUniversity, FaCertificate, FaAward } from "react-icons/fa";
-import { MdSchool } from "react-icons/md";
+import { useState } from "react";
+import { motion as Motion } from "framer-motion";
+
+const reveal = {
+  initial: { opacity: 0, y: 22 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.25 },
+  transition: { duration: 0.7, ease: [0.17, 0.67, 0.83, 0.67] },
+};
+
+const academicPoints = [
+  "Focus: Software Architecture & Advanced Systems.",
+  "Contribution: Active Tech Community Leadership.",
+  "Goal: Engineering scalable real-world solutions.",
+];
+
+const milestones = [
+  {
+    title: "Programming Hero Black Belt",
+    meta: "Oct 2025",
+    tag: "[ STATUS: ACHIEVED ]",
+    detail:
+      "Recognized for advanced full-stack execution, delivery discipline, and high-standard project completion.",
+    accent: true,
+  },
+  {
+    title: "HackFusion 2026",
+    meta: "IEEE CS LU SB",
+    tag: "[ MILESTONE: FINALIST ]",
+    detail:
+      "Successfully delivered a functional solution for the Advanced Systems track.",
+    supporting:
+      "Competed as a finalist in a high-pressure engineering environment. Executed complex problem-solving under a 24-hour development cycle.",
+  },
+  {
+    title: "Complete Web Development Course",
+    meta: "Programming Hero, 2024",
+    tag: "[ FOUNDATION: COMPLETED ]",
+    detail: "MERN Stack mastery and industry-standard best practices.",
+  },
+];
+
+const cellClass =
+  "group/cell relative overflow-hidden border border-white/10 bg-white/[0.02] p-6 transition-colors duration-500 hover:bg-white/[0.04] sm:p-7";
+
+const PulseDot = ({ amber = false }) => (
+  <span className="relative flex h-4 w-4 items-center justify-center" aria-hidden="true">
+    <Motion.span
+      className={`h-px w-px rounded-full ${amber ? "bg-[#f59e0b]" : "bg-white/70"}`}
+      animate={{ opacity: [0.35, 1, 0.35], scale: [1, 4.2, 1] }}
+      transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+      style={{
+        boxShadow: amber
+          ? "0 0 16px rgba(245,158,11,0.95)"
+          : "0 0 10px rgba(255,255,255,0.55)",
+      }}
+    />
+  </span>
+);
+
+const HoverGlass = ({ active, warm = false }) =>
+  active ? (
+    <Motion.div
+      layoutId="education-liquid-glass"
+      className={`absolute inset-x-5 top-8 h-24 rounded-full blur-xl ${
+        warm ? "bg-[#f59e0b]/12" : "bg-white/[0.08]"
+      }`}
+      transition={{ type: "spring", bounce: 0.16, duration: 0.72 }}
+    />
+  ) : null;
 
 const Education = () => {
-  const educationData = [
-    {
-      type: "degree",
-      icon: <FaUniversity />,
-      title: "Bachelor of Science in Computer Science & Engineering",
-      institution: "Leading University",
-      location: "Sylhet, Bangladesh",
-      period: "2023 - 2027",
-      status: "Undergraduate Student",
-      color: "#00ADB5",
-      details: [
-        "Focus on Software Engineering & Web Development",
-        "Active in tech communities and coding clubs",
-        "Building real-world projects alongside studies",
-      ],
-    },
-    {
-      type: "course",
-      icon: <FaCertificate />,
-      title: "Complete Web Development Course",
-      institution: "Programming Hero",
-      location: "Online",
-      period: "2024",
-      status: "Completed",
-      color: "#007CFF",
-      details: [
-        "Full-stack MERN development from scratch",
-        "Built 15+ real-world projects",
-        "Learned industry best practices and modern tools",
-      ],
-    },
-  ];
+  const [hoveredCell, setHoveredCell] = useState(null);
 
   return (
-    <section className="py-20 text-white relative overflow-hidden">
-      {/* Section Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="text-center mb-16"
+    <section className="relative isolate overflow-hidden bg-[#050505] px-6 py-24 text-white sm:px-8 lg:px-10">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_14%,rgba(245,158,11,0.08),transparent_28%),radial-gradient(circle_at_82%_22%,rgba(255,255,255,0.035),transparent_30%)]" />
+
+      <Motion.div
+        aria-hidden="true"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.9, delay: 0.05 }}
+        style={{ WebkitTextStroke: "1px rgba(255,255,255,0.05)" }}
+        className="pointer-events-none absolute left-1/2 top-8 z-0 -translate-x-1/2 text-center font-display text-[16vw] font-black uppercase leading-none tracking-[-0.08em] text-transparent"
       >
-        <motion.h2
-          className="text-5xl font-bold text-transparent bg-gradient-to-r from-[#00ADB5] to-[#007CFF] bg-clip-text mb-4"
+        TIMELINE
+      </Motion.div>
+
+      <div className="relative z-10 mx-auto max-w-7xl">
+        <Motion.div
+          {...reveal}
+          className="mb-10 flex flex-col gap-4 border-b border-white/10 pb-6 lg:flex-row lg:items-end lg:justify-between"
         >
-          <span className="inline-block mr-3">🎓</span>
-          Education & Certifications
-        </motion.h2>
-        <p className="text-gray-400 text-lg">
-          My academic background and learning journey
-        </p>
-      </motion.div>
+          <div>
+            <p className="font-editorial-mono text-[0.68rem] uppercase tracking-[0.32em] text-[#f59e0b]/75">
+              Academic & Engineering Ledger
+            </p>
+            <h2 className="mt-3 max-w-3xl font-display text-4xl font-bold tracking-[-0.05em] text-white sm:text-5xl lg:text-[4rem]">
+              Education & Credentials
+            </h2>
+          </div>
+          
+        </Motion.div>
 
-      <div className="w-11/12 max-w-6xl mx-auto">
-        {/* Timeline Container */}
-        <div className="relative">
-          {/* Vertical Timeline Line */}
-          <div className="hidden lg:block absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-[#00ADB5] via-[#007CFF] to-[#00ADB5] rounded-full opacity-30"></div>
+        <div className="grid border border-white/10 lg:grid-cols-[1.05fr_0.95fr]">
+          <Motion.article
+            {...reveal}
+            transition={{ ...reveal.transition, delay: 0.06 }}
+            className={`${cellClass} min-h-[32rem] lg:border-r-0`}
+            onMouseEnter={() => setHoveredCell("academic")}
+            onMouseLeave={() => setHoveredCell(null)}
+          >
+            <HoverGlass active={hoveredCell === "academic"} warm={false} />
 
-          {/* Education Cards */}
-          <div className="space-y-12">
-            {educationData.map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -100 : 100 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                className={`relative lg:grid lg:grid-cols-2 gap-8 items-center ${
-                  index % 2 === 0 ? "" : "lg:grid-flow-col-dense"
-                }`}
+            <div className="relative z-10 flex h-full flex-col">
+              <div className="flex items-start justify-between gap-4 border-b border-white/10 pb-6">
+                <div>
+                  <p className="font-editorial-mono text-[0.62rem] uppercase tracking-[0.28em] text-white/36">
+                    Academic Foundation
+                  </p>
+                  <h3 className="mt-4 font-display text-4xl font-black uppercase leading-[0.92] tracking-[-0.06em] text-white sm:text-5xl">
+                    Leading University
+                  </h3>
+                  <p className="mt-4 font-editorial-mono text-[0.72rem] uppercase tracking-[0.24em] text-white/46">
+                    B.Sc in CSE // 2023 - 2027
+                  </p>
+                </div>
+
+                <PulseDot amber />
+              </div>
+
+              <div className="mt-6 flex flex-wrap items-center gap-3">
+                <span className="border border-[#f59e0b]/30 bg-[#f59e0b]/8 px-3 py-2 font-editorial-mono text-[0.62rem] uppercase tracking-[0.2em] text-[#f6bf63]">
+                  [ ACADEMIC_IN_PROGRESS ]
+                </span>
+              </div>
+
+              <div className="mt-10 grid gap-5">
+                {academicPoints.map((point, index) => (
+                  <Motion.div
+                    key={point}
+                    initial={{ opacity: 0, y: 18 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.4 }}
+                    transition={{ duration: 0.55, delay: 0.16 + index * 0.09 }}
+                    className="flex items-start gap-4 border-t border-white/10 pt-5"
+                  >
+                    <span className="mt-1 h-px w-6 bg-white/24" />
+                    <p className="font-editorial-mono text-[0.74rem] uppercase leading-7 tracking-[0.18em] text-white/70">
+                      {point}
+                    </p>
+                  </Motion.div>
+                ))}
+              </div>
+
+              <Motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.4 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="mt-auto pt-10"
               >
-                {/* Card */}
-                <motion.div
-                  whileHover={{ scale: 1.03, y: -5 }}
-                  className={`group relative bg-gradient-to-br from-[#1E1E1E] to-[#2a2a2a] rounded-2xl p-8 border border-[#333] hover:border-[#00ADB5]/50 transition-all duration-300 ${
-                    index % 2 === 0 ? "lg:col-start-1" : "lg:col-start-2"
+                <div className="border border-white/10 bg-white/[0.02] p-5">
+                  <p className="font-editorial-mono text-[0.58rem] uppercase tracking-[0.24em] text-white/32">
+                    Current Studies
+                  </p>
+                  <p className="mt-3 max-w-xl text-sm leading-7 text-white/62">
+                    Academic work is centered on systems thinking, software design,
+                    and converting theory into deployable engineering outcomes.
+                  </p>
+                </div>
+              </Motion.div>
+            </div>
+          </Motion.article>
+
+          <div className="grid">
+            {milestones.map((item, index) => {
+              const key = `milestone-${index}`;
+              const isActive = hoveredCell === key;
+
+              return (
+                <Motion.article
+                  key={item.title}
+                  {...reveal}
+                  transition={{ ...reveal.transition, delay: 0.12 + index * 0.1 }}
+                  className={`${cellClass} ${index < milestones.length - 1 ? "border-b-0" : ""} ${
+                    item.accent ? "hover:border-[#f59e0b]/35" : ""
                   }`}
+                  onMouseEnter={() => setHoveredCell(key)}
+                  onMouseLeave={() => setHoveredCell(null)}
                 >
-                  {/* Glowing background effect */}
-                  <div
-                    className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-2xl blur-xl"
-                    style={{ backgroundColor: item.color }}
-                  ></div>
+                  <HoverGlass active={isActive} warm={item.accent} />
 
-                  {/* Content */}
                   <div className="relative z-10">
-                    {/* Header */}
-                    <div className="flex items-start gap-4 mb-4">
-                      {/* Icon */}
-                      <motion.div
-                        whileHover={{ rotate: 360 }}
-                        transition={{ duration: 0.6 }}
-                        className="flex-shrink-0 w-16 h-16 rounded-full flex items-center justify-center text-2xl shadow-lg"
-                        style={{
-                          background: `linear-gradient(135deg, ${item.color}, ${item.color}88)`,
-                        }}
-                      >
-                        {item.icon}
-                      </motion.div>
-
-                      {/* Title and Institution */}
-                      <div className="flex-1">
-                        <motion.div
-                          className="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-2"
-                          style={{
-                            background: `linear-gradient(135deg, ${item.color}22, ${item.color}44)`,
-                            color: item.color,
-                          }}
-                        >
-                          {item.status}
-                        </motion.div>
-                        <h3 className="text-xl font-bold text-white mb-2">
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <p className="font-editorial-mono text-[0.6rem] uppercase tracking-[0.24em] text-white/34">
+                          {item.meta}
+                        </p>
+                        <h3 className="mt-3 font-display text-2xl font-bold tracking-[-0.04em] text-white sm:text-[2rem]">
                           {item.title}
                         </h3>
-                        <p className="text-gray-400 flex items-center gap-2">
-                          <MdSchool className="text-[#00ADB5]" />
-                          {item.institution}
-                        </p>
                       </div>
+
+                      <PulseDot amber={item.accent} />
                     </div>
 
-                    {/* Details */}
-                    <div className="space-y-2 mb-4">
-                      <p className="text-gray-400 text-sm flex items-center gap-2">
-                        <span className="text-[#00ADB5]">📍</span>
-                        {item.location}
-                      </p>
-                      <p className="text-gray-400 text-sm flex items-center gap-2">
-                        <span className="text-[#00ADB5]">📅</span>
-                        {item.period}
-                      </p>
+                    <div className="mt-5">
+                      <span
+                        className={`inline-flex border px-3 py-2 font-editorial-mono text-[0.58rem] uppercase tracking-[0.2em] ${
+                          item.accent
+                            ? "border-[#f59e0b]/30 bg-[#f59e0b]/8 text-[#f6bf63]"
+                            : "border-white/10 bg-white/[0.03] text-white/46"
+                        }`}
+                      >
+                        {item.tag}
+                      </span>
                     </div>
 
-                    {/* Key Points */}
-                    <div className="space-y-2 pt-4 border-t border-[#333]">
-                      {item.details.map((detail, idx) => (
-                        <motion.div
-                          key={idx}
-                          initial={{ opacity: 0, x: -20 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          transition={{ delay: idx * 0.1 }}
-                          className="flex items-start gap-2 text-gray-300 text-sm"
-                        >
-                          <span
-                            className="mt-1 flex-shrink-0"
-                            style={{ color: item.color }}
-                          >
-                            ✓
-                          </span>
-                          <span>{detail}</span>
-                        </motion.div>
-                      ))}
-                    </div>
+                    <p className="mt-6 max-w-xl text-sm leading-7 text-white/68 sm:text-[0.98rem]">
+                      {item.detail}
+                    </p>
+
+                    {item.supporting ? (
+                      <p className="mt-4 border-t border-white/10 pt-4 font-editorial-mono text-[0.67rem] uppercase leading-7 tracking-[0.18em] text-white/44">
+                        {item.supporting}
+                      </p>
+                    ) : null}
                   </div>
-
-                  {/* Corner decoration */}
-                  <div
-                    className="absolute top-0 right-0 w-24 h-24 opacity-5 rounded-bl-full"
-                    style={{ backgroundColor: item.color }}
-                  ></div>
-                </motion.div>
-
-                {/* Timeline Node (Desktop only) */}
-                <div
-                  className={`hidden lg:flex justify-center ${
-                    index % 2 === 0 ? "lg:col-start-2" : "lg:col-start-1"
-                  }`}
-                >
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    whileInView={{ scale: 1 }}
-                    transition={{ delay: 0.3, type: "spring" }}
-                    className="relative"
-                  >
-                    {/* Node circle */}
-                    <div
-                      className="w-16 h-16 rounded-full flex items-center justify-center text-2xl shadow-lg relative z-10"
-                      style={{
-                        background: `linear-gradient(135deg, ${item.color}, ${item.color}88)`,
-                      }}
-                    >
-                      {item.icon}
-                    </div>
-
-                    {/* Pulse effect */}
-                    <motion.div
-                      animate={{
-                        scale: [1, 1.5, 1],
-                        opacity: [0.5, 0, 0.5],
-                      }}
-                      transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                      }}
-                      className="absolute inset-0 rounded-full"
-                      style={{ backgroundColor: item.color }}
-                    ></motion.div>
-                  </motion.div>
-                </div>
-              </motion.div>
-            ))}
+                </Motion.article>
+              );
+            })}
           </div>
         </div>
-
-        {/* Achievement Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6"
-        >
-          {[
-            {
-              icon: <FaGraduationCap />,
-              value: "CSE",
-              label: "Degree Program",
-              color: "#00ADB5",
-            },
-            {
-              icon: <FaCertificate />,
-              value: "1+",
-              label: "Certifications",
-              color: "#007CFF",
-            },
-            {
-              icon: <FaAward />,
-              value: "2027",
-              label: "Expected Graduation",
-              color: "#00ADB5",
-            },
-          ].map((stat, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.1, type: "spring" }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              className="bg-gradient-to-br from-[#1E1E1E] to-[#2a2a2a] rounded-xl p-6 border border-[#333] hover:border-[#00ADB5]/50 transition-all text-center group"
-            >
-              <motion.div
-                className="text-4xl mb-3 inline-block group-hover:scale-125 transition-transform duration-300"
-                style={{ color: stat.color }}
-              >
-                {stat.icon}
-              </motion.div>
-              <div
-                className="text-3xl font-bold mb-2"
-                style={{ color: stat.color }}
-              >
-                {stat.value}
-              </div>
-              <div className="text-gray-400 text-sm">{stat.label}</div>
-            </motion.div>
-          ))}
-        </motion.div>
       </div>
     </section>
   );
