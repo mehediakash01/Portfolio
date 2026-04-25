@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router";
 import { api } from "../../lib/api";
+import { ICON_KEYS, resolveIconComponent } from "../../lib/iconMap";
+import { SKILL_SECTIONS } from "../../lib/skillsBlueprint";
 
 const initialProjectForm = {
   title: "",
@@ -19,10 +21,30 @@ const initialProjectForm = {
 
 const initialSkillForm = {
   name: "",
-  category: "frontend",
-  level: 75,
-  color: "#38BDF8",
+  category: "Frontend Precision",
+  detail: "",
+  tier: "Primary Stack",
+  iconName: "FaReact",
+  color: "#61dafb",
+  isLearning: false,
+  order: 0,
 };
+
+const SKILL_TIERS = [
+  "Primary Stack",
+  "Core Standard",
+  "UI Foundation",
+  "Runtime",
+  "API Layer",
+  "Data Access",
+  "Data Layer",
+  "Daily Driver",
+  "Deployment Ops",
+  "Rapid Systems",
+  "Production Hosting",
+  "Active Learning",
+  "Blueprint Space",
+];
 
 const parseList = (value) =>
   `${value}`
@@ -50,16 +72,32 @@ const Dashboard = () => {
   const [imagePreview, setImagePreview] = useState("");
   const [uploadingImage, setUploadingImage] = useState(false);
 
-  const sortedSkills = useMemo(
-    () => [...skills].sort((a, b) => b.level - a.level),
-    [skills]
-  );
+  const sortedSkills = useMemo(() => {
+    const sectionOrder = new Map(SKILL_SECTIONS.map((section, index) => [section.title, index]));
+
+    return [...skills].sort((a, b) => {
+      const categoryOrder =
+        (sectionOrder.get(a.category) ?? Number.MAX_SAFE_INTEGER) -
+        (sectionOrder.get(b.category) ?? Number.MAX_SAFE_INTEGER);
+
+      if (categoryOrder !== 0) {
+        return categoryOrder;
+      }
+
+      const skillOrder = (a.order ?? 0) - (b.order ?? 0);
+      if (skillOrder !== 0) {
+        return skillOrder;
+      }
+
+      return `${a.name ?? ""}`.localeCompare(`${b.name ?? ""}`);
+    });
+  }, [skills]);
 
   const loadAll = async () => {
     setError("");
     const [projectData, skillData, analyticsData] = await Promise.all([
       api.getProjects("admin"),
-      api.getSkills(),
+      api.getSkills(undefined, { force: true }),
       api.getAnalyticsOverview(),
     ]);
 
@@ -162,7 +200,7 @@ const Dashboard = () => {
   const refreshAfterMutation = async () => {
     const [projectData, skillData, analyticsData] = await Promise.all([
       api.getProjects("admin"),
-      api.getSkills(),
+      api.getSkills(undefined, { force: true }),
       api.getAnalyticsOverview(),
     ]);
     setProjects(projectData);
@@ -247,7 +285,7 @@ const Dashboard = () => {
     try {
       await api.addSkill({
         ...skillForm,
-        level: Number(skillForm.level),
+        order: Number(skillForm.order),
       });
       setSkillForm(initialSkillForm);
       await refreshAfterMutation();
@@ -290,6 +328,8 @@ const Dashboard = () => {
       setBusy(false);
     }
   };
+
+  const SelectedSkillIcon = resolveIconComponent(skillForm.iconName);
 
   if (checkingSession) {
     return (
@@ -580,7 +620,7 @@ const Dashboard = () => {
             onSubmit={handleSkillSubmit}
             className="rounded-xl border border-[#333] bg-[#151515] p-6 space-y-3"
           >
-            <h2 className="text-xl font-semibold">Add Skill</h2>
+            <h2 className="text-xl font-semibold">Add Skill Blueprint</h2>
             <input
               className="w-full rounded-lg bg-[#0f0f0f] border border-[#333] px-3 py-2"
               placeholder="Skill name"
@@ -597,32 +637,97 @@ const Dashboard = () => {
                 setSkillForm((prev) => ({ ...prev, category: event.target.value }))
               }
             >
-              <option value="frontend">Frontend</option>
-              <option value="backend">Backend</option>
-              <option value="tools">Tools</option>
+              {SKILL_SECTIONS.map((section) => (
+                <option key={section.title} value={section.title}>
+                  {section.title}
+                </option>
+              ))}
             </select>
             <input
-              type="number"
-              min={0}
-              max={100}
               className="w-full rounded-lg bg-[#0f0f0f] border border-[#333] px-3 py-2"
-              placeholder="Level (0-100)"
-              value={skillForm.level}
+              placeholder="Detail (e.g., SSR/ISR)"
+              value={skillForm.detail}
               onChange={(event) =>
-                setSkillForm((prev) => ({ ...prev, level: event.target.value }))
+                setSkillForm((prev) => ({ ...prev, detail: event.target.value }))
               }
               required
             />
+            <select
+              className="w-full rounded-lg bg-[#0f0f0f] border border-[#333] px-3 py-2"
+              value={skillForm.tier}
+              onChange={(event) =>
+                setSkillForm((prev) => ({ ...prev, tier: event.target.value }))
+              }
+            >
+              {SKILL_TIERS.map((tier) => (
+                <option key={tier} value={tier}>
+                  {tier}
+                </option>
+              ))}
+            </select>
+
             <input
-              type="text"
+              list="icon-key-options"
               className="w-full rounded-lg bg-[#0f0f0f] border border-[#333] px-3 py-2"
-              placeholder="Color hex"
-              value={skillForm.color}
+              placeholder="Icon key (searchable, e.g., SiNextdotjs)"
+              value={skillForm.iconName}
               onChange={(event) =>
-                setSkillForm((prev) => ({ ...prev, color: event.target.value }))
+                setSkillForm((prev) => ({ ...prev, iconName: event.target.value.trim() }))
               }
               required
             />
+            <datalist id="icon-key-options">
+              {ICON_KEYS.map((iconKey) => (
+                <option key={iconKey} value={iconKey} />
+              ))}
+            </datalist>
+
+            <div className="rounded-lg border border-[#333] bg-[#0f0f0f] px-3 py-2 text-sm text-gray-300 flex items-center gap-3">
+              <span className="text-lg" style={{ color: skillForm.color }}>
+                <SelectedSkillIcon />
+              </span>
+              <span>
+                Live icon preview for <span className="text-white">{skillForm.iconName}</span>
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <label className="rounded-lg bg-[#0f0f0f] border border-[#333] px-3 py-2 flex items-center gap-3 text-sm text-gray-300">
+                <input
+                  type="color"
+                  className="h-8 w-10 rounded border border-[#333] bg-transparent"
+                  value={skillForm.color}
+                  onChange={(event) =>
+                    setSkillForm((prev) => ({ ...prev, color: event.target.value }))
+                  }
+                />
+                Skill color
+              </label>
+
+              <input
+                type="number"
+                min={0}
+                className="w-full rounded-lg bg-[#0f0f0f] border border-[#333] px-3 py-2"
+                placeholder="Grid order"
+                value={skillForm.order}
+                onChange={(event) =>
+                  setSkillForm((prev) => ({ ...prev, order: event.target.value }))
+                }
+                required
+              />
+            </div>
+
+            <label className="inline-flex items-center gap-2 text-sm text-gray-300">
+              <input
+                type="checkbox"
+                checked={skillForm.isLearning}
+                onChange={(event) =>
+                  setSkillForm((prev) => ({ ...prev, isLearning: event.target.checked }))
+                }
+              />
+              Mark as Active Learning
+            </label>
+
             <button
               type="submit"
               disabled={busy}
@@ -670,7 +775,7 @@ const Dashboard = () => {
                   <div>
                     <p className="font-medium">{skill.name}</p>
                     <p className="text-xs text-gray-400">
-                      {skill.category} • {skill.level}%
+                      {skill.category} • {skill.tier} • order {skill.order}
                     </p>
                   </div>
                   <button

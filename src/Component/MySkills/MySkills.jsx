@@ -1,94 +1,207 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  FaReact,
-  FaNodeJs,
-  FaBootstrap,
-  FaFigma,
-  FaGitAlt,
-  FaGithub,
-} from "react-icons/fa";
-import {
-  SiExpress,
-  SiMongodb,
-  SiTailwindcss,
-  SiFirebase,
-  SiVercel,
-  SiReactrouter,
-  SiNextdotjs,
-  SiTypescript,
-  SiRedux,
-  SiMysql,
-  SiPrisma,
-} from "react-icons/si";
-import { VscCode } from "react-icons/vsc";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { Link } from "react-router";
+import { motion as Motion } from "framer-motion";
 import { api } from "../../lib/api";
+import { resolveIconComponent } from "../../lib/iconMap";
+import { buildSkillGroups } from "../../lib/skillsBlueprint";
 
-const iconMap = {
-  react: <FaReact />,
-  "next.js": <SiNextdotjs />,
-  nextjs: <SiNextdotjs />,
-  typescript: <SiTypescript />,
-  redux: <SiRedux />,
-  "tailwind css": <SiTailwindcss />,
-  tailwind: <SiTailwindcss />,
-  "react router": <SiReactrouter />,
-  bootstrap: <FaBootstrap />,
-  "node.js": <FaNodeJs />,
-  node: <FaNodeJs />,
-  "express.js": <SiExpress />,
-  express: <SiExpress />,
-  mongodb: <SiMongodb />,
-  mysql: <SiMysql />,
-  prisma: <SiPrisma />,
-  firebase: <SiFirebase />,
-  git: <FaGitAlt />,
-  github: <FaGithub />,
-  figma: <FaFigma />,
-  vercel: <SiVercel />,
-  "vs code": <VscCode />,
+const reveal = {
+  initial: { opacity: 0, y: 18 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.2 },
+  transition: { duration: 0.65, ease: [0.17, 0.67, 0.83, 0.67] },
 };
 
-const MySkills = () => {
-  const [skills, setSkills] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [activeTab, setActiveTab] = useState("frontend");
+const skillCellClass =
+  "group/cell relative min-h-[10.5rem] overflow-hidden border border-white/10 bg-[#050505] p-5 transition-colors duration-500 hover:bg-white/[0.035] sm:p-6";
 
-  const tabs = [
-    { id: "frontend", label: "Frontend", icon: "🎨" },
-    { id: "backend", label: "Backend", icon: "⚙️" },
-    { id: "tools", label: "Tools", icon: "🛠️" },
-  ];
+const COLLAPSED_VISIBLE_COUNT = 4;
 
-  const groupedSkills = useMemo(
-    () =>
-      skills.reduce(
-        (acc, skill) => {
-          const category = ["frontend", "backend", "tools"].includes(skill.category)
-            ? skill.category
-            : "tools";
-          acc[category].push(skill);
-          return acc;
-        },
-        { frontend: [], backend: [], tools: [] }
-      ),
-    [skills]
+const StatusDot = memo(({ active = false }) => (
+  <span className="relative flex h-4 w-4 items-center justify-center" aria-hidden="true">
+    <Motion.span
+      className={`h-px w-px rounded-full ${active ? "bg-[#f59e0b]" : "bg-white/70"}`}
+      animate={{ opacity: [0.35, 1, 0.35], scale: [1, 4.2, 1] }}
+      transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+      style={{
+        boxShadow: active
+          ? "0 0 16px rgba(245,158,11,0.9)"
+          : "0 0 12px rgba(255,255,255,0.5)",
+      }}
+    />
+  </span>
+));
+
+const EmptyCell = memo(() => (
+  <Link
+    to="/dashboard/skills/new"
+    className="block transition-transform duration-300 hover:-translate-y-0.5"
+    aria-label="Add a new skill"
+  >
+    <div className={`${skillCellClass} min-h-[8rem] border-dashed bg-transparent`}>
+      <div className="absolute right-4 top-4 h-4 w-4 text-white/20">
+        <span className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-current" />
+        <span className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-current" />
+      </div>
+      <p className="font-editorial-mono text-[0.58rem] uppercase tracking-[0.24em] text-white/22">
+        Blueprint Reserve
+      </p>
+      <p className="mt-3 font-editorial-mono text-[0.62rem] uppercase tracking-[0.2em] text-white/40">
+        Add New // Blueprint Space
+      </p>
+    </div>
+  </Link>
+));
+
+const SkillCard = memo(({ skill, active, onEnter, onLeave }) => {
+  if (skill.empty) {
+    return (
+      <Motion.div layout transition={{ type: "spring", stiffness: 300, damping: 30 }}>
+        <EmptyCell />
+      </Motion.div>
+    );
+  }
+
+  const Icon = resolveIconComponent(skill.iconName);
+  const learning = Boolean(skill.isLearning);
+
+  return (
+    <Motion.article
+      layout
+      className={`${skillCellClass} ${learning ? "border-[#f59e0b]/35" : ""}`}
+      onMouseEnter={onEnter}
+      onMouseLeave={onLeave}
+      whileHover={{ y: -3 }}
+      transition={{ duration: 0.35, ease: "easeOut" }}
+    >
+      {active && (
+        <Motion.div
+          layoutId="skill-liquid-glass"
+          className="absolute inset-x-4 top-8 h-20 rounded-full bg-[#f59e0b]/10 blur-xl"
+          transition={{ type: "spring", bounce: 0.16, duration: 0.72 }}
+        />
+      )}
+
+      <div className="relative z-10 flex h-full flex-col justify-between gap-8">
+        <div className="flex items-start justify-between gap-4">
+          <div
+            className="flex h-9 w-9 items-center justify-center border border-white/10 bg-white/[0.03] text-lg"
+            style={{ color: skill.color || "#ffffff" }}
+          >
+            <Icon />
+          </div>
+          <StatusDot active={learning} />
+        </div>
+
+        <div>
+          <p className="font-editorial-mono text-[0.58rem] font-bold uppercase tracking-[0.24em] text-white/38">
+            {skill.detail}
+          </p>
+          <h3 className="mt-2 font-display text-2xl font-bold tracking-[-0.04em] text-white sm:text-3xl">
+            {skill.name}
+          </h3>
+          <p
+            className={`mt-4 font-editorial-mono text-[0.62rem] uppercase tracking-[0.2em] ${
+              learning ? "text-[#f59e0b]" : "text-white/45"
+            }`}
+          >
+            {skill.name} // {skill.tier}
+          </p>
+        </div>
+      </div>
+    </Motion.article>
   );
+});
+
+const SkillGroup = memo(
+  ({ group, groupIndex, hoveredSkill, setHoveredSkill, expanded, onToggle }) => {
+    const contentSkills = group.skills.filter((skill) => !skill.empty);
+    const hiddenCount = Math.max(contentSkills.length - COLLAPSED_VISIBLE_COUNT, 0);
+
+    const visibleSkills = expanded
+      ? group.skills
+      : contentSkills.slice(0, COLLAPSED_VISIBLE_COUNT);
+
+    return (
+      <Motion.section
+        layout
+        {...reveal}
+        transition={{ ...reveal.transition, delay: groupIndex * 0.08 }}
+        className={`relative border border-white/10 ${group.className}`}
+      >
+        <div className="flex min-h-28 flex-col justify-between gap-6 border-b border-white/10 bg-white/[0.015] p-5 sm:flex-row sm:items-end sm:p-6">
+          <div>
+            <p className="font-editorial-mono text-[0.62rem] uppercase tracking-[0.28em] text-white/35">
+              {group.eyebrow}
+            </p>
+            <h3 className="mt-3 font-display text-2xl font-bold tracking-[-0.04em] text-white sm:text-3xl">
+              {group.title}
+            </h3>
+          </div>
+
+          <div className="flex flex-col items-start gap-2 sm:items-end">
+            <p className="font-editorial-mono text-[0.58rem] uppercase tracking-[0.22em] text-white/28">
+              {String(contentSkills.length).padStart(2, "0")} Skills
+            </p>
+
+            {hiddenCount > 0 && (
+              <button
+                type="button"
+                onClick={() => onToggle(group.title)}
+                className="font-editorial-mono text-[0.58rem] uppercase tracking-[0.22em] text-[#f59e0b] transition-opacity hover:opacity-80"
+              >
+                {expanded ? "Show Less" : `Show More (+${hiddenCount})`}
+              </button>
+            )}
+          </div>
+        </div>
+
+        <Motion.div layout className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4">
+          {visibleSkills.map((skill) => {
+            const key = skill.id || `${group.title}-${skill.name}-${skill.order ?? 0}`;
+
+            return (
+              <SkillCard
+                key={key}
+                skill={skill}
+                active={hoveredSkill === key}
+                onEnter={() => setHoveredSkill(key)}
+                onLeave={() => setHoveredSkill(null)}
+              />
+            );
+          })}
+        </Motion.div>
+      </Motion.section>
+    );
+  }
+);
+
+const MySkills = () => {
+  const [hoveredSkill, setHoveredSkill] = useState(null);
+  const [skills, setSkills] = useState([]);
+  const [expandedGroups, setExpandedGroups] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
 
   useEffect(() => {
     let mounted = true;
 
     const loadSkills = async () => {
       try {
-        const result = await api.getSkills();
-        if (mounted) {
-          setSkills(result);
+        const data = await api.getSkills();
+        if (!mounted) {
+          return;
         }
-      } catch (loadError) {
-        if (mounted) {
-          setError(loadError.message || "Could not load skills");
+
+        setSkills(Array.isArray(data) ? data : []);
+        setLoadError("");
+      } catch (error) {
+        if (!mounted) {
+          return;
         }
+
+        setSkills([]);
+        setLoadError(error.message || "Failed to load skills");
       } finally {
         if (mounted) {
           setLoading(false);
@@ -103,265 +216,80 @@ const MySkills = () => {
     };
   }, []);
 
+  const groups = useMemo(() => buildSkillGroups(skills), [skills]);
+  const toggleGroup = useCallback((title) => {
+    setExpandedGroups((previous) => ({
+      ...previous,
+      [title]: !previous[title],
+    }));
+  }, []);
+
   return (
-    <section className="py-20 text-white relative overflow-hidden">
-      {/* Floating particles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(15)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-[#00ADB5] rounded-full"
-            animate={{
-              x: [
-                Math.random() * window.innerWidth,
-                Math.random() * window.innerWidth,
-              ],
-              y: [
-                Math.random() * window.innerHeight,
-                Math.random() * window.innerHeight,
-              ],
-              opacity: [0, 1, 0],
-            }}
-            transition={{
-              duration: Math.random() * 10 + 10,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-          />
-        ))}
-      </div>
+    <section className="relative overflow-hidden bg-[#050505] px-6 py-24 text-white sm:px-8 lg:px-10">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_10%,rgba(245,158,11,0.09),transparent_28%),radial-gradient(circle_at_85%_25%,rgba(255,255,255,0.04),transparent_30%)]" />
+      <div
+        className="absolute inset-0 opacity-[0.06]"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.8) 1px, transparent 1px)",
+          backgroundSize: "64px 64px",
+        }}
+      />
 
-      <div className="relative z-10 w-11/12 mx-auto max-w-7xl">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+      <div className="relative z-10 mx-auto max-w-7xl">
+        <Motion.div
+          {...reveal}
+          className="mb-10 flex flex-col gap-5 border-b border-white/10 pb-7 lg:flex-row lg:items-end lg:justify-between"
         >
-          <motion.h2
-            className="text-5xl font-bold text-transparent bg-gradient-to-r from-[#00ADB5] via-[#007CFF] to-[#00ADB5] bg-clip-text mb-4"
-            animate={{
-              backgroundPosition: ["0%", "100%", "0%"],
-            }}
-            transition={{
-              duration: 5,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-            style={{ backgroundSize: "200% 100%" }}
-          >
-            My Skills
-          </motion.h2>
-          <p className="text-gray-400 text-lg">
-            Technologies and tools I use to build amazing projects
+          <div>
+            <p className="font-editorial-mono text-[0.68rem] uppercase tracking-[0.32em] text-[#f59e0b]/75">
+              System Analysis
+            </p>
+            <h2 className="mt-3 max-w-3xl font-display text-4xl font-bold tracking-[-0.05em] text-white sm:text-5xl lg:text-[4rem]">
+              Skills & Technologies
+            </h2>
+          </div>
+          <p className="max-w-xl text-sm leading-7 text-white/58 sm:text-base">
+            A working stack mapped as a developer blueprint: core frameworks,
+            production systems, and one active learning track.
           </p>
-        </motion.div>
+        </Motion.div>
 
-        {/* Tab Navigation */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex justify-center gap-4 mb-12 flex-wrap"
-        >
-          {tabs.map((tab) => (
-            <motion.button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`relative px-8 py-3 rounded-xl font-semibold transition-all duration-300 ${
-                activeTab === tab.id
-                  ? "text-white"
-                  : "bg-[#1E1E1E] text-gray-400 hover:text-white hover:bg-[#2a2a2a]"
-              }`}
-            >
-              {activeTab === tab.id && (
-                <motion.div
-                  layoutId="activeTab"
-                  className="absolute inset-0 bg-gradient-to-r from-[#00ADB5] to-[#007CFF] rounded-xl"
-                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                />
-              )}
-              <span className="relative z-10 flex items-center gap-2">
-                <span className="text-xl">{tab.icon}</span>
-                {tab.label}
-              </span>
-            </motion.button>
-          ))}
-        </motion.div>
+        <div className="relative overflow-hidden border border-white/10">
+          <Motion.div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 z-20 h-px bg-gradient-to-r from-transparent via-[#f59e0b]/70 to-transparent"
+            animate={{ top: ["0%", "100%"] }}
+            transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+            style={{ boxShadow: "0 0 24px rgba(245,158,11,0.28)" }}
+          />
 
-        {/* Skills Grid */}
-        {loading && <div className="text-center text-gray-400 py-12">Loading skills...</div>}
-        {!loading && error && <div className="text-center text-red-300 py-12">{error}</div>}
+          {loading && (
+            <div className="border-b border-white/10 px-6 py-4 font-editorial-mono text-[0.62rem] uppercase tracking-[0.24em] text-white/40">
+              Syncing Skill Matrix...
+            </div>
+          )}
 
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5 }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-          >
-            {!loading &&
-              groupedSkills[activeTab].map((skill, index) => (
-              <motion.div
-                key={skill.name}
-                initial={{ opacity: 0, scale: 0.8, y: 50 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{
-                  duration: 0.5,
-                  delay: index * 0.1,
-                  type: "spring",
-                }}
-                whileHover={{ scale: 1.05, y: -5 }}
-                className="group relative bg-gradient-to-br from-[#1E1E1E] to-[#2a2a2a] rounded-2xl p-6 border border-[#333] hover:border-[#00ADB5]/50 transition-all duration-300 overflow-hidden"
-              >
-                {/* Glowing background on hover */}
-                <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 blur-xl"
-                  style={{ backgroundColor: skill.color }}
-                />
+          {loadError && (
+            <div className="border-b border-red-500/40 bg-red-500/10 px-6 py-4 font-editorial-mono text-[0.62rem] uppercase tracking-[0.2em] text-red-200">
+              {loadError}
+            </div>
+          )}
 
-                {/* Icon with animation */}
-                <motion.div
-                  className="relative z-10 mb-4 flex items-center justify-between"
-                >
-                  <div className="flex items-center gap-3">
-                    <motion.div
-                      whileHover={{ rotate: 360, scale: 1.2 }}
-                      transition={{ duration: 0.6 }}
-                      className="text-4xl"
-                      style={{ color: skill.color }}
-                    >
-                      {iconMap[skill.name.toLowerCase()] || <VscCode />}
-                    </motion.div>
-                    <h3 className="text-xl font-bold text-white">
-                      {skill.name}
-                    </h3>
-                  </div>
-
-                  {/* Percentage badge */}
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: index * 0.1 + 0.3, type: "spring" }}
-                    className="px-3 py-1 rounded-full text-sm font-semibold"
-                    style={{
-                      background: `linear-gradient(135deg, ${skill.color}22, ${skill.color}44)`,
-                      color: skill.color,
-                    }}
-                  >
-                    {skill.level}%
-                  </motion.div>
-                </motion.div>
-
-                {/* Progress Bar */}
-                <div className="relative z-10">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-xs text-gray-400 uppercase tracking-wider">
-                      Proficiency
-                    </span>
-                  </div>
-
-                  {/* Progress background */}
-                  <div className="w-full h-2.5 bg-[#0a0a0a] rounded-full overflow-hidden">
-                    {/* Animated progress fill */}
-                    <motion.div
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${skill.level}%` }}
-                      transition={{
-                        duration: 1,
-                        delay: index * 0.1,
-                        ease: "easeOut",
-                      }}
-                      className="h-full rounded-full relative"
-                      style={{
-                        background: `linear-gradient(90deg, ${skill.color}, ${skill.color}aa)`,
-                      }}
-                    >
-                      {/* Shimmer effect */}
-                      <motion.div
-                        animate={{
-                          x: ["-100%", "200%"],
-                        }}
-                        transition={{
-                          duration: 2,
-                          repeat: Infinity,
-                          ease: "linear",
-                        }}
-                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
-                      />
-                    </motion.div>
-                  </div>
-                </div>
-
-                {/* Corner decoration */}
-                <div
-                  className="absolute top-0 right-0 w-20 h-20 opacity-5 rounded-bl-full"
-                  style={{ backgroundColor: skill.color }}
-                />
-              </motion.div>
+          <Motion.div layout className="grid gap-0 lg:grid-cols-12">
+            {groups.map((group, index) => (
+              <SkillGroup
+                key={group.title}
+                group={group}
+                groupIndex={index}
+                hoveredSkill={hoveredSkill}
+                setHoveredSkill={setHoveredSkill}
+                expanded={Boolean(expandedGroups[group.title])}
+                onToggle={toggleGroup}
+              />
             ))}
-
-            {!loading && groupedSkills[activeTab].length === 0 && (
-              <div className="col-span-full text-center text-gray-400 py-10">
-                No skills added in this category yet.
-              </div>
-            )}
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Summary Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6"
-        >
-          {[
-            {
-              value: `${groupedSkills[activeTab].length}+`,
-              label: "Technologies",
-              color: "#00ADB5",
-            },
-            {
-              value:
-                groupedSkills[activeTab].length > 0
-                  ? `${Math.round(
-                      groupedSkills[activeTab].reduce((sum, item) => sum + item.level, 0) /
-                        groupedSkills[activeTab].length
-                    )}%`
-                  : "0%",
-              label: "Avg Proficiency",
-              color: "#007CFF",
-            },
-            {
-              value: "Always",
-              label: "Learning More",
-              color: "#00ADB5",
-            },
-          ].map((stat, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.1, type: "spring" }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              className="bg-gradient-to-br from-[#1E1E1E] to-[#2a2a2a] rounded-xl p-6 border border-[#333] hover:border-[#00ADB5]/50 transition-all text-center"
-            >
-              <motion.div
-                className="text-4xl font-bold mb-2"
-                style={{ color: stat.color }}
-              >
-                {stat.value}
-              </motion.div>
-              <div className="text-gray-400">{stat.label}</div>
-            </motion.div>
-          ))}
-        </motion.div>
+          </Motion.div>
+        </div>
       </div>
     </section>
   );

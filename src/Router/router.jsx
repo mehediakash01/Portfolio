@@ -24,6 +24,10 @@ export const router = createBrowserRouter([
           path: "dashboard",
           Component: Dashboard,
         },
+        {
+          path: "dashboard/skills/new",
+          Component: Dashboard,
+        },
     ]
   },
 ]);
