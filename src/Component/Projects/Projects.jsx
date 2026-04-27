@@ -1,241 +1,190 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ProjectCard } from "./ProjectCard";
-import { api } from "../../lib/api";
+import React, { useState, useRef, useEffect } from "react";
+import { motion, useScroll, useTransform, useSpring, AnimatePresence, useInView } from "framer-motion";
+import { projectsData } from "./ProjectData";
 
-const Projects = () => {
-  const [projects, setProjects] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [loadError, setLoadError] = useState("");
-  const [filter, setFilter] = useState("all");
-  const [showAll, setShowAll] = useState(false);
-
-  // Determine project category based on tech stack
-  const getCategoryFromTech = (techArray) => {
-    const hasFrontend = techArray.some((t) =>
-      ["react", "nextjs", "tailwind", "typescript"].includes(t.toLowerCase())
-    );
-    const hasBackend = techArray.some((t) =>
-      ["node", "nodejs", "express", "expressjs", "mongodb", "prisma", "sql", "postgres", "postgresql"].includes(
-        t.toLowerCase()
-      )
-    );
-
-    if (hasFrontend && hasBackend) return "fullstack";
-    if (hasBackend) return "backend";
-    if (hasFrontend) return "frontend";
-    return "fullstack";
-  };
-
-  const categorizedProjects = useMemo(
-    () =>
-      projects.map((project) => ({
-        ...project,
-        category: getCategoryFromTech(project.tech || []),
-      })),
-    [projects]
+const RevealText = ({ children, delay = 0 }) => {
+  return (
+    <div className="overflow-hidden">
+      <motion.div
+        initial={{ y: "100%" }}
+        whileInView={{ y: 0 }}
+        viewport={{ once: true, margin: "-10%" }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay }}
+      >
+        {children}
+      </motion.div>
+    </div>
   );
+};
 
-  const categories = [
-    "all",
-    ...new Set(categorizedProjects.map((p) => p.category)),
-  ];
-
-  const categoryMap = {
-    all: "All Projects",
-    fullstack: "Full Stack",
-    frontend: "Frontend",
-    backend: "Backend",
-  };
-
-  const filteredProjects =
-    filter === "all"
-      ? categorizedProjects
-      : categorizedProjects.filter((p) => p.category === filter);
+const ProjectItem = ({ project, index, setActiveProject }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { margin: "-50% 0px -50% 0px" });
 
   useEffect(() => {
-    let isMounted = true;
-
-    const loadProjects = async () => {
-      try {
-        const result = await api.getProjects();
-        if (isMounted) {
-          setProjects(result);
-        }
-      } catch (error) {
-        if (isMounted) {
-          setLoadError(error.message || "Failed to load projects");
-        }
-      } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
-      }
-    };
-
-    loadProjects();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-  const previewCount = 3;
-  const visibleProjects = showAll
-    ? filteredProjects
-    : filteredProjects.slice(0, previewCount);
-
-  useEffect(() => {
-    // Reset to preview mode when user changes project category.
-    setShowAll(false);
-  }, [filter]);
+    if (isInView) {
+      setActiveProject(index);
+    }
+  }, [isInView, index, setActiveProject]);
 
   return (
-    <section className="py-20 text-white relative overflow-hidden">
-      {/* Animated background elements */}
-      <div className="absolute top-20 left-10 w-72 h-72 bg-[#00ADB5]/10 rounded-full blur-3xl animate-pulse"></div>
-      <div
-        className="absolute bottom-20 right-10 w-96 h-96 bg-[#007CFF]/10 rounded-full blur-3xl animate-pulse"
-        style={{ animationDelay: "1s" }}
-      ></div>
+    <div ref={ref} className="min-h-[100svh] flex flex-col justify-center py-24 sm:py-32 pr-2 lg:pr-8">
+      {/* Mobile Image (Hidden on desktop) */}
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ margin: "-20%" }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="lg:hidden w-full aspect-[4/3] sm:aspect-[16/10] relative mb-12 rounded-xl overflow-hidden bg-[#111]"
+      >
+        <img 
+          src={project.image} 
+          alt={project.title} 
+          className="object-cover object-top w-full h-full" 
+        />
+      </motion.div>
 
-      <div className="relative z-10">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+      <div className="text-[#f59e0b] font-mono text-sm tracking-widest uppercase mb-6">
+        <RevealText>0{index + 1} &mdash; {project.title}</RevealText>
+      </div>
+
+      <h2 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tighter mb-8 text-white leading-none">
+        <RevealText delay={0.1}>{project.title}</RevealText>
+      </h2>
+      
+      <div className="text-base sm:text-lg lg:text-xl text-neutral-400 mb-12 max-w-2xl leading-relaxed font-light">
+        <RevealText delay={0.2}>{project.description}</RevealText>
+      </div>
+      
+      <div className="flex flex-wrap gap-2 sm:gap-3 mb-12 sm:mb-16 max-w-2xl">
+        {project.tech.map((t, i) => (
+           <motion.span 
+             initial={{ opacity: 0, y: 10 }}
+             whileInView={{ opacity: 1, y: 0 }}
+             viewport={{ once: true, margin: "-10%" }}
+             transition={{ duration: 0.5, delay: 0.3 + (i * 0.05) }}
+             key={i} 
+             className="px-3 sm:px-5 py-1.5 sm:py-2 rounded-full border border-white/10 bg-white/5 text-[0.65rem] sm:text-xs font-semibold uppercase tracking-widest text-neutral-300"
+           >
+             {t}
+           </motion.span>
+        ))}
+      </div>
+
+      <motion.div 
+         initial={{ opacity: 0 }}
+         whileInView={{ opacity: 1 }}
+         viewport={{ once: true }}
+         transition={{ duration: 1, delay: 0.6 }}
+         className="flex flex-wrap items-center gap-6 sm:gap-8"
+      >
+        <a 
+          href={project.liveLink} 
+          target="_blank" 
+          rel="noreferrer" 
+          className="group relative flex items-center justify-center w-24 h-24 sm:w-32 sm:h-32 rounded-full border border-white/20 hover:bg-[#f59e0b] hover:border-[#f59e0b] transition-all duration-500 text-white hover:text-[#050505] font-semibold uppercase tracking-widest text-[0.65rem] sm:text-xs"
         >
-          <motion.h2 className="text-5xl font-bold text-transparent bg-gradient-to-r from-[#00ADB5] to-[#007CFF] bg-clip-text mb-4">
-            <span className="inline-block mr-3">✨</span>
-            Featured Projects
-          </motion.h2>
-          <p className="text-gray-400 text-lg">
-            Explore my latest work and side projects
-          </p>
-        </motion.div>
-
-        {/* Filter Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex justify-center gap-4 mb-12 flex-wrap px-4"
+          <span className="z-10 group-hover:scale-110 transition-transform duration-500 flex items-center gap-2">
+            Visit
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="transform group-hover:rotate-45 transition-transform duration-500 w-3 h-3 sm:w-4 sm:h-4">
+              <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </span>
+        </a>
+        <a 
+          href={project.githubLink} 
+          target="_blank" 
+          rel="noreferrer" 
+          className="group relative flex items-center gap-3 py-2 text-neutral-400 hover:text-white transition-colors uppercase text-[0.7rem] sm:text-sm tracking-widest font-semibold overflow-hidden"
         >
-          {categories.map((cat) => (
-            <motion.button
-              key={cat}
-              onClick={() => setFilter(cat)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`px-6 py-2 rounded-full font-semibold transition-all duration-300 ${
-                filter === cat
-                  ? "bg-gradient-to-r from-[#00ADB5] to-[#007CFF] text-white shadow-lg"
-                  : "bg-[#1E1E1E] text-gray-400 hover:text-white hover:bg-[#2a2a2a] border border-[#333]"
-              }`}
-            >
-              {categoryMap[cat]}
-            </motion.button>
-          ))}
-        </motion.div>
+          <span className="relative z-10 w-full h-full flex items-center gap-2">
+            GitHub
+          </span>
+          <div className="absolute bottom-0 left-0 w-full h-[1px] bg-neutral-800" />
+          <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-white group-hover:w-full transition-all duration-500 ease-out" />
+        </a>
+      </motion.div>
+    </div>
+  );
+};
 
-        {/* Projects Grid */}
-        <div className="w-11/12 mx-auto max-w-7xl">
-          {loading && (
-            <div className="text-center py-12 text-gray-400">Loading projects...</div>
-          )}
+const Projects = () => {
+  const [activeProject, setActiveProject] = useState(0);
+  const containerRef = useRef(null);
 
-          {!loading && loadError && (
-            <div className="text-center py-12 text-red-300">{loadError}</div>
-          )}
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  });
 
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={filter}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            >
-              {!loading &&
-                visibleProjects.map((project, index) => (
-                <ProjectCard key={project.id} project={project} index={index} />
-              ))}
-            </motion.div>
-          </AnimatePresence>
+  const progressHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  const smoothProgress = useSpring(progressHeight, { stiffness: 100, damping: 30, restDelta: 0.001 });
 
-          {/* No results */}
-          {!loading && filteredProjects.length === 0 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-center py-20"
-            >
-              <p className="text-gray-400 text-lg">
-                No projects found in this category
-              </p>
-            </motion.div>
-          )}
+  return (
+    <section ref={containerRef} className="bg-[#050505] text-white relative min-h-screen selection:bg-[#f59e0b] selection:text-black overflow-x-hidden" id="projects">
+      {/* Noise overlay */}
+      <div className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.03] mix-blend-overlay z-0" style={{backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")'}}></div>
 
-          {!loading && filteredProjects.length > previewCount && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="mt-10 flex justify-center"
-            >
-              <motion.button
-                onClick={() => setShowAll((prev) => !prev)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-7 py-3 rounded-full font-semibold bg-gradient-to-r from-[#00ADB5] to-[#007CFF] text-white shadow-lg hover:shadow-[#00ADB5]/30 transition-all"
-              >
-                {showAll ? "Show Less" : "See More"}
-              </motion.button>
-            </motion.div>
-          )}
+      {/* Decorative Title Header */}
+      <div className="sticky top-0 pt-24 sm:pt-32 pb-8 px-6 md:px-12 lg:px-24 mx-auto w-full z-10 pointer-events-none">
+        <RevealText>
+          <h1 className="text-[14vw] lg:text-[10vw] leading-[0.85] font-bold tracking-tighter uppercase text-white/90 mix-blend-difference drop-shadow-lg">
+            Selected <br className="lg:hidden" /> Works
+          </h1>
+        </RevealText>
+      </div>
+
+      <div className="relative mx-auto px-6 md:px-12 lg:px-24 flex flex-col-reverse lg:flex-row max-w-[120rem] z-20">
+        
+        {/* Progress Bar (Desktop) */}
+        <div className="hidden lg:block absolute left-12 xl:left-24 top-0 h-full w-[1px] bg-white/10 z-20">
+          <motion.div 
+            style={{ height: smoothProgress }}
+            className="w-full bg-[#f59e0b]"
+          />
         </div>
 
-        {/* Stats Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="w-11/12 mx-auto max-w-5xl mt-20 grid grid-cols-1 sm:grid-cols-3 gap-6"
-        >
-          {[
-            {
-              value: `50+`,
-              label: "Projects Completed",
-              icon: "🚀",
-            },
-            { value: "100%", label: "Client Satisfaction", icon: "⭐" },
-            { value: "50K+", label: "Lines of Code", icon: "💻" },
-          ].map((stat, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.1, type: "spring" }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              className="bg-gradient-to-br from-[#1E1E1E] to-[#2a2a2a] rounded-xl p-6 border border-[#333] hover:border-[#00ADB5]/50 transition-all text-center group"
-            >
-              <div className="text-3xl mb-2 group-hover:scale-125 transition-transform duration-300">
-                {stat.icon}
-              </div>
-              <div className="text-3xl font-bold text-transparent bg-gradient-to-r from-[#00ADB5] to-[#007CFF] bg-clip-text mb-1">
-                {stat.value}
-              </div>
-              <div className="text-gray-400 text-sm">{stat.label}</div>
-            </motion.div>
+        {/* Left Side: Scrollable Details */}
+        <div className="w-full lg:w-[45%] lg:pl-12 xl:pl-20 z-20 relative">
+          {projectsData.map((project, index) => (
+            <ProjectItem 
+              key={project.id} 
+              project={project} 
+              index={index} 
+              setActiveProject={setActiveProject} 
+            />
           ))}
-        </motion.div>
+        </div>
+
+        {/* Right Side: Sticky Image Gallery (Desktop only) */}
+        <div className="hidden lg:block lg:w-[55%] sticky top-0 h-screen py-24 sm:py-32 pl-8 xl:pl-16 pr-0 xl:pr-12 z-10 pointer-events-none">
+          <div className="relative w-full h-full rounded-[2rem] overflow-hidden bg-[#0a0a0a] shadow-2xl">
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={activeProject}
+                src={projectsData[activeProject].image}
+                alt={projectsData[activeProject].title}
+                initial={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
+                animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+                exit={{ opacity: 0, scale: 0.95, filter: "blur(10px)" }}
+                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                className="absolute inset-0 w-full h-full object-cover object-top"
+              />
+            </AnimatePresence>
+
+            <div className="absolute inset-0 border border-white/10 rounded-[2rem] pointer-events-none mix-blend-overlay" />
+            <div className="absolute inset-0 bg-gradient-to-tr from-[#050505]/70 via-transparent to-[#050505]/20 pointer-events-none" />
+          </div>
+          
+          <div className="absolute top-[50%] -left-12 xl:-left-8 text-neutral-600 text-xs font-mono origin-left -rotate-90 uppercase tracking-[0.4em] flex items-center gap-4">
+            <span>&mdash;</span>
+            <span>0{activeProject + 1} / 0{projectsData.length}</span>
+          </div>
+        </div>
+        
       </div>
     </section>
   );
 };
 
 export default Projects;
-

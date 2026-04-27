@@ -35,6 +35,7 @@ const normalizeProjectInput = (payload) => {
     summary: `${payload.summary ?? ""}`.trim(),
     description: `${payload.description ?? payload.summary ?? ""}`.trim(),
     image: `${payload.image ?? ""}`.trim(),
+    videoPreview: `${payload.videoPreview ?? ""}`.trim() || null,
     liveUrl: `${payload.liveUrl ?? ""}`.trim(),
     githubUrl: `${payload.githubUrl ?? ""}`.trim(),
     glowColor: `${payload.glowColor ?? "from-cyan-500 to-blue-500"}`.trim(),

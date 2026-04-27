@@ -25,6 +25,7 @@ async function main() {
       description:
         "A premium tutoring marketplace built for trust and speed where students book expert tutors, tutors run sessions efficiently, and admins manage platform-wide growth from one elegant dashboard.",
       image: "https://i.ibb.co.com/39vQfD5L/Screenshot-2026-03-12-144007.png",
+      videoPreview: null,
       liveUrl: "https://skill-bridge-client-sage.vercel.app/",
       githubUrl: "https://github.com/mehediakash01/skillBridge-client",
       glowColor: "from-emerald-500 to-cyan-500",
@@ -56,6 +57,7 @@ async function main() {
       description:
         "Full Stack Sleep Tracking and AI Coaching App that helps users log sleep, visualize patterns, and receive personalized AI-driven suggestions for better wellness.",
       image: "https://i.ibb.co.com/RTKkx7JZ/Screenshot-2025-11-28-234132.png",
+      videoPreview: null,
       liveUrl: "https://sleep-sync-git-main-akashs-projects-b1d54e9d.vercel.app/",
       githubUrl: "https://github.com/mehediakash01/Sleep_Sync",
       glowColor: "from-purple-500 to-pink-500",

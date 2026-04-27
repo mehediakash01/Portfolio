@@ -14,13 +14,6 @@ export const router = createBrowserRouter([
             Component: Home,
         },
         {
-          path:"project/:id",
-          lazy: async () => {
-            const { default: ProjectDetails } = await import("../Component/Projects/PackageDetails");
-            return { Component: ProjectDetails };
-          },
-        },
-        {
           path: "dashboard",
           Component: Dashboard,
         },

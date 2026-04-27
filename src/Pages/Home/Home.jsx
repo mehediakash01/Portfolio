@@ -27,7 +27,7 @@ const Home = () => {
         <Education />
       </Container>
 
-      <Container id="projects" className="py-20">
+      <Container id="projects" className="py-0 !bg-[#050505]">
         <Projects />
       </Container>
 

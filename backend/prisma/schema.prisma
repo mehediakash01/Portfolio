@@ -18,6 +18,7 @@ model Project {
     summary     String
     description String
     image       String
+    videoPreview String?
     liveUrl     String
     githubUrl   String
     glowColor   String        @default("from-cyan-500 to-blue-500")

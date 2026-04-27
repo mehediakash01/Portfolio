@@ -10,6 +10,7 @@ const initialProjectForm = {
   summary: "",
   description: "",
   image: "",
+  videoPreview: "",
   liveUrl: "",
   githubUrl: "",
   tech: "",
@@ -539,6 +540,14 @@ const Dashboard = () => {
             )}
             <input
               className="w-full rounded-lg bg-[#0f0f0f] border border-[#333] px-3 py-2"
+              placeholder="Video preview URL (optional)"
+              value={projectForm.videoPreview}
+              onChange={(event) =>
+                setProjectForm((prev) => ({ ...prev, videoPreview: event.target.value }))
+              }
+            />
+            <input
+              className="w-full rounded-lg bg-[#0f0f0f] border border-[#333] px-3 py-2"
               placeholder="Live URL"
               value={projectForm.liveUrl}
               onChange={(event) =>
@@ -749,7 +758,9 @@ const Dashboard = () => {
                 >
                   <div>
                     <p className="font-medium">{project.title}</p>
-                    <p className="text-xs text-gray-400">/{project.slug} • {project.status}</p>
+                    <p className="text-xs text-gray-400">
+                      /{project.slug} • {project.status} • {project.videoPreview ? "video-ready" : "static"}
+                    </p>
                   </div>
                   <button
                     onClick={() => handleDeleteProject(project.id)}
