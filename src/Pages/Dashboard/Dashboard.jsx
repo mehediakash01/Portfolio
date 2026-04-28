@@ -15,6 +15,8 @@ const initialProjectForm = {
   githubUrl: "",
   tech: "",
   features: "",
+  role: "",
+  duration: "",
   glowColor: "from-cyan-500 to-blue-500",
   status: "published",
   featured: false,
@@ -572,6 +574,22 @@ const Dashboard = () => {
                 setProjectForm((prev) => ({ ...prev, tech: event.target.value }))
               }
               required
+            />
+            <input
+              className="w-full rounded-lg bg-[#0f0f0f] border border-[#333] px-3 py-2"
+              placeholder="Role (e.g. Full Stack Developer)"
+              value={projectForm.role || ""}
+              onChange={(event) =>
+                setProjectForm((prev) => ({ ...prev, role: event.target.value }))
+              }
+            />
+            <input
+              className="w-full rounded-lg bg-[#0f0f0f] border border-[#333] px-3 py-2"
+              placeholder="Duration (e.g. 3 Months)"
+              value={projectForm.duration || ""}
+              onChange={(event) =>
+                setProjectForm((prev) => ({ ...prev, duration: event.target.value }))
+              }
             />
             <input
               className="w-full rounded-lg bg-[#0f0f0f] border border-[#333] px-3 py-2"

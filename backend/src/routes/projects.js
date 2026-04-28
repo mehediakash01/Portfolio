@@ -38,6 +38,8 @@ const normalizeProjectInput = (payload) => {
     videoPreview: `${payload.videoPreview ?? ""}`.trim() || null,
     liveUrl: `${payload.liveUrl ?? ""}`.trim(),
     githubUrl: `${payload.githubUrl ?? ""}`.trim(),
+    role: `${payload.role ?? ""}`.trim() || null,
+    duration: `${payload.duration ?? ""}`.trim() || null,
     glowColor: `${payload.glowColor ?? "from-cyan-500 to-blue-500"}`.trim(),
     featured: Boolean(payload.featured),
     status: payload.status === "draft" ? "draft" : "published",
