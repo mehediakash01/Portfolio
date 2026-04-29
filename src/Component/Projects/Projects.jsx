@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { motion, useScroll, useTransform, useSpring, AnimatePresence, useInView } from "framer-motion";
+import { motion, AnimatePresence, useInView } from "framer-motion";
 import { api } from "../../lib/api";
 import { FiExternalLink, FiGithub, FiX, FiArrowLeft, FiArrowRight } from "react-icons/fi";
 
@@ -37,14 +37,14 @@ const ProjectItem = ({ project, index, setActiveProject, onOpenDetails }) => {
       layoutId={`project-container-${project.id}`}
       className="min-h-[100svh] flex flex-col justify-center py-20 sm:py-32 pr-2 lg:pr-8"
     >
-      {/* Mobile Image (Hidden on desktop) */}
+      {/* Project Image */}
       <motion.div 
         layoutId={`project-image-${project.id}`}
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ margin: "-20%" }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="lg:hidden w-full aspect-[4/5] sm:aspect-[16/10] relative mb-10 rounded-xl overflow-hidden bg-[#111] shadow-2xl"
+        className="w-full aspect-[4/5] sm:aspect-[16/10] relative mb-10 rounded-xl overflow-hidden bg-[#111] shadow-2xl"
       >
         <img 
           src={imageUrl} 
@@ -312,7 +312,7 @@ const ProjectDetailsModal = ({ project, onClose }) => {
 
 const Projects = () => {
   const [activeProject, setActiveProject] = useState(0);
-  const [showMore, setShowMore] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
   const [projectsData, setProjectsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedDetails, setSelectedDetails] = useState(null);
@@ -335,14 +335,6 @@ const Projects = () => {
     return () => isMounted = false;
   }, []);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
-
-  const progressHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-  const smoothProgress = useSpring(progressHeight, { stiffness: 100, damping: 30, restDelta: 0.001 });
-
   if (loading) {
     return (
       <section className="bg-[#050505] min-h-screen flex items-center justify-center">
@@ -361,7 +353,9 @@ const Projects = () => {
     );
   }
 
-  const displayedProjects = showMore ? projectsData : projectsData.slice(0, 3);
+  const itemsPerPage = 3;
+  const totalPages = Math.ceil(projectsData.length / itemsPerPage);
+  const displayedProjects = projectsData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
   
   // Safely grab the current active image or fallback
   const safeActiveIndex = activeProject >= displayedProjects.length ? displayedProjects.length - 1 : activeProject;
@@ -398,94 +392,48 @@ const Projects = () => {
           </RevealText>
         </div>
 
-        <div className="relative mx-auto px-6 md:px-12 lg:px-24 flex flex-col-reverse lg:flex-row max-w-[120rem] z-20 pb-32">
+        <div className="relative mx-auto px-6 md:px-12 lg:px-24 flex flex-col max-w-[120rem] z-20 pb-32">
           
-          {/* Progress Bar (Desktop) */}
-          <div className="hidden lg:block absolute left-12 xl:left-24 top-0 h-full w-[1px] bg-white/10 z-20">
-            <motion.div 
-              style={{ height: smoothProgress }}
-              className="w-full bg-[#f59e0b]"
-            />
-          </div>
-
           {/* Left Side: Scrollable Details */}
-          <div className="w-full lg:w-[45%] lg:pl-12 xl:pl-20 z-20 relative">
+          <div className="w-full lg:w-[80%] mx-auto z-20 relative">
             <AnimatePresence mode="popLayout">
               {displayedProjects.map((project, index) => (
                 <ProjectItem 
                   key={project.id} 
                   project={project} 
-                  index={index} 
+                  index={(currentPage - 1) * itemsPerPage + index} 
                   setActiveProject={setActiveProject} 
                   onOpenDetails={setSelectedDetails}
                 />
               ))}
             </AnimatePresence>
 
-            {projectsData.length > 3 && (
-              <div className="mt-16 flex justify-start pb-24">
-                <button 
-                  onClick={() => setShowMore(!showMore)}
-                  className="px-8 py-4 border border-white/20 text-white rounded-full uppercase tracking-widest text-xs font-semibold hover:bg-white hover:text-black transition-all duration-300 flex items-center gap-3 group shadow-2xl"
+            {totalPages > 1 && (
+              <div className="mt-16 flex justify-center pb-24 gap-4">
+                <button
+                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                  disabled={currentPage === 1}
+                  className={`px-8 py-4 border border-white/20 text-white rounded-full uppercase tracking-widest text-xs font-semibold transition-all duration-300 shadow-2xl ${
+                    currentPage === 1 ? "opacity-50 cursor-not-allowed" : "hover:bg-white hover:text-black"
+                  }`}
                 >
-                  {showMore ? "Show Less" : `View All ${projectsData.length} Projects`}
-                  <motion.span
-                    animate={{ rotate: showMore ? 180 : 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    ↓
-                  </motion.span>
+                  Previous
+                </button>
+                <div className="flex items-center gap-2 text-white font-mono text-sm">
+                  {currentPage} / {totalPages}
+                </div>
+                <button
+                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                  disabled={currentPage === totalPages}
+                  className={`px-8 py-4 border border-white/20 text-white rounded-full uppercase tracking-widest text-xs font-semibold transition-all duration-300 shadow-2xl ${
+                    currentPage === totalPages ? "opacity-50 cursor-not-allowed" : "hover:bg-white hover:text-black"
+                  }`}
+                >
+                  Next
                 </button>
               </div>
             )}
           </div>
-
-          {/* Right Side: Sticky Image Gallery (Desktop only) */}
-          <div className="hidden lg:block lg:w-[55%] sticky top-0 h-screen py-24 sm:py-32 pl-8 xl:pl-16 pr-0 xl:pr-12 z-10 pointer-events-none">
-            <div className="relative w-full h-[calc(100vh-16rem)] rounded-[2rem] overflow-hidden bg-[#0A0A0A] shadow-[0_0_40px_rgba(0,0,0,0.8)] border border-white/5 group">
-              
-              {/* Blurred under-layer to prevent letterboxing cuts */}
-              <div className="absolute inset-0 z-0">
-                <AnimatePresence mode="wait">
-                  <motion.img
-                    key={`blur-${safeActiveIndex}`}
-                    src={coverImage}
-                    alt=""
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 0.4 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.8 }}
-                    className="w-full h-full object-cover blur-[80px] scale-110"
-                  />
-                </AnimatePresence>
-              </div>
-
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={`img-${safeActiveIndex}`}
-                  initial={{ opacity: 0, y: 40, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -40, scale: 0.95 }}
-                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                  className="absolute inset-0 flex items-center justify-center p-8 z-10"
-                >
-                  <img
-                    src={coverImage}
-                    alt="Project Cover"
-                    className="max-w-full max-h-full object-contain drop-shadow-2xl rounded-lg border border-white/10"
-                  />
-                </motion.div>
-              </AnimatePresence>
-
-              <div className="absolute inset-0 bg-gradient-to-tr from-[#050505]/80 via-transparent to-[#050505]/30 pointer-events-none z-20" />
-            </div>
-            
-            <div className="absolute left-[-2rem] top-1/2 -translate-y-1/2 text-neutral-500 text-[10px] font-mono origin-center -rotate-90 uppercase tracking-[0.4em] flex items-center gap-4">
-              <span>&mdash;</span>
-              <span>0{safeActiveIndex + 1} / 0{displayedProjects.length}</span>
-            </div>
-          </div>
-          
         </div>
       </section>
     </>
