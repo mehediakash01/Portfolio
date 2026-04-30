@@ -47,20 +47,25 @@ const Navbar = () => {
   };
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "border-b border-white/10 bg-[#050505]/88 shadow-[0_20px_50px_rgba(0,0,0,0.32)] backdrop-blur-xl"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex items-center justify-between h-20">
+    <nav className="fixed top-0 left-0 right-0 z-50 px-0 transition-all duration-500 ease-out">
+      <div
+        className={`mx-auto transition-all duration-500 ease-out ${
+          isScrolled
+            ? "mt-4 w-[calc(100%-1.5rem)] max-w-6xl rounded-full border border-white/14 bg-[#050505]/72 shadow-[0_18px_60px_rgba(0,0,0,0.38)] backdrop-blur-2xl supports-[backdrop-filter]:bg-[#050505]/58 sm:w-[calc(100%-3rem)]"
+            : "mt-0 w-full max-w-none rounded-none border border-transparent bg-transparent shadow-none"
+        }`}
+      >
+        <div
+          className={`mx-auto px-6 transition-all duration-500 ease-out ${
+            isScrolled ? "max-w-6xl sm:px-7" : "max-w-7xl"
+          }`}
+        >
+        <div className={`flex items-center justify-between transition-all duration-500 ease-out ${isScrolled ? "h-16" : "h-20"}`}>
           <button
             onClick={() => scrollToSection("home")}
-            className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-2 transition-transform hover:scale-[1.02]"
+            className=""
           >
-            <img src="/protfolio.png" width={68} height={68} alt="portfolio-logo" />
+            <img src="/portfolioLogo.png" width={68} height={68} alt="portfolio-logo" className="object-contain" />
           </button>
 
           <ul className="hidden lg:flex items-center gap-8">
@@ -125,7 +130,13 @@ const Navbar = () => {
         </div>
 
         {isMobileMenuOpen && (
-          <div className="absolute left-0 right-0 top-20 border-b border-white/10 bg-[#050505]/96 shadow-[0_20px_50px_rgba(0,0,0,0.4)] backdrop-blur-xl lg:hidden">
+          <div
+            className={`absolute border border-white/10 bg-[#050505]/96 shadow-[0_20px_50px_rgba(0,0,0,0.4)] backdrop-blur-xl lg:hidden ${
+              isScrolled
+                ? "left-0 right-0 top-[4.75rem] rounded-3xl"
+                : "left-0 right-0 top-20 rounded-none border-x-0"
+            }`}
+          >
             <ul className="py-4 px-6 space-y-2">
               {navItems.map((item) => (
                 <li key={item.id}>
@@ -155,6 +166,7 @@ const Navbar = () => {
             </ul>
           </div>
         )}
+      </div>
       </div>
     </nav>
   );

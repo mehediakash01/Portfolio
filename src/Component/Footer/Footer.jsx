@@ -87,9 +87,10 @@ const Footer = () => {
             transition={{ duration: 0.8 }}
             className="md:col-span-12 lg:col-span-6 space-y-6"
           >
-            <h3 className="text-3xl sm:text-4xl font-bold tracking-tighter text-white">
-              MEHEDI HASAN
-            </h3>
+            <div className="flex items-center gap-4">
+              <img src="/portfolioLogo.png" alt="portfolio-logo" className="w-14 h-14 object-contain" />
+              
+            </div>
             <p className="text-neutral-400 text-lg font-light leading-relaxed max-w-xl">
               Software Engineer building digital experiences that blend aesthetic excellence 
               with robust engineering.
