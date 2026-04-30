@@ -72,13 +72,10 @@ const About = () => {
               Feature Cell
             </p>
             <h3 className="mt-6 max-w-lg font-display text-3xl font-bold tracking-[-0.05em] text-white sm:text-4xl">
-              End-to-End Delivery.
+              The Origin Story.
             </h3>
             <p className="mt-6 max-w-2xl text-base leading-8 text-white/72 sm:text-lg">
-              I ship full stack solutions with React and Next.js on the frontend,
-              and Node.js, Express, and PostgreSQL on the backend. From architecture
-              and APIs to deployment, I focus on reliability, performance, and
-              maintainable code.
+              My programming journey started after being heavily inspired by the series &quot;Mr. Robot.&quot; What began as a fascination with cybersecurity and digital systems quickly evolved into a passion for building software from the ground up. Today, I ship robust full-stack solutions with React, Next.js, Node.js, and PostgreSQL.
             </p>
             <div className="mt-10 flex flex-wrap gap-3 text-[0.7rem] uppercase tracking-[0.28em] text-white/38">
               <span className="border border-white/10 px-3 py-2">UI Systems</span>

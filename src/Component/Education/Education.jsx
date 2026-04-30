@@ -22,11 +22,13 @@ const milestones = [
     detail:
       "Recognized for advanced full-stack execution, delivery discipline, and high-standard project completion.",
     accent: true,
+    image: "/BlackBelt.png"
   },
   {
     title: "HackFusion 2026",
     meta: "IEEE CS LU SB",
     tag: "[ MILESTONE: Top-10 ]",
+     image: "/hackaton.jpeg",
     detail:
       "Successfully delivered a functional solution for the Advanced Systems track.",
     supporting:
@@ -37,6 +39,7 @@ const milestones = [
     meta: "Programming Hero, 2024",
     tag: "[ FOUNDATION: COMPLETED ]",
     detail: "MERN Stack mastery and industry-standard best practices.",
+    image: "/complete-web-dev.png"
   },
 ];
 
@@ -104,51 +107,52 @@ const Education = () => {
           
         </Motion.div>
 
-        <div className="grid border border-white/10 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="flex flex-col gap-6 lg:gap-8">
           <Motion.article
             {...reveal}
             transition={{ ...reveal.transition, delay: 0.06 }}
-            className={`${cellClass} min-h-[32rem] lg:border-r-0`}
+            className={`${cellClass} rounded-2xl lg:p-10`}
             onMouseEnter={() => setHoveredCell("academic")}
             onMouseLeave={() => setHoveredCell(null)}
           >
             <HoverGlass active={hoveredCell === "academic"} warm={false} />
 
-            <div className="relative z-10 flex h-full flex-col">
-              <div className="flex items-start justify-between gap-4 border-b border-white/10 pb-6">
-                <div>
-                  <p className="font-editorial-mono text-[0.62rem] uppercase tracking-[0.28em] text-white/36">
-                    Academic Foundation
-                  </p>
-                  <h3 className="mt-4 font-display text-4xl font-black uppercase leading-[0.92] tracking-[-0.06em] text-white sm:text-5xl">
-                    Leading University
-                  </h3>
-                  <p className="mt-4 font-editorial-mono text-[0.72rem] uppercase tracking-[0.24em] text-white/46">
-                    B.Sc in CSE // 2023 - 2027
-                  </p>
+            <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-10">
+              <div className="flex-1">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="font-editorial-mono text-[0.62rem] uppercase tracking-[0.28em] text-white/36">
+                      Academic Foundation
+                    </p>
+                    <h3 className="mt-4 font-display text-4xl font-black uppercase leading-[0.92] tracking-[-0.06em] text-white sm:text-5xl">
+                      Leading University
+                    </h3>
+                    <p className="mt-4 font-editorial-mono text-[0.72rem] uppercase tracking-[0.24em] text-white/46">
+                      B.Sc in CSE // 2023 - 2027
+                    </p>
+                  </div>
+                  <PulseDot amber />
                 </div>
 
-                <PulseDot amber />
+                <div className="mt-6 flex flex-wrap items-center gap-3">
+                  <span className="border border-[#f59e0b]/30 bg-[#f59e0b]/8 px-3 py-2 font-editorial-mono text-[0.62rem] uppercase tracking-[0.2em] text-[#f6bf63]">
+                    [ ACADEMIC_IN_PROGRESS ]
+                  </span>
+                </div>
               </div>
 
-              <div className="mt-6 flex flex-wrap items-center gap-3">
-                <span className="border border-[#f59e0b]/30 bg-[#f59e0b]/8 px-3 py-2 font-editorial-mono text-[0.62rem] uppercase tracking-[0.2em] text-[#f6bf63]">
-                  [ ACADEMIC_IN_PROGRESS ]
-                </span>
-              </div>
-
-              <div className="mt-10 grid gap-5">
+              <div className="flex-1 grid gap-4 border-t border-white/10 pt-6 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10">
                 {academicPoints.map((point, index) => (
                   <Motion.div
                     key={point}
-                    initial={{ opacity: 0, y: 18 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, x: 18 }}
+                    whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true, amount: 0.4 }}
                     transition={{ duration: 0.55, delay: 0.16 + index * 0.09 }}
-                    className="flex items-start gap-4 border-t border-white/10 pt-5"
+                    className="flex items-start gap-4"
                   >
-                    <span className="mt-1 h-px w-6 bg-white/24" />
-                    <p className="font-editorial-mono text-[0.74rem] uppercase leading-7 tracking-[0.18em] text-white/70">
+                    <span className="mt-2 h-px w-4 bg-white/24 shrink-0" />
+                    <p className="font-editorial-mono text-[0.74rem] uppercase leading-6 tracking-[0.18em] text-white/70">
                       {point}
                     </p>
                   </Motion.div>
@@ -160,13 +164,13 @@ const Education = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.4 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
-                className="mt-auto pt-10"
+                className="flex-1 border-t border-white/10 pt-6 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10"
               >
-                <div className="border border-white/10 bg-white/[0.02] p-5">
+                <div className="border border-white/10 bg-white/[0.02] p-5 rounded-lg">
                   <p className="font-editorial-mono text-[0.58rem] uppercase tracking-[0.24em] text-white/32">
                     Current Studies
                   </p>
-                  <p className="mt-3 max-w-xl text-sm leading-7 text-white/62">
+                  <p className="mt-3 text-sm leading-7 text-white/62">
                     Academic work is centered on systems thinking, software design,
                     and converting theory into deployable engineering outcomes.
                   </p>
@@ -175,7 +179,7 @@ const Education = () => {
             </div>
           </Motion.article>
 
-          <div className="grid">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {milestones.map((item, index) => {
               const key = `milestone-${index}`;
               const isActive = hoveredCell === key;
@@ -185,7 +189,7 @@ const Education = () => {
                   key={item.title}
                   {...reveal}
                   transition={{ ...reveal.transition, delay: 0.12 + index * 0.1 }}
-                  className={`${cellClass} ${index < milestones.length - 1 ? "border-b-0" : ""} ${
+                  className={`${cellClass} rounded-2xl flex flex-col ${
                     item.accent ? "hover:border-[#f59e0b]/35" : ""
                   }`}
                   onMouseEnter={() => setHoveredCell(key)}
@@ -228,6 +232,21 @@ const Education = () => {
                         {item.supporting}
                       </p>
                     ) : null}
+
+                    {item.image && (
+                      <Motion.div
+                        className="mt-6 overflow-hidden rounded-lg border border-white/10 bg-white/5"
+                        whileHover={{ scale: 1.02 }}
+                        transition={{ duration: 0.4, ease: "easeOut" }}
+                      >
+                        <img 
+                          src={item.image} 
+                          alt={`${item.title} Certificate`} 
+                          loading="lazy"
+                          className="w-full object-cover transition-opacity hover:opacity-90" 
+                        />
+                      </Motion.div>
+                    )}
                   </div>
                 </Motion.article>
               );
