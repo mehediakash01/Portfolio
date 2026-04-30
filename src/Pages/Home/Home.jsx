@@ -5,37 +5,36 @@ import MySkills from "../../Component/MySkills/MySkills"
 import Education from "../../Component/Education/Education"
 import Projects from "../../Component/Projects/Projects"
 import Contact from "../Contact/Contact"
-import Container from "../../Component/Container/Container";
+
 const Home = () => {
   return (
-    <div className="bg-[#050505]">
+    <div className="bg-[#050505] min-h-screen">
       <Navbar />
       
-      <section id="home">
+      <div id="home">
         <Banner />
-      </section>
+      </div>
 
-      <Container id="about" className="py-0 !bg-[#050505]">
+      <div id="about">
         <About />
-      </Container>
+      </div>
 
-      <Container id="skills" className="py-20">
+      <div id="skills">
         <MySkills />
-      </Container>
+      </div>
 
-      <Container id="education" className="py-20">
+      <div id="education">
         <Education />
-      </Container>
+      </div>
 
-      <Container id="projects" className="py-0 !bg-[#050505]">
+      <div id="projects">
         <Projects />
-      </Container>
+      </div>
 
-      <Container id="contact" className="py-20">
+      <div id="contact">
         <Contact />
-      </Container>
+      </div>
 
-    
     </div>
   );
 };

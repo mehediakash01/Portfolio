@@ -7,10 +7,10 @@ import {
   FaTwitter,
   FaFacebookF,
   FaInstagram,
-  FaArrowUp,
   FaHeart,
   FaCode,
 } from "react-icons/fa";
+import { FiArrowUp } from "react-icons/fi";
 
 const Footer = () => {
   const socialLinks = [
@@ -18,37 +18,31 @@ const Footer = () => {
       name: "GitHub",
       url: "https://github.com/mehediakash01",
       icon: <FaGithub />,
-      color: "#FFFFFF",
     },
     {
       name: "LinkedIn",
       url: "https://www.linkedin.com/in/mehediakash1/",
       icon: <FaLinkedinIn />,
-      color: "#0077B5",
     },
     {
       name: "Email",
       url: "mailto:mehedi.akash.dev@gmail.com",
       icon: <FaEnvelope />,
-      color: "#00ADB5",
     },
     {
       name: "Twitter",
       url: "https://x.com/mh_sky_69",
       icon: <FaTwitter />,
-      color: "#1DA1F2",
     },
     {
       name: "Facebook",
       url: "https://www.facebook.com/concentration369",
       icon: <FaFacebookF />,
-      color: "#1877F2",
     },
     {
       name: "Instagram",
       url: "https://www.instagram.com/mh_sky_69/",
       icon: <FaInstagram />,
-      color: "#E4405F",
     },
   ];
 
@@ -74,37 +68,35 @@ const Footer = () => {
   };
 
   return (
-    <footer className="relative bg-gradient-to-br from-[#0a0a0a] via-[#1a1a2e] to-[#16213e] text-white overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-[#00ADB5]/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#007CFF]/5 rounded-full blur-3xl"></div>
-      </div>
-
-      {/* Grid Pattern Overlay */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjAyIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-30"></div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-16">
+    <footer className="relative bg-gradient-to-t from-[#0a0a0a] to-[#050505] text-white overflow-hidden py-safe border-t border-white/5">
+      {/* Ambient background glow */}
+      <div 
+        className="pointer-events-none absolute inset-0 z-0 opacity-20 blur-[120px] transition-all duration-1000" 
+        style={{ background: `radial-gradient(circle at 50% 100%, rgba(245, 158, 11, 0.15), transparent 70%)` }}
+      />
+      
+      <div className="relative z-10 max-w-[120rem] mx-auto px-6 md:px-12 lg:px-24 py-16 sm:py-24">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16 mb-20 lg:mb-24">
+          
           {/* Brand Section */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="space-y-4"
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="md:col-span-12 lg:col-span-6 space-y-6"
           >
-            <h3 className="text-3xl font-bold text-transparent bg-gradient-to-r from-[#00ADB5] to-[#007CFF] bg-clip-text">
-              Mehedi Hasan Akash
+            <h3 className="text-3xl sm:text-4xl font-bold tracking-tighter text-white">
+              MEHEDI HASAN
             </h3>
-            <p className="text-gray-400 leading-relaxed">
-              Full Stack Developer passionate about building modern, scalable web applications. Let's create something amazing together!
+            <p className="text-neutral-400 text-lg font-light leading-relaxed max-w-xl">
+              Software Engineer building digital experiences that blend aesthetic excellence 
+              with robust engineering.
             </p>
-            <div className="flex items-center gap-2 text-sm text-gray-400">
-              <span>Made with</span>
-              <FaHeart className="text-red-500 animate-pulse" />
-              <span>and</span>
-              <FaCode className="text-[#00ADB5]" />
+            <div className="flex items-center gap-2 text-xs font-mono tracking-widest text-[#f59e0b] uppercase py-2">
+              <FaCode className="text-[10px]" />
+              <span>Crafted with passion</span>
             </div>
           </motion.div>
 
@@ -112,128 +104,108 @@ const Footer = () => {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="space-y-4"
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="md:col-span-6 lg:col-span-2 lg:col-start-8"
           >
-            <h4 className="text-xl font-bold mb-4">Quick Links</h4>
-            <ul className="space-y-2">
+            <h4 className="text-xs font-mono tracking-[0.2em] text-neutral-500 uppercase mb-8">Navigation</h4>
+            <ul className="space-y-4">
               {quickLinks.map((link, index) => (
-                <motion.li
-                  key={index}
-                  whileHover={{ x: 5 }}
-                  transition={{ duration: 0.2 }}
-                >
+                <li key={index}>
                   <button
                     onClick={() => scrollToSection(link.href.slice(1))}
-                    className="text-gray-400 hover:text-[#00ADB5] transition-colors duration-300 flex items-center gap-2"
+                    className="group flex flex-col text-sm text-neutral-300 hover:text-white transition-colors"
                   >
-                    <span className="text-[#00ADB5]">▸</span>
-                    {link.name}
+                    <span>{link.name}</span>
+                    <span className="w-0 h-[1px] bg-[#f59e0b] group-hover:w-full transition-all duration-300 mt-1"></span>
                   </button>
-                </motion.li>
+                </li>
               ))}
             </ul>
           </motion.div>
 
-          {/* Contact & Social */}
+          {/* Contact Details */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="space-y-4"
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="md:col-span-6 lg:col-span-3 space-y-6"
           >
-            <h4 className="text-xl font-bold mb-4">Connect With Me</h4>
-            <div className="space-y-3 text-gray-400 text-sm">
-              <p>📧 mehedi.akash.dev@gmail.com</p>
-              <p>📍 Sylhet, Bangladesh</p>
-              <p>🌐 Available for freelance work</p>
-            </div>
-
-            {/* Social Links */}
-            <div className="pt-4">
-              <div className="flex flex-wrap gap-3">
-                {socialLinks.map((link, index) => (
-                  <motion.a
-                    key={index}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    initial={{ opacity: 0, scale: 0 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: index * 0.05, type: "spring" }}
-                    whileHover={{ scale: 1.2, y: -5 }}
-                    whileTap={{ scale: 0.9 }}
-                    className="w-10 h-10 rounded-full bg-[#1E1E1E] border border-[#333] hover:border-[#00ADB5] flex items-center justify-center transition-all duration-300"
-                    style={{ color: link.color }}
-                    title={link.name}
-                  >
-                    {link.icon}
-                  </motion.a>
-                ))}
+            <h4 className="text-xs font-mono tracking-[0.2em] text-neutral-500 uppercase mb-8">Say Hello</h4>
+            <div className="space-y-4">
+              <a href="mailto:mehedi.akash.dev@gmail.com" className="group block w-fit">
+                <span className="text-sm font-mono text-neutral-300 group-hover:text-white transition-colors block mb-1">
+                  Email
+                </span>
+                <span className="text-sm md:text-base text-neutral-400 group-hover:text-[#f59e0b] transition-colors relative">
+                  mehedi.akash.dev@gmail.com
+                  <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#f59e0b] group-hover:w-full transition-all duration-300"></span>
+                </span>
+              </a>
+              <div className="space-y-1">
+                <span className="text-sm font-mono text-neutral-300 block">Location</span>
+                <span className="text-sm md:text-base text-neutral-400 block font-light">Sylhet, Bangladesh</span>
               </div>
             </div>
           </motion.div>
         </div>
 
         {/* Divider */}
-        <div className="h-px bg-gradient-to-r from-transparent via-[#333] to-transparent mb-8"></div>
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mb-8"></div>
 
-        {/* Bottom Bar */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+        {/* Bottom Bar Container */}
+        <div className="flex flex-col-reverse md:flex-row justify-between items-center gap-8 md:gap-4 relative mt-12">
+          
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
             transition={{ delay: 0.3 }}
-            className="text-gray-400 text-sm text-center md:text-left"
+            className="text-neutral-500 font-mono text-[0.65rem] tracking-widest uppercase text-center md:text-left"
           >
-            © {new Date().getFullYear()} Mehedi Hasan Akash. All rights reserved.
+            © {new Date().getFullYear()} Mehedi Hasan. All Rights Reserved.
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="flex items-center gap-6 text-sm text-gray-400"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="flex items-center gap-3 sm:gap-4"
+          >
+            {socialLinks.map((link, index) => (
+              <a
+                key={index}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full border border-white/10 bg-[#0f0f0f] flex items-center justify-center text-neutral-400 hover:text-black hover:bg-white hover:border-white transition-all duration-300"
+                title={link.name}
+              >
+                {link.icon}
+              </a>
+            ))}
+          </motion.div>
+
+          <motion.div 
+             initial={{ opacity: 0 }}
+             whileInView={{ opacity: 1 }}
+             viewport={{ once: true }}
+             transition={{ delay: 0.4 }}
+             className="md:absolute md:left-1/2 md:-translate-x-1/2"
           >
             <button
-              onClick={() => scrollToSection("home")}
-              className="hover:text-[#00ADB5] transition-colors"
+              onClick={scrollToTop}
+              className="group flex flex-col items-center gap-3 text-neutral-500 hover:text-[#f59e0b] transition-colors"
             >
-              Privacy Policy
-            </button>
-            <button
-              onClick={() => scrollToSection("home")}
-              className="hover:text-[#00ADB5] transition-colors"
-            >
-              Terms of Service
+              <div className="w-10 h-10 rounded-full border border-white/5 bg-[#0f0f0f] flex items-center justify-center group-hover:border-[#f59e0b]/50 group-hover:bg-[#f59e0b]/10 transition-all duration-500">
+                <FiArrowUp className="transform group-hover:-translate-y-1 transition-transform" />
+              </div>
+              <span className="text-[0.6rem] font-mono uppercase tracking-[0.2em] font-semibold">Back to Top</span>
             </button>
           </motion.div>
         </div>
       </div>
-
-      {/* Scroll to Top Button */}
-      <motion.button
-        initial={{ opacity: 0, scale: 0 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        whileHover={{ scale: 1.1, y: -5 }}
-        whileTap={{ scale: 0.9 }}
-        onClick={scrollToTop}
-        className="fixed bottom-8 right-8 z-50 w-12 h-12 bg-gradient-to-r from-[#00ADB5] to-[#007CFF] rounded-full flex items-center justify-center shadow-lg hover:shadow-[#00ADB5]/50 transition-all duration-300"
-        title="Scroll to top"
-      >
-        <FaArrowUp className="text-white" />
-      </motion.button>
-
-      <style jsx>{`
-        @keyframes pulse {
-          0%, 100% {
-            opacity: 1;
-          }
-          50% {
-            opacity: 0.5;
-          }
-        }
-      `}</style>
     </footer>
   );
 };
