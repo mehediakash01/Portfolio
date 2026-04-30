@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { HiArrowUpRight } from "react-icons/hi2";
+import { HiArrowUpRight, HiArrowDownTray } from "react-icons/hi2";
 import Marquee from "react-fast-marquee";
 import {
   SiAib,
@@ -150,7 +150,7 @@ const Banner = () => {
             systems, and <br /> motion that adds depth instead of noise.
           </p>
 
-          <div className="mt-8 ">
+          <div className="mt-8 flex gap-4">
             <button
               onClick={() => scrollToSection("contact")}
               className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#050505] transition-transform duration-300 hover:scale-[1.02]"
@@ -158,6 +158,14 @@ const Banner = () => {
               Schedule Call
               <HiArrowUpRight className="text-base" />
             </button>
+            <a
+              href="/resume.pdf"
+              download="resume.pdf"
+              className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-transparent px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-white/10 hover:scale-[1.02]"
+            >
+              Download Resume
+              <HiArrowDownTray className="text-base" />
+            </a>
           </div>
         </motion.div>
 

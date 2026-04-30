@@ -26,7 +26,7 @@ const milestones = [
   {
     title: "HackFusion 2026",
     meta: "IEEE CS LU SB",
-    tag: "[ MILESTONE: FINALIST ]",
+    tag: "[ MILESTONE: Top-10 ]",
     detail:
       "Successfully delivered a functional solution for the Advanced Systems track.",
     supporting:

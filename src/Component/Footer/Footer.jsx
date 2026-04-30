@@ -98,7 +98,7 @@ const Footer = () => {
               Mehedi Hasan Akash
             </h3>
             <p className="text-gray-400 leading-relaxed">
-              MERN Stack Developer passionate about building modern, scalable web applications. Let's create something amazing together!
+              Full Stack Developer passionate about building modern, scalable web applications. Let's create something amazing together!
             </p>
             <div className="flex items-center gap-2 text-sm text-gray-400">
               <span>Made with</span>
