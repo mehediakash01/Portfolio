@@ -45,6 +45,8 @@ const normalizeProjectInput = (payload) => {
     status: payload.status === "draft" ? "draft" : "published",
     tech: parseStringArray(payload.tech),
     features: parseStringArray(payload.features),
+    challenges: payload.challenges ? `${payload.challenges}`.trim() : null,
+    improvements: payload.improvements ? `${payload.improvements}`.trim() : null,
   };
 };
 

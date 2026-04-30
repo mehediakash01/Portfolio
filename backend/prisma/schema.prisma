@@ -28,6 +28,8 @@ model Project {
     status       ProjectStatus @default(published)
     tech         Json
     features     Json
+    challenges   String?
+    improvements String?
     createdAt    DateTime      @default(now())
     updatedAt    DateTime      @updatedAt
 }

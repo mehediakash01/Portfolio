@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
+import { Link } from "react-router";
 import { api } from "../../lib/api";
 import { FiExternalLink, FiGithub, FiX, FiArrowLeft, FiArrowRight } from "react-icons/fi";
 
@@ -98,15 +99,15 @@ const ProjectItem = ({ project, index, setActiveProject, onOpenDetails }) => {
          transition={{ duration: 1, delay: 0.6 }}
          className="flex flex-wrap items-center gap-6 sm:gap-8"
       >
-        <button 
-          onClick={() => onOpenDetails(project)}
+        <Link 
+          to={`/project/${project.slug}`}
           className="group relative flex items-center justify-center w-20 h-20 sm:w-32 sm:h-32 rounded-full border border-white/20 hover:bg-white hover:border-white transition-all duration-500 text-white hover:text-[#050505] font-semibold uppercase tracking-widest text-[0.6rem] sm:text-xs z-10"
         >
           <span className="z-10 group-hover:scale-110 transition-transform duration-500 flex items-center gap-2">
             Details
             <FiArrowRight className="transform group-hover:-rotate-45 transition-transform duration-500 w-3 h-3 sm:w-4 sm:h-4 hidden sm:block" />
           </span>
-        </button>
+        </Link>
 
         {project.liveUrl && (
           <a 
@@ -225,7 +226,7 @@ const ProjectDetailsModal = ({ project, onClose }) => {
                 )}
                 {project.githubUrl && (
                   <a href={project.githubUrl} target="_blank" rel="noreferrer" className="px-8 py-4 bg-white/10 text-white font-semibold rounded-full border border-white/20 uppercase tracking-widest text-xs hover:bg-white hover:text-black transition-colors flex items-center gap-2">
-                    Source Code <FiGithub />
+                    Source Code (Client) <FiGithub />
                   </a>
                 )}
               </motion.div>
@@ -283,28 +284,71 @@ const ProjectDetailsModal = ({ project, onClose }) => {
               </div>
             </div>
 
-            {/* Quick Details Box */}
-            <div className="bg-[#0f0f0f] border border-white/5 rounded-[2rem] p-8 md:p-12 space-y-8">
-              {project.role && (
+            {project.role && (
+              <div className="bg-[#0f0f0f] border border-white/5 rounded-[2rem] p-8 md:p-12 space-y-8">
                 <div>
                   <h4 className="text-neutral-500 font-mono text-xs tracking-widest uppercase mb-2">My Role</h4>
                   <p className="text-white text-lg font-light">{project.role}</p>
                 </div>
-              )}
-              {project.duration && (
+                {project.duration && (
+                  <div>
+                    <h4 className="text-neutral-500 font-mono text-xs tracking-widest uppercase mb-2">Timeline</h4>
+                    <p className="text-white text-lg font-light">{project.duration}</p>
+                  </div>
+                )}
                 <div>
-                  <h4 className="text-neutral-500 font-mono text-xs tracking-widest uppercase mb-2">Timeline</h4>
-                  <p className="text-white text-lg font-light">{project.duration}</p>
+                  <h4 className="text-neutral-500 font-mono text-xs tracking-widest uppercase mb-2">Category</h4>
+                  <p className="text-white text-lg font-light">System Architecture</p>
                 </div>
-              )}
-              <div>
-                <h4 className="text-neutral-500 font-mono text-xs tracking-widest uppercase mb-2">Category</h4>
-                <p className="text-white text-lg font-light">System Architecture</p>
               </div>
-            </div>
+            )}
             
           </motion.div>
         </div>
+
+        {/* Extended Details Section (Challenges & Improvements) */}
+        {(project.challenges || project.improvements) && (
+          <div className="max-w-[120rem] mx-auto px-8 md:px-16 lg:px-24 mt-20 grid grid-cols-1 md:grid-cols-2 gap-16 pb-20">
+            {project.challenges && (
+              <motion.div 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="bg-black border border-white/5 p-10 rounded-3xl"
+              >
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center">
+                    <div className="w-3 h-3 rounded-full bg-red-500" />
+                  </div>
+                  <h3 className="text-[#f59e0b] font-mono text-sm tracking-[0.2em] uppercase">Challenges Faced</h3>
+                </div>
+                <p className="text-lg text-neutral-300 font-light leading-relaxed">
+                  {project.challenges}
+                </p>
+              </motion.div>
+            )}
+
+            {project.improvements && (
+              <motion.div 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+                className="bg-black border border-white/5 p-10 rounded-3xl"
+              >
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center">
+                    <div className="w-3 h-3 rounded-full bg-emerald-500" />
+                  </div>
+                  <h3 className="text-[#f59e0b] font-mono text-sm tracking-[0.2em] uppercase">Future Improvements</h3>
+                </div>
+                <p className="text-lg text-neutral-300 font-light leading-relaxed">
+                  {project.improvements}
+                </p>
+              </motion.div>
+            )}
+          </div>
+        )}
       </div>
     </motion.div>
   );
@@ -315,7 +359,6 @@ const Projects = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [projectsData, setProjectsData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedDetails, setSelectedDetails] = useState(null);
   
   const containerRef = useRef(null);
 
@@ -364,16 +407,6 @@ const Projects = () => {
 
   return (
     <>
-      <AnimatePresence>
-        {selectedDetails && (
-          <ProjectDetailsModal 
-            key="details-modal"
-            project={selectedDetails} 
-            onClose={() => setSelectedDetails(null)} 
-          />
-        )}
-      </AnimatePresence>
-
       <section ref={containerRef} className="bg-[#050505] text-white relative min-h-screen selection:bg-[#f59e0b] selection:text-black overflow-x-hidden" id="projects">
         
         {/* Background ambient glow matching active project */}
@@ -402,8 +435,7 @@ const Projects = () => {
                   key={project.id} 
                   project={project} 
                   index={(currentPage - 1) * itemsPerPage + index} 
-                  setActiveProject={setActiveProject} 
-                  onOpenDetails={setSelectedDetails}
+                  setActiveProject={setActiveProject}
                 />
               ))}
             </AnimatePresence>

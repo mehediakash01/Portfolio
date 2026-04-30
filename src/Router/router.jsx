@@ -5,6 +5,8 @@ import {
 import RootLayout from "../Layout/RootLayout";
 import Home from "../Pages/Home/Home";
 import Dashboard from "../Pages/Dashboard/Dashboard";
+import ProjectDetails from "../Pages/ProjectDetails/ProjectDetails";
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -12,6 +14,10 @@ export const router = createBrowserRouter([
     children:[
         {index:true,
             Component: Home,
+        },
+        {
+          path: "project/:slug",
+          Component: ProjectDetails,
         },
         {
           path: "dashboard",
