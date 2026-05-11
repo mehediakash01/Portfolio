@@ -5,6 +5,7 @@ import { router } from './Router/router'
 import { RouterProvider } from 'react-router'
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { MusicProvider } from './context/MusicContext'
 
 export function AppWrapper() {
   useEffect(() => {
@@ -15,7 +16,11 @@ export function AppWrapper() {
     });
   }, []);
 
-  return <RouterProvider router={router} />;
+  return (
+    <MusicProvider>
+      <RouterProvider router={router} />
+    </MusicProvider>
+  );
 }
 createRoot(document.getElementById('root')).render(
   <StrictMode>
