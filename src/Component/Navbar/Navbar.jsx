@@ -90,7 +90,7 @@ const Navbar = () => {
 
           <div className="hidden lg:flex items-center gap-3">
             <a
-              href="/resume.pdf"
+              href="https://res.cloudinary.com/dk9ur7enn/raw/upload/v1778522126/portfolio-projects/resume"
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-2 rounded-full border border-white/14 bg-white/[0.03] px-5 py-2.5 text-sm font-medium text-white/84 backdrop-blur-md transition-all duration-300 hover:border-white/26 hover:bg-white/[0.08] hover:text-white"
@@ -154,7 +154,7 @@ const Navbar = () => {
               ))}
               <li className="pt-2">
                 <a
-                  href="/resume.pdf"
+                  href="https://res.cloudinary.com/dk9ur7enn/raw/upload/v1778522126/portfolio-projects/resume"
                   target="_blank"
                   rel="noreferrer"
                   className="flex w-full items-center justify-center gap-2 rounded-full border border-white/14 bg-white/[0.03] px-4 py-3 text-white/84 transition-all hover:bg-white/[0.08] hover:text-white"
