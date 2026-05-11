@@ -11,8 +11,7 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:seed": "prisma db seed",
-    "admin:hash": "node scripts/hash-password.js",
-    "upload:resume": "node scripts/upload-resume.js"
+    "admin:hash": "node scripts/hash-password.js"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.7.0",
