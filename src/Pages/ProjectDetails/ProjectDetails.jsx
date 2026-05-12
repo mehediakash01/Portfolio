@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router";
 import { motion } from "framer-motion";
 import { FiExternalLink, FiGithub, FiArrowLeft } from "react-icons/fi";
 import { api } from "../../lib/api";
+import { resolveIconComponent } from "../../lib/iconMap";
 
 const RevealText = ({ children, delay = 0 }) => {
     
@@ -17,6 +18,38 @@ const RevealText = ({ children, delay = 0 }) => {
       </motion.div>
     </div>
   );
+};
+
+const techIconLookup = {
+  react: "FaReact",
+  nextjs: "SiNextdotjs",
+  javascript: "SiJavascript",
+  typescript: "SiTypescript",
+  nodejs: "FaNodeJs",
+  express: "SiExpress",
+  tailwind: "SiTailwindcss",
+  tailwindcss: "SiTailwindcss",
+  prisma: "SiPrisma",
+  postgres: "SiPostgresql",
+  postgresql: "SiPostgresql",
+  mongodb: "SiMongodb",
+  supabase: "SiSupabase",
+  docker: "FaDocker",
+  git: "FaGitAlt",
+  figma: "FaFigma",
+  python: "FaPython",
+  flutter: "SiFlutter",
+  go: "SiGo",
+  mysql: "SiMysql",
+  shadcnui: "SiShadcnui",
+  vercel: "SiVercel",
+  stripe: "SiStripe",
+  rust: "SiRust",
+};
+
+const normalizeTechIcon = (tech) => {
+  const key = `${tech ?? ""}`.toLowerCase().replace(/[^a-z0-9]/g, "");
+  return techIconLookup[key] || "FaCode";
 };
 
 const ProjectDetails = () => {
@@ -129,12 +162,12 @@ const ProjectDetails = () => {
               >
                 {project.liveUrl && (
                   <a href={project.liveUrl} target="_blank" rel="noreferrer" className="px-6 py-3 sm:px-8 sm:py-4 bg-white text-black font-semibold rounded-full uppercase tracking-widest text-[0.65rem] sm:text-xs hover:bg-[#f59e0b] transition-colors flex items-center gap-2">
-                    Live Project <FiExternalLink />
+                    Live Demo <FiExternalLink />
                   </a>
                 )}
                 {project.githubUrl && (
                   <a href={project.githubUrl} target="_blank" rel="noreferrer" className="px-6 py-3 sm:px-8 sm:py-4 bg-white/10 text-white font-semibold rounded-full border border-white/20 uppercase tracking-widest text-[0.65rem] sm:text-xs hover:bg-white hover:text-black transition-colors flex items-center gap-2">
-                    Source Code (Client) <FiGithub />
+                    GitHub Repository <FiGithub />
                   </a>
                 )}
               </motion.div>
@@ -182,13 +215,18 @@ const ProjectDetails = () => {
           >
             {/* Tech Stack Box */}
             <div className="bg-[#0f0f0f] border border-white/5 rounded-[2rem] p-6 md:p-8 lg:p-12">
-              <h3 className="text-[#f59e0b] font-mono text-[0.65rem] sm:text-xs tracking-widest uppercase mb-6 sm:mb-8">Engineering Stack</h3>
+              <h3 className="text-[#f59e0b] font-mono text-[0.65rem] sm:text-xs tracking-widest uppercase mb-6 sm:mb-8">Tech Stack</h3>
               <div className="flex flex-wrap gap-2">
-                {techStack.map((tech, i) => (
-                  <span key={i} className="px-3 sm:px-4 py-1.5 sm:py-2 bg-[#1a1a1a] border border-white/10 rounded-lg text-[0.65rem] sm:text-xs text-neutral-300 font-medium uppercase tracking-wider">
-                    {tech}
-                  </span>
-                ))}
+                {techStack.map((tech, i) => {
+                  const Icon = resolveIconComponent(normalizeTechIcon(tech));
+
+                  return (
+                    <span key={i} className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-[#1a1a1a] border border-white/10 rounded-lg text-[0.65rem] sm:text-xs text-neutral-300 font-medium uppercase tracking-wider">
+                      <Icon className="text-sm text-[#f59e0b]" />
+                      {tech}
+                    </span>
+                  );
+                })}
               </div>
             </div>
 

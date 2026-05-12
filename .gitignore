@@ -27,3 +27,18 @@ dist-ssr
 .env.development.local
 .env.test.local
 .env.production
+
+# Client / Server specific
+client/node_modules/
+client/dist/
+client/build/
+
+server/node_modules/
+server/dist/
+server/.env
+
+# Misc
+coverage/
+*.pem
+*.key
+dev.db
