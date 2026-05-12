@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
 
 const MusicContext = createContext(null);
+const ENTERED_STORAGE_KEY = "portfolio-entered";
 
 export const MusicProvider = ({ children }) => {
   const audioContextRef = useRef(null);
@@ -9,7 +10,13 @@ export const MusicProvider = ({ children }) => {
   const audioBufferRef = useRef(null);
 
   const [isPlaying, setIsPlaying] = useState(false);
-  const [hasStarted, setHasStarted] = useState(false);
+  const [hasStarted, setHasStarted] = useState(() => {
+    if (typeof window === "undefined") {
+      return false;
+    }
+
+    return window.localStorage.getItem(ENTERED_STORAGE_KEY) === "true";
+  });
   const [isMuted, setIsMuted] = useState(false);
   const [isInitializing, setIsInitializing] = useState(false);
 
@@ -47,6 +54,13 @@ export const MusicProvider = ({ children }) => {
     }
 
     setIsInitializing(true);
+    setHasStarted(true);
+
+    try {
+      window.localStorage.setItem(ENTERED_STORAGE_KEY, "true");
+    } catch {
+      // Persistence is optional; keep the entry flow working even if storage fails.
+    }
 
     try {
       const audioContext = await initAudioContext();
@@ -71,7 +85,6 @@ export const MusicProvider = ({ children }) => {
 
       sourceNodeRef.current = sourceNode;
       setIsPlaying(true);
-      setHasStarted(true);
       setIsMuted(false);
 
       if (audioContext.state === "suspended") {
@@ -115,6 +128,16 @@ export const MusicProvider = ({ children }) => {
       }
     };
   }, []);
+
+  useEffect(() => {
+    if (hasStarted) {
+      try {
+        window.localStorage.setItem(ENTERED_STORAGE_KEY, "true");
+      } catch {
+        // no-op
+      }
+    }
+  }, [hasStarted]);
 
   const value = useMemo(
     () => ({

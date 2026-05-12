@@ -31,6 +31,10 @@ const WelcomeOverlay = () => {
     }, 1500);
   };
 
+  if (hasStarted && !isLeaving) {
+    return null;
+  }
+
   return (
     <div
       className={`fixed inset-0 z-[100] overflow-hidden bg-[#02040a] transition-opacity duration-[1500ms] ease-out ${

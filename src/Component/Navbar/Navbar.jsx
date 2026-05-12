@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import { HiOutlineArrowUpRight } from "react-icons/hi2";
 
+const navItems = [
+  { id: "home", label: "Home" },
+  { id: "about", label: "About" },
+  { id: "skills", label: "Skills" },
+  { id: "education", label: "Education" },
+  { id: "projects", label: "Projects" },
+  { id: "contact", label: "Contact" },
+];
+
 const Navbar = () => {
   const [activeSection, setActiveSection] = useState("home");
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  const navItems = [
-    { id: "home", label: "Home" },
-    { id: "about", label: "About" },
-    { id: "skills", label: "Skills" },
-    { id: "education", label: "Education" },
-    { id: "projects", label: "Projects" },
-    { id: "contact", label: "Contact" },
-  ];
 
   // Handle scroll effects and active section
   useEffect(() => {
@@ -47,11 +47,11 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 px-0 transition-all duration-500 ease-out">
+    <nav className="fixed top-0 left-0 right-0 z-[120] px-0 transition-all duration-500 ease-out">
       <div
         className={`mx-auto transition-all duration-500 ease-out ${
           isScrolled
-            ? "mt-4 w-[calc(100%-1.5rem)] max-w-6xl rounded-full border border-white/14 bg-[#050505]/72 shadow-[0_18px_60px_rgba(0,0,0,0.38)] backdrop-blur-2xl supports-[backdrop-filter]:bg-[#050505]/58 sm:w-[calc(100%-3rem)]"
+            ? "w-[calc(100%-1.5rem)] max-w-6xl rounded-full border border-white/14 bg-[#050505]/72 shadow-[0_18px_60px_rgba(0,0,0,0.38)] backdrop-blur-2xl supports-[backdrop-filter]:bg-[#050505]/58 sm:w-[calc(100%-3rem)]"
             : "mt-0 w-full max-w-none rounded-none border border-transparent bg-transparent shadow-none"
         }`}
       >

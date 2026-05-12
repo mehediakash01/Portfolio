@@ -1,5 +1,4 @@
 import Banner from "../../Component/Banner/Banner";
-import Navbar from "../../Component/Navbar/Navbar";
 import About from "../About";
 import MySkills from "../../Component/MySkills/MySkills"
 import Education from "../../Component/Education/Education"
@@ -9,8 +8,6 @@ import Contact from "../Contact/Contact"
 const Home = () => {
   return (
     <div className="bg-[#050505] min-h-screen">
-      <Navbar />
-      
       <div id="home">
         <Banner />
       </div>

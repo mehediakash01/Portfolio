@@ -6,6 +6,7 @@ import ScrollToTop from '../Component/ScrollToTop';
 import useAnalyticsTracking from '../Hooks/useAnalyticsTracking';
 import WelcomeOverlay from '../Component/Music/WelcomeOverlay';
 import MuteButton from '../Component/Music/MuteButton';
+import Navbar from '../Component/Navbar/Navbar';
 import { useMusic } from '../context/MusicContext';
 
 const RootLayout = () => {
@@ -17,10 +18,11 @@ const RootLayout = () => {
             <CustomCursor />
             <WelcomeOverlay />
             <MuteButton />
+            <Navbar />
           
             <div
-                className={`transition-[opacity,transform,filter] duration-[1500ms] ease-out ${
-                    hasStarted ? 'opacity-100 blur-0 translate-y-0' : 'opacity-0 blur-sm translate-y-3'
+                className={`pt-20 sm:pt-24 transition-opacity duration-[1500ms] ease-out ${
+                    hasStarted ? 'opacity-100' : 'opacity-0'
                 }`}
             >
                 <Outlet></Outlet>
